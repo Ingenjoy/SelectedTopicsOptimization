@@ -11,7 +11,7 @@ Some functions for Chapter 01: Unconstrained optimization
 
 import numpy as np
 import sympy as sp
-from unconstrained import gradient_descent, newtons_method, coordinate_descent
+#from unconstrained import gradient_descent, newtons_method, coordinate_descent
 import matplotlib.pyplot as plt
 
 # VISUALIZATION
