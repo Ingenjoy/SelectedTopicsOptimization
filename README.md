@@ -3,6 +3,7 @@
 *Edition 2016-2017*
 
 **Prof. dr. Bernard De Baets**
+
 **Ir. Michiel Stock**
 
 Notes and exercises of the optimization course given in the master of bioinformatics (Ghent University).
