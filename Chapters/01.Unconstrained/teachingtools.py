@@ -77,7 +77,7 @@ def make_general_multidim_problem(n, m):
     b = np.random.rand(m, 1) * 10
     C = np.diag(np.random.rand(n)) * 10
 
-    fun = lambda x : np.sum(np.array(x).T.dot(C).dot(@) x - np.log(np.maximum(b - a.T.dot( x), 0) + 1e-40).sum())
+    fun = lambda x : np.sum(np.array(x).T.dot(C).dot( x) - np.log(np.maximum(b - a.T.dot( x), 0) + 1e-40).sum())
     grad_fun = lambda x : 2 * C.dot(x) + np.sum(a / (b - a.T.dot(x)).T, axis=1, keepdims=True)
     hessian_fun = lambda x : 2 * C + (a / ((b - a.T.dot(x))**2).T).dot(a.T)
     return fun, grad_fun, hessian_fun
