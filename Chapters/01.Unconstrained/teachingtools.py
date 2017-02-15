@@ -77,9 +77,9 @@ def make_general_multidim_problem(n, m):
     b = np.random.rand(m, 1) * 10
     C = np.diag(np.random.rand(n)) * 10
 
-    fun = lambda x : np.sum(np.array(x).T @ C @ x - np.log(np.maximum(b - a.T @ x, 0) + 1e-40).sum())
-    grad_fun = lambda x : 2 * C @ x + np.sum(a / (b - a.T @ x).T, axis=1, keepdims=True)
-    hessian_fun = lambda x : 2 * C + (a / ((b - a.T @ x)**2).T) @ a.T
+    fun = lambda x : np.sum(np.array(x).T.dot(C).dot(@) x - np.log(np.maximum(b - a.T.dot( x), 0) + 1e-40).sum())
+    grad_fun = lambda x : 2 * C.dot(x) + np.sum(a / (b - a.T.dot(x)).T, axis=1, keepdims=True)
+    hessian_fun = lambda x : 2 * C + (a / ((b - a.T.dot(x))**2).T).dot(a.T)
     return fun, grad_fun, hessian_fun
 
 # EXAMPLES
@@ -122,18 +122,18 @@ def get_transformation_matrix(gamma, theta):
     rot = np.array([[cos(theta), sin(theta)],
             [sin(theta), cos(theta)]])
     scaling = np.diag([1, gamma])
-    return rot.T @ scaling @ rot
+    return rot.T.dot(scaling).dot(rot)
 
 def quadratic(x, gamma=10, theta=0.0):
     x = np.array(x).reshape((-1, 1))
     C = get_transformation_matrix(gamma, theta)
-    return np.sum(0.5 * x.T @ C @ x)
+    return np.sum(0.5 * x.T.dot(C).dot(x))
     #return 0.5 * (x[0]**2 + gamma * x[1]**2)
 
 def grad_quadratic(x, gamma=10, theta=0.0):
     x = np.array(x).reshape((-1, 1))
     C = get_transformation_matrix(gamma, theta)
-    return C @ x
+    return C.dot(x)
     #return np.array([x[0], gamma * x[1]])
 
 def hessian_quadratic(x, gamma=10, theta=0.0):
@@ -182,11 +182,11 @@ def get_unit_circle(order=2, P=None, scale=0.5):
     X[:,1] = np.sin(np.linspace(0, 2*np.pi, 500))
     X /= np.linalg.norm(X, axis=1, ord=order).reshape((-1, 1))
     if P is not None:
-        X /= (((X @ P) * X).sum(1).reshape((-1, 1)))**0.5
+        X /= (((X.dot(P)) * X).sum(1).reshape((-1, 1)))**0.5
     return X * scale
 
 def get_steepest_descent(X, dx):
-    return X[np.argmax(X @ dx)].reshape((-1, 1))
+    return X[np.argmax(X.dot(dx))].reshape((-1, 1))
 
 def show_steepest_descent_gradientens(x, ax):
     plot_contour(nonquadratic, (-2, 2), (-1, 1), ax, plot_f=False)
