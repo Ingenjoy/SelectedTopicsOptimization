@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Created on Tue Mar 28 2017
-Last update on -
+Last update on Wed Mar 29 2017
 
 @author: michielstock
 
@@ -157,14 +157,16 @@ def is_bridge(adj_list, edge):
         - boolean indicating if the given edge is a bridge
     """
     v1, v2 = edge
+    component_with_v1 = give_connected_component(adj_list, v1)
     # remove edge
     adj_list[v1].remove(v2)
     adj_list[v2].remove(v1)
-    connected = is_connected(adj_list)
+    component_without_v1 = give_connected_component(adj_list, v1)
     # restore edge
     adj_list[v1].add(v2)
     adj_list[v2].add(v1)
-    return not connected
+    bridge = component_with_v1 != component_without_v1
+    return bridge
 
 # RANDOM GRAPHS
 # -------------
