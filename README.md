@@ -20,7 +20,7 @@ This course consists of three main parts:
 
 1. **Minimizing quadratic systems**
   - motivation
-  - exact solution
+  - exact solution, scalar case, multi-dimensional case
   - conditions for optimality
   - very large (sparse) systems and the need for iterative solutions
   - gradient descent, convergence and condition numbers
@@ -45,21 +45,21 @@ This course consists of three main parts:
     - the logarithmic barrier
     - the barrier method
   - *application*: maximum flow problems
-4. **Project continuous optimization**: protein oligiomerization
+4. **Project continuous optimization**: protein oligiomerization by minimizing the Gibbs free energy
 5. **Dynamic programming**
   - main idea: counting and Fibonacci sequence
   - sequence alignment
   - RNA fold prediction
   - Bellman equation?
   - *application*: something cool
-6. **Graphs**: discuss basic notation graphs, counting, path finding, path counting, Eulerian trail
+6. **Bayesian networks**: MAP estimation
 7. **Shortest path algorithms**
   - greedy
   - Dijkstra's algorithm
   - A* algorithm: using a heuristic
   - minimum spanning tree?
 8. **Project discrete optimization**: something really cool!
-9. **NP hard problems**:
+9. **NP hard problems**
   - classification
   - example problems: knapsack, TSA, ...
   - algorithms:
@@ -67,7 +67,8 @@ This course consists of three main parts:
     - greedy
     - dynamic programming
     - branch and bound
-10. **Bio-inspired optimization**:
+10. **Bio-inspired optimization**
+  - hill climbing?
   - simulated annealing
   - genetic algorithms
   - ...
@@ -78,4 +79,4 @@ This course consists of three main parts:
   - Learning inverse mappings
   - ...
   - *application*: ...
-12. **Project dirty problems**: 
+12. **Project dirty problems**:
