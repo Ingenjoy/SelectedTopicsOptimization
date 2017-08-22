@@ -83,7 +83,7 @@ $$
 $$
 setting this to zero gives
 $$
-\mathbf{x}^\star=P^{-1}\mathbf{q}\,.
+\mathbf{x}^\star=-P^{-1}\mathbf{q}\,.
 $$
 How do we know that $\mathbf{x}^\star$ is the minimizer of the quadratic system? For this we have to extend the concept of a second order derivative to $n$ dimensions. We define the *Hessian* as:
 $$
@@ -145,4 +145,52 @@ Instead of computing the solution of a convex quadratic system in one step, we w
 $$
 \mathbf{x}^{(k+1)} = \mathbf{x}^{(k)} +t^{(k)}\Delta \mathbf{x}^{(k)}\,,
 $$
-with $t^{(k)}\geq 0$ called the *step size* and $\Delta \mathbf{x}^{(k)}$ called the *search direction*.
+with $t^{(k)}\geq 0$ called the *step size* and $\Delta \mathbf{x}^{(k)}$ called the *search direction*. Proper descent methods have that
+$$
+f(\mathbf{x}^{(k+1)}) < f(\mathbf{x}^{(k)})\,,
+$$
+except when $\mathbf{x}^{(k)}$ is optimal. In this property to hold, the search direction should satisfy
+$$
+(\Delta \mathbf{x}^{(k)})^\intercal \nabla f(\mathbf{x}) < 0\,.
+$$
+
+> figure!
+
+Below is the general pseudocode of a general descent method:
+
+> **given** a starting point $\mathbf{x}$
+>
+> **repeat**
+>> 1. Determine descent direction $\Delta \mathbf{x}$
+>> 2. *Line search*. Choose $t>0$.
+>> 3. *Update*. $\mathbf{x}:=\mathbf{x} + t \Delta \mathbf{x}$.
+>
+> **until** stopping criterion is reached.
+
+The stepsize can be chosen in several ways:
+- **exact**: $t=\arg\min_{s\geq 0}\, f(\mathbf{x}+s\Delta \mathbf{x})$.
+- **approximate**: choose a $t$ that only approximately minimizes $f(\mathbf{x}+s\Delta \mathbf{x})$.
+- **decaying**: choose some decaying series, e.g. $t = \frac{1}{\alpha+k}$.
+- **constant**: a constant stepsize (often done in practice).
+
+For quadratic systems we can compute the exact stepsize, as this amounts to a simple one-dimensional quadratic problem:
+$$
+t=\arg\min_{s\geq 0}\, \frac{1}{2}(\mathbf{x}+s\Delta \mathbf{x})^\intercal P (\mathbf{x}+s\Delta \mathbf{x}) + (\mathbf{x}+s\Delta \mathbf{x}) \mathbf{q} + r
+$$
+$$
+t = \frac{-(\Delta\mathbf{x})^\intercal P \mathbf{x}-(\Delta\mathbf{x})^\intercal\mathbf{q}}{(\Delta\mathbf{x})^\intercal P \Delta\mathbf{x}}
+$$
+
+> implement exact line search
+
+## Gradient descent
+
+### Motivation
+
+### Convergence analysis
+
+### Example
+
+## Gradient descent with momentum
+
+> *While finding the gradient of an objective function is a splendid idea, ascending the gradient directly may not be.* ~ David J.C. MacKay
