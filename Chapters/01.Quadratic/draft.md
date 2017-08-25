@@ -145,7 +145,7 @@ Instead of computing the solution of a convex quadratic system in one step, we w
 $$
 \mathbf{x}^{(k+1)} = \mathbf{x}^{(k)} +t^{(k)}\Delta \mathbf{x}^{(k)}\,,
 $$
-with $t^{(k)}\geq 0$ called the *step size* and $\Delta \mathbf{x}^{(k)}$ called the *search direction*. Proper descent methods have that
+with $t^{(k)}\geq 0$ called the *step size* (in machine learning often called *learning rate*)and $\Delta \mathbf{x}^{(k)}$ called the *search direction*. Proper descent methods have that
 $$
 f(\mathbf{x}^{(k+1)}) < f(\mathbf{x}^{(k)})\,,
 $$
@@ -155,6 +155,8 @@ $$
 $$
 
 > figure!
+
+### General descent algorithm
 
 Below is the general pseudocode of a general descent method:
 
@@ -167,13 +169,18 @@ Below is the general pseudocode of a general descent method:
 >
 > **until** stopping criterion is reached.
 
-The stepsize can be chosen in several ways:
+Usually, the convergence criterion is of the form
+$$
+||\nabla f(\mathbf{x})|| < \nu\,.
+$$
+
+The step size can be chosen in several ways:
 - **exact**: $t=\arg\min_{s\geq 0}\, f(\mathbf{x}+s\Delta \mathbf{x})$.
 - **approximate**: choose a $t$ that only approximately minimizes $f(\mathbf{x}+s\Delta \mathbf{x})$.
 - **decaying**: choose some decaying series, e.g. $t = \frac{1}{\alpha+k}$.
-- **constant**: a constant stepsize (often done in practice).
+- **constant**: a constant step size (often done in practice).
 
-For quadratic systems we can compute the exact stepsize, as this amounts to a simple one-dimensional quadratic problem:
+For quadratic systems we can compute the exact step size, as this amounts to a simple one-dimensional quadratic problem:
 $$
 t=\arg\min_{s\geq 0}\, \frac{1}{2}(\mathbf{x}+s\Delta \mathbf{x})^\intercal P (\mathbf{x}+s\Delta \mathbf{x}) + (\mathbf{x}+s\Delta \mathbf{x}) \mathbf{q} + r
 $$
@@ -185,12 +192,107 @@ $$
 
 ## Gradient descent
 
-### Motivation
+A natural choice for the search direction is the negative gradient:
+$$
+\Delta \mathbf{x} = - \nabla f(\mathbf{x})\,.
+$$
+Remember, for the quadratic system, the gradient was $\nabla f(\mathbf{x})=P\mathbf{x} + \mathbf{q}$, so
+$$
+\Delta \mathbf{x} = - P\mathbf{x} - \mathbf{q}\,.
+$$
+
+### Gradient descent algorithm for quadratic systems
+
+> **given** a starting point $\mathbf{x}$
+>
+> **repeat**
+>> 1. $\Delta \mathbf{x} := - P\mathbf{x} - \mathbf{q}$
+>> 2. *Line search*. Choose optimal $t>0$.
+>> 3. *Update*. $\mathbf{x}:=\mathbf{x} + t \Delta \mathbf{x}$.
+>
+> **until** stopping criterion is reached.
 
 ### Convergence analysis
 
-### Example
+We can study the convergence of the gradient descent algorithm by using eigenvalue decomposition. The matrix $P$ can be written as:
+$$
+P = U\Lambda U^\intercal\,,
+$$
+with
+- $\Lambda=\text{diag}(\lambda_1,\ldots,\lambda_n)$, a matrix with the eigenvalues on the diagonal (sorted from small to large).
+- $U = [\mathbf{u}_1, \ldots, \mathbf{u}_n]$, a matrix with the corresponding eigenvectors.
+
+Note that because $P\succ 0$, all eigenvalues are real and positive and all eigenvectors form a real orthonormal basis.
+
+Consider the following linear transformation:
+$$
+\mathbf{z}^{(k)}= U^\intercal ( \mathbf{x}^{\star}-\mathbf{x}^{(k)})\,,
+$$
+which allows us to rewrite the error in closed-form:
+$$
+f(\mathbf{x}^{(k)}) - f(\mathbf{x}^\star) = \frac{1}{2}\sum_{i=1}^n (1-t\lambda_i)^{2k}\lambda_i[(\mathbf{U}_i)^\intercal(\mathbf{x}^{(0)}-\mathbf{x}^\star)]^2\,.
+$$
+Here, we see that:
+1. The error decomposes in independent terms in the eigenspace.
+2. The convergence of each term is determined by the *rate*: $|1-t\lambda_i|$. Convergence occurs as a geometric series.
+3. The total convergence is determined by either the smallest or largest eigenvalue.
+4. Optimal value for fixed step size is $t=\frac{1}{\lambda_1+\lambda_n}$.
+
+> 4-D example of convergence, t is sliding bar
+
+Furthermore, it can be shown that if we use an exact linesearch for the step size, the error $f(\mathbf{x}^{(k)}) - f(\mathbf{x}^\star)\leq \epsilon$ we need fewer than
+$$
+\frac{\log((f(\mathbf{x}^{(k)}) - f(\mathbf{x}^\star))/\epsilon)}{\log(1/c)}\,,
+$$
+with $c=1-\frac{\lambda_1}{\lambda_n}<1$. The quantity $\kappa=\frac{\lambda_n}{\lambda_1}$ is called the *condition number* and largely determines the convergence. We observe:
+- The quality of the initial guess ($f(\mathbf{x}^{(k)}) - f(\mathbf{x}^\star$) has only a logarithmic impact on the number of steps required.
+- Only a few extra steps are needed to decrease $\epsilon$ with one order or magnitute.
+- If the condition number is large, then $\log(1/c)\approx 1/\kappa$. Large condition numbers require more steps.
+
+> figuur om verschil aan te tonen.
 
 ## Gradient descent with momentum
 
-> *While finding the gradient of an objective function is a splendid idea, ascending the gradient directly may not be.* ~ David J.C. MacKay
+> *While finding the gradient of an objective function is a splendid idea, [descending] the gradient directly may not be.* ~ David J.C. MacKay
+
+Even on simple quadratic problems as discussed here, gradient descent often takes a surprisingly large number of steps to converge. This is because the gradient does not necessarily points in the general direction of the minimum. For convex problems, we are only guaranteed that the gradient points in the half-space of the minimum - a rather weak guarantee! Many improvements on gradient descent have been devised. We will briefly discuss a small modification which can lead to a very large improvement in performance.
+
+### Steps with memory
+
+$$
+\Delta \mathbf{x}^{(k+1)} = \beta \Delta \mathbf{x}^{(k)} - \nabla f(\mathbf{x}^{(k)})\\
+\mathbf{x}^{(k+1)} = \mathbf{x}^{(k)} + t^{(k)}\Delta \mathbf{x}^{(k+1)}\,,
+$$
+with $\beta\in[0,1]$.
+
+Connection to machine learning...
+
+### Gradient descent algorithm with momentum
+
+> **given** a starting point $\mathbf{x}$, $\beta$
+>
+> **initialize** $\Delta \mathbf{x}= \mathbf{0}$
+>
+> **repeat**
+>> 1. $\Delta \mathbf{x} := \beta \Delta \mathbf{x}- \nabla f(\mathbf{x})$
+>> 2. *Line search*. Choose optimal $t>0$.
+>> 3. *Update*. $\mathbf{x}:=\mathbf{x} + t \Delta \mathbf{x}$.
+>
+> **until** stopping criterion is reached.
+
+
+> implementation
+
+> example
+
+## Conjugated gradient descent
+
+Might add something here, remove in time constraint
+
+## Exercise: signal recovery
+
+## Exercise: the colorization problem
+
+$$
+\min_\mathbf{x}\, \frac{1}{2}\mathbf{x}^\intercal L_G\mathbf{x}+\frac{1}{2}\sum_{i\in D}(\mathbf{x}^\intercal\mathbf{e}_i \mathbf{e}_i^\intercal\mathbf{x}-\mathbf{e}_i^\intercal\mathbf{x})
+$$

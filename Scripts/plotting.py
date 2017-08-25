@@ -1,6 +1,6 @@
 """
 Created on Thursday 22 August 2017
-Last update: -
+Last update: Friday 25 August 2017
 
 @author: Michiel Stock
 michielfmstock@gmail.com
@@ -25,7 +25,10 @@ orange = '#f4a261'
 red = '#e76f51'
 black = '#50514F'
 
-colors = {'blue' : blue,
+colors_list = [blue, red, green, orange, yellow, black]
+#colors_list.reverse()
+
+colors_dict = {'blue' : blue,
         'green' : green,
         'yellow' : yellow,
         'orange' : orange,
