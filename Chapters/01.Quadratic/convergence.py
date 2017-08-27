@@ -1,6 +1,6 @@
 """
 Created on Friday 25 August 2017
-Last update: -
+Last update: Saturday 26 August 2017
 
 @author: Michiel Stock
 michielfmstock@gmail.com
@@ -13,6 +13,8 @@ from sys import path
 path.append('../../Scripts')
 from plotting import plt, colors_list
 import numpy as np
+import seaborn as sns
+sns.set_style('white')
 
 def gd_error_decomposition(eigenvalues=[0.1, 1.5, 1.6, 1.8, 2],
                     x0=np.ones((5, 1)), n_steps=50, t='optimal', ax=None,
@@ -55,7 +57,7 @@ def gd_error_decomposition(eigenvalues=[0.1, 1.5, 1.6, 1.8, 2],
             ax.set_ylim([1e-10, error_per_comp[:,0].sum()])
         else:
             ax.set_ylabel(r'$(1-t\lambda_i)^{2k}\lambda_i[\mathbf{u}_i^\intercal(\mathbf{x}^{(k)} - \mathbf{x}^\star)]^2$')
-        ax.set_xlabel(r'$k$')
+        ax.set_xlabel(r'$k+1$')
         ax.set_ylim([1e-10, error_per_comp[:,0].sum()])
     return error_per_comp
 
@@ -106,5 +108,7 @@ if __name__ == '__main__':
     ax.loglog()
     ax.set_title('Convergence (-) and bound (--) of GD\nfor different condition numbers')
     ax.legend(loc=0)
+    ax.set_ylabel(r'$f(\mathbf{x}^{(k)})-f(\mathbf{x}^\star)$')
+    ax.set_xlabel(r'$k+1$')
 
     fig.savefig('Figures/convergence_bound.{}'.format(format))

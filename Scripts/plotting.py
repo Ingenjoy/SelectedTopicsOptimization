@@ -8,32 +8,12 @@ michielfmstock@gmail.com
 Some useful functions for plotting and visualisation.
 
 Contains:
-    - colors: the official colors!
     - countour plots: for the convex optimization part
 """
 
 import matplotlib.pyplot as plt
 import numpy as np
-
-# COLORS
-# ------
-
-blue = '#264653'
-green = '#2a9d8f'
-yellow = '#e9c46a'
-orange = '#f4a261'
-red = '#e76f51'
-black = '#50514F'
-
-colors_list = [blue, red, green, orange, yellow, black]
-#colors_list.reverse()
-
-colors_dict = {'blue' : blue,
-        'green' : green,
-        'yellow' : yellow,
-        'orange' : orange,
-        'red' : red,
-        'black' : black}
+from colors import *
 
 
 # COUNTOUR PLOTS

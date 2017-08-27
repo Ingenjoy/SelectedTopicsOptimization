@@ -64,7 +64,7 @@ so that the gradient of $f(\mathbf{x})$ is given by:
 $$
 \nabla_\mathbf{x} f(\mathbf{x}) = \begin{bmatrix}
        \frac{\partial f{x}f(\mathbf{x}) }{\partial x_1} \\ \vdots \\ \frac{\partial f{x}f(\mathbf{x}) }{\partial x_n}
-     \end{bmatrix}\,,
+     \end{bmatrix}\,.
 $$
 From now on, we will drop the subscript in the gradient, unless it is not clear from context how the gradient is computed. For those not familiar to vector calculus, the most useful rules are given below.
 
@@ -73,15 +73,15 @@ From now on, we will drop the subscript in the gradient, unless it is not clear 
 | linearity      | $\nabla(a f(\mathbf{x}) +b g(\mathbf{x})) = a\nabla f(\mathbf{x}) +b\nabla g(\mathbf{x})$       |
 | product rule | $\nabla(f(\mathbf{x}) g(\mathbf{x})) = g(\mathbf{x})\nabla f(\mathbf{x}) + f(\mathbf{x})\nabla g(\mathbf{x})$|
 |chain rule|$\nabla f(g(\mathbf{x})) = \left.\frac{\partial f}{\partial g}\right|_\mathbf{x}\nabla f(\mathbf{x})$|
-| quadratic term | $\nabla \frac{1}{2}\mathbf{x}^\intercal A\mathbf{x}= A\mathbf{x}$|
-|linear term| $\nabla \mathbf{b}^\intercal\mathbf{x}=\mathbf{b}$|
+| quadratic term | $\nabla (\frac{1}{2}\mathbf{x}^\intercal A\mathbf{x})= A\mathbf{x}$|
+|linear term| $\nabla (\mathbf{b}^\intercal\mathbf{x})=\mathbf{b}$|
 |constant term |$\nabla c = 0$ |
 
 The gradient of the quadratic function is
 $$
-\nabla f(\mathbf{x})=Q\mathbf{x} +\mathbf{q}\,,
+\nabla f(\mathbf{x})=P\mathbf{x} +\mathbf{q}\,.
 $$
-setting this to zero gives
+Setting this to zero gives
 $$
 \mathbf{x}^\star=-P^{-1}\mathbf{q}\,.
 $$
@@ -238,7 +238,7 @@ Here, we see that:
 3. The total convergence is determined by either the smallest or largest eigenvalue.
 4. Optimal value for fixed step size is $t=\frac{1}{\lambda_1+\lambda_n}$.
 
-> 4-D example of convergence, t is sliding bar
+![Illustration of eigendecomposition of the error during the iterations.](Figures/convergence_decomposition.png)
 
 Furthermore, it can be shown that if we use an exact linesearch for the step size, the error $f(\mathbf{x}^{(k)}) - f(\mathbf{x}^\star)\leq \epsilon$ we need fewer than
 $$
@@ -249,7 +249,7 @@ with $c=1-\frac{\lambda_1}{\lambda_n}<1$. The quantity $\kappa=\frac{\lambda_n}{
 - Only a few extra steps are needed to decrease $\epsilon$ with one order or magnitute.
 - If the condition number is large, then $\log(1/c)\approx 1/\kappa$. Large condition numbers require more steps.
 
-> figuur om verschil aan te tonen.
+![Illustration of the convergence bounds for different condition numbers.](Figures/convergence_bound.png)
 
 ## Gradient descent with momentum
 
