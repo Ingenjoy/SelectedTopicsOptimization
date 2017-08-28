@@ -13,8 +13,8 @@ from sys import path
 path.append('../../Scripts')
 from plotting import plt, colors_list
 import numpy as np
-import seaborn as sns
-sns.set_style('white')
+#import seaborn as sns
+#sns.set_style('white')
 
 def gd_error_decomposition(eigenvalues=[0.1, 1.5, 1.6, 1.8, 2],
                     x0=np.ones((5, 1)), n_steps=50, t='optimal', ax=None,

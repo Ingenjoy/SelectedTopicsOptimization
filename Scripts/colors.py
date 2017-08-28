@@ -31,4 +31,4 @@ colors_dict = {'blue' : blue,
 
 if __name__ == '__main__':
     import seaborn as sns
-    sns.palplot(colors_list)
+    sns.palplot(colors_list, )

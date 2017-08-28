@@ -49,8 +49,7 @@ def add_path(ax, x_steps, col=blue, label=''):
         - label
     '''
     ax.plot([x[0] for x in x_steps], [x[1] for x in x_steps], c=col,
-                label=label)
-
+                label=label, lw=2)
 
 
 if __name__ == '__main__':

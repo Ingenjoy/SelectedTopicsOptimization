@@ -100,7 +100,6 @@ $$
 $$
 The condition for $\mathbf{x}^\star$ to be the minimizer of $f(\mathbf{x})$ is that the Hessian should be *positive-definite* in that point.
 
-
 > A symmetric $n\times n$ matrix $A$ is positive-definite (in symbols: $A\succ0$), if for any vector $\mathbf{z}\in\mathbb{R}^n$
 > $$
 > \mathbf{z}^\intercal A \mathbf{z} > 0\,.
@@ -212,6 +211,16 @@ $$
 >
 > **until** stopping criterion is reached.
 
+### Illustration
+
+We illustrate the gradient descent algorithm for the following system:
+$$
+\min_\mathbf{x}\, \frac{1}{2} (x_1^2 + \gamma x_2^2)\,
+$$
+with $\gamma$ set to 10.
+
+![](Figures/convergence_gd.png)
+
 ### Convergence analysis
 
 We can study the convergence of the gradient descent algorithm by using eigenvalue decomposition. The matrix $P$ can be written as:
@@ -249,7 +258,7 @@ with $c=1-\frac{\lambda_1}{\lambda_n}<1$. The quantity $\kappa=\frac{\lambda_n}{
 - Only a few extra steps are needed to decrease $\epsilon$ with one order or magnitute.
 - If the condition number is large, then $\log(1/c)\approx 1/\kappa$. Large condition numbers require more steps.
 
-![Illustration of the convergence bounds for different condition numbers.](Figures/convergence_bound.png)
+[![Illustration of the convergence bounds for different condition numbers.](Figures/convergence_bound.png)]()
 
 ## Gradient descent with momentum
 
@@ -260,21 +269,21 @@ Even on simple quadratic problems as discussed here, gradient descent often take
 ### Steps with memory
 
 $$
-\Delta \mathbf{x}^{(k+1)} = \beta \Delta \mathbf{x}^{(k)} - \nabla f(\mathbf{x}^{(k)})\\
+\Delta \mathbf{x}^{(k+1)} = \beta \Delta \mathbf{x}^{(k)} - \alpha\nabla f(\mathbf{x}^{(k)})\\
 \mathbf{x}^{(k+1)} = \mathbf{x}^{(k)} + t^{(k)}\Delta \mathbf{x}^{(k+1)}\,,
 $$
-with $\beta\in[0,1]$.
+with $\alpha,\beta\in[0,1]$.
 
 Connection to machine learning...
 
 ### Gradient descent algorithm with momentum
 
-> **given** a starting point $\mathbf{x}$, $\beta$
+> **given** a starting point $\mathbf{x}$, $\alpha$, $\beta$
 >
 > **initialize** $\Delta \mathbf{x}= \mathbf{0}$
 >
 > **repeat**
->> 1. $\Delta \mathbf{x} := \beta \Delta \mathbf{x}- \nabla f(\mathbf{x})$
+>> 1. $\Delta \mathbf{x} := \beta \Delta \mathbf{x}- \alpha\nabla f(\mathbf{x})$
 >> 2. *Line search*. Choose optimal $t>0$.
 >> 3. *Update*. $\mathbf{x}:=\mathbf{x} + t \Delta \mathbf{x}$.
 >
@@ -283,7 +292,9 @@ Connection to machine learning...
 
 > implementation
 
-> example
+### Illustration
+
+![](Figures/convergence_gd_momentum.png)
 
 ## Conjugated gradient descent
 
@@ -291,8 +302,29 @@ Might add something here, remove in time constraint
 
 ## Exercise: signal recovery
 
-## Exercise: the colorization problem
+As a practical example of minimizing quadratic systems, let us consider a simple signal recovery problem. Consider an $n$-dimensional real vector $\mathbf{x}=[x_1,\ldots,x_n]^\intercal$. Rather than observing this vector directly, we have $m$ noisy measurements at random indices (indices drawn randomly with replacement from $\{1,\ldots,n\}$): $\mathcal{O} = \{(i_j, y_j)\mid j=1,\ldots,m\}$. These measurements are stored in an $m$-dimensional vector $\mathbf{y}$. Can we recover $\mathbf{x}$ from $\mathbf{y}$?
 
+If $m<n$, then we do not have a single measurement for every element of $\mathbf{x}$. Even if $m>n$, it is likely that some elements of $\mathbf{x}$ are not observed due to chance (for large $n$, if $n=m$ then about 37% of the elements will not be sampled). Clearly, recovering $\mathbf{x}$ from $\mathbf{y}$ is an impossible assumption if we do not make some assumptions, this seems an impossible problem in general.
+
+If we assume that the different values of $\mathbf{x}$ are on a line, then we can make a *smoothness* assumption: elements of $\mathbf{x}$ for which the indices are close, likely will have similar values. This idea is expressed in the follow minimization problem:
 $$
-\min_\mathbf{x}\, \frac{1}{2}\mathbf{x}^\intercal L_G\mathbf{x}+\frac{1}{2}\sum_{i\in D}(\mathbf{x}^\intercal\mathbf{e}_i \mathbf{e}_i^\intercal\mathbf{x}-\mathbf{e}_i^\intercal\mathbf{x})
+\min_\mathbf{x}\, \frac{1}{2}\sum_{j=1}^m(y_j-{x}_{i_j})^2 + \frac{C}{2} \mathbf{x}^\intercal K^{-1}\mathbf{x}\,,
 $$
+with $K^{-1}$ an inverse kernel (or covariance matrix) and $C$ a tuning hyperparameter. The matrix $K^{-1}$ encodes how the different elements of $\mathbf{x}$ are related, constructing such a matrix is a topic in machine learning (see course Predictive Modelling). For our purposes, we have chosen this matrix as such that elements should have values closes to each other. Hence, the minimization problem has two terms:
+- a data fitting term to make sure that the recovered vector $\mathbf{x}$ matches the observations,
+- a regularization term to ensure smoothness of the solution.
+The parameter $C$ determines the trade-off between the two terms.
+
+The problem can written purely in matrix notation by using the $(m\times n)$ bookkeeping matrix $R$, which contains for every row UITWERKEN
+$$
+\min_\mathbf{x}\, \frac{1}{2}(\mathbf{y}-R\mathbf{x})^\intercal(\mathbf{y}-R\mathbf{x}) + \frac{C}{2} \mathbf{x}^\intercal K^{-1}\mathbf{x}\,,
+$$
+
+**assignments**
+1. Write the minimization problem in the standard form.
+2. Use the function `generate_noisy_measurements` to generate $m=100$ noisy measurements (standard deviation is 1, default) of a vector with dimensionality $n=1000$. Use the functions `make_connection_matrix` and `make_bookkeeping` to generate the associated $K^{-1}$ and $L$.
+3. Use $C=1$, generate $\mathbf{x}^\star$ using the closed-form solution, using gradient descent and gradient descent with momentum. How many steps do the two descent methods need to converge?
+4. Solve the system for values of $C=1\times 10^{-3}, 1\times 10^{-2}, \ldots,1\times 10^{2},1\times 10^{3}$. Make three different plots:
+    - The different $\mathbf{x}^\star$ visualized for different values of $C$.
+    - The convergence $f(\mathbf{x}^{(k)})-f(\mathbf{x}^\star)$ using gradient descent for different values of $C$.
+    - The convergence $f(\mathbf{x}^{(k)})-f(\mathbf{x}^\star)$ using gradient descent with momentum for different values of $C$.
