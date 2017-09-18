@@ -328,3 +328,8 @@ $$
     - The different $\mathbf{x}^\star$ visualized for different values of $C$.
     - The convergence $f(\mathbf{x}^{(k)})-f(\mathbf{x}^\star)$ using gradient descent for different values of $C$.
     - The convergence $f(\mathbf{x}^{(k)})-f(\mathbf{x}^\star)$ using gradient descent with momentum for different values of $C$.
+
+## References
+
+- Boyd, S. and Vandenberghe, L. '*[Convex Optimization](https://web.stanford.edu/~boyd/cvxbook/bv_cvxbook.pdf))*'. Cambridge University Press (2004)
+- Goh, G. '[*Why Momentum really works*](https://distill.pub/2017/momentum/)' (2017)
