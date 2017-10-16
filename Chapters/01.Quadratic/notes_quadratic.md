@@ -9,12 +9,15 @@ Quadratic systems are important:
 ## Warming up: one-dimensional quadratic systems
 
 In the the scalar case, a quadratic function is given by
+
 $$
 f(x) = \frac{1}{2}px^2+qx +r\,,
 $$
+
 with $p>0$ (as we will see).
 
 Our optimization problem is given by:
+
 $$
 \min_x\,\frac{1}{2}px^2+qx +r\,.
 $$
@@ -25,6 +28,7 @@ $$
 \frac{\mathrm{d}f(x)}{\mathrm{d}x} = px + q \\
 px^\star+q = 0 \Leftrightarrow x^\star=\frac{-q}{p}
 $$
+
 To show that this is the sole minimizer of $f(x)$, we have to prove that the second order derivative is positive in this point. This means that at that point the derivative of the function is increasing: a little to the left the function is increasing and a little to the right and the function is decreasing. We have
 $$
 \left.\frac{\mathrm{d}^2f(x)}{\mathrm{d}x^2}\right|_{x^\star} = p\,,
@@ -129,8 +133,6 @@ If $P\succ 0$, the quadratic system is a *convect* function with a single minimi
 ## Time and memory complexity of exact solution
 
 The exact solution for convex quadratic system hinges on solving a $n\times n$ linear system. Conventional solvers for linear systems have a time complexity of $\mathcal{O}(n^3)$. This is doable for problems of moderate size ($n<1000$), but becomes infeasible for large-scale problems.
-
-> plot of time complexity
 
 Storing an $n\times n$ matrix also has a memory requirement of $\mathcal{O}(n^2)$. When $n$ is too large, this cannot fit in main memory. In the remainder of this chapter, we will consider the case when $P$ is too large to work with, while matrix-vector products $P\mathbf{x}$ can be computed. Some examples of when such settings occur:
 - $P=B^\intercal B$, with $B\in \mathbb{R}^{n\times p}$, with $p\ll n$.

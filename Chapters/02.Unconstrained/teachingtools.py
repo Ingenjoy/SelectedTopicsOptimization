@@ -13,6 +13,9 @@ import numpy as np
 import sympy as sp
 #from unconstrained import gradient_descent, newtons_method, coordinate_descent
 import matplotlib.pyplot as plt
+from sys import path
+path.append('../../Scripts')
+from plotting import plot_contour, add_path, blue, red, green, yellow, orange
 
 # VISUALIZATION
 # -------------

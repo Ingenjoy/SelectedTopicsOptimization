@@ -2,6 +2,14 @@
 
 ## Motivation
 
+In this chapter we will study unconstrained convex problems, i.e. problems of the form
+$$
+\min_\mathbf{x}\, f(\mathbf{x})\,,
+$$
+in which $f$ is convex. Convex optimization problems are well understood. Their most attractive property is that when a minimizer exists, it is unique.
+
+Most convex optimization problems, of which the quadratic problems are a notable exception, do not have a closed-from solution. We will again use descent methods to find an approximate solution.
+
 ## Convex sets and functions
 
 ### Convex set
@@ -32,13 +40,13 @@ Figure
 
 From the definition, it follows that:
 - If the function is differentiable, then $f(\mathbf{x})\geq f(\mathbf{x}')+\nabla f(\mathbf{x}')(\mathbf{x}-\mathbf{x}')$ for all $\mathbf{x}$ and $\mathbf{x}' \in \text{dom}(f)$.
-- If the function is twice differentiable, then $\nabla^2 f(\mathbf{x})\succeq 0$ for any $\mathbf{x}\in\text{dom}(f)$. Example: $e^{f(x)}$ is convex if $f(x)$ is convex.
+- If the function is twice differentiable, then $\nabla^2 f(\mathbf{x})\succeq 0$ for any $\mathbf{x}\in\text{dom}(f)$.
 
 Figure!
 
 Convex functions frequently arise:
 - Ff $f$ and $g$ are both convex, then $m(x)=\max(f(x), g(x))$ and $h(x)=f(x)+g(x)$ are also convex.
-- If $f$ and $g$ are convex functions and $g$ is non-decreasing over a univariate domain, then $h(x)=g(f(x))$ is convex.
+- If $f$ and $g$ are convex functions and $g$ is non-decreasing over a univariate domain, then $h(x)=g(f(x))$ is convex. Example: $e^{f(x)}$ is convex if $f(\mathbf{x})$ is convex.
 
 Note, the convexity of expected value in probability theory gives rise to **Jensen's inequality**. For any convex function $\varphi$, if holds that
 $$
@@ -206,7 +214,8 @@ We conclude:
 3. Analyze the convergence
 
 ```
-def gradient_descent(f, x0, grad_f, alpha=0.2, beta=0.7, nu=1e-3, trace=False):
+def gradient_descent(f, x0, grad_f, alpha=0.2, beta=0.7,
+      nu=1e-3, trace=False):
     '''
     General gradient descent algorithm.
     Inputs:
@@ -236,25 +245,70 @@ def gradient_descent(f, x0, grad_f, alpha=0.2, beta=0.7, nu=1e-3, trace=False):
     else: return x
 ```
 
-Figures
+![](Figures/gradient_descent.png)
 
 ## Steepest descent
 
 Optimize the first-order Taylor approximation of a function:
 
 $$
-f(x+v) \approx \hat{f}(x+v) =f(x) +\nabla f(x)^T v\,.
+f(\mathbf{x}+\mathbf{v}) \approx \hat{f}(\mathbf{x}+\mathbf{v}) =f(\mathbf{x}) +\nabla f(\mathbf{x})^T \mathbf{v}\,.
 $$
 
-How to choose $v$ to make $\nabla f(x)^T v$ as negative as possible? Size of $v$ has to be limited!
+The linear approximation $\hat{f}$ can be made arbitrary negative if we can freely choose $\mathbf{v}$! We have to contrain the *norm* of $\mathbf{v}$.
 
-### Steepest descent direction*
+### Vector norms
+
+A norm on $\mathbb{R}^n$ is a function $||\cdot||:\mathbb{R}^n\rightarrow \mathbb{R}$ with the following properties:
+- $||\mathbf{x}||>0$, for any $\mathbf{x}\in\mathbb{R}$
+- $||\mathbf{x}+\mathbf{y}|| \leq ||\mathbf{x}||+||\mathbf{y}||$, for any $\mathbf{x}, \mathbf{y}\in\mathbb{R}$
+- $||\lambda \mathbf{x}|| = |\lambda|\, ||\mathbf{x}||$ for any $\lambda \in\mathbb{R}$ and any $\mathbf{x}\in\mathbb{R}$
+- $||\mathbf{x}||=0$ if and only if $\mathbf{x}=0$
+
+For example, for any $p\in\mathbb{R}$ and $p\leq 1$:
+$$
+||\mathbf{x}||_p = \left(\sum_{i=1}^n |x_i|^p\right)^\frac{1}{2}\,.
+$$
+
+Example figure
+
+Consider $P\in \mathbb{R}^{n\times n}$ such that $P\succ 0$. The  corresponding **quadratic norm*:
+$$
+||\mathbf{z}||_P = (\mathbf{z}^\intercal P\mathbf{z})^\frac{1}{2}=||P^\frac{1}{2}\mathbf{z}||_2\,.
+$$
+The matrix $P$ can be used to encode prior knowledge about the scales and dependencies in the space that we want to search.
+
+### Dual norm
+
+Let $|| \cdot ||$ be a norm on $\mathbb{R}^n$. The associated dual norm:
+$$
+||\mathbf{z}||_*=\sup \{\mathbf{z}^\intercal\mathbf{x}\mid ||\mathbf{x}||\leq 0\}\,.
+$$
+
+Examples:
+- The dual norm of $||\cdot||_1$ is $||\cdot||_\infty$
+- The dual norm of $||\cdot||_2$ is $||\cdot||_2$
+- The dual norm of $||\cdot||_P$ is defined by $||\mathbf{z}||_*=||P^{-\frac{1}{2}}\mathbf{z}||$
+
+### Steepest descent directions
 
 **Normalized steepest descent direction**:
 
 $$
-\Delta x_{nsd} = \text{arg min} \{\nabla f(x)^T v \mid ||v||\leq 1 \}
+\Delta x_\text{nsd} = \text{arg min} \{\nabla f(x)^T v \mid ||v||\leq 1 \}\,.
 $$
+
+**Unnormalized steepest descent direction**:
+
+$$
+\Delta x_\text{sd} = ||\nabla f(\mathbf{x})||_\star \Delta x_\text{nsd} \,.
+$$
+
+Note that we have
+$$
+\nabla f(\mathbf{x})^\intercal \Delta x_\text{sd} = ||\nabla f(\mathbf{x})||_\star \nabla f(\mathbf{x})^\intercal\Delta x_\text{nsd} = -||\nabla f(\mathbf{x})||^2_\star\,,
+$$
+so this is a valid descent method.
 
 ### Coordinate descent algorithm
 
@@ -315,33 +369,157 @@ def coordinate_descent(f, x0, grad_f, alpha=0.2, beta=0.7, nu=1e-3, trace=False)
     else: return x
 ```
 
+Example figures
+
 ## Newton's method
+
+### The Newton step
 
 In Newton's method the descent direction is chosen as
 
 $$
-\Delta \mathbf{x}_\text{nt} = -\nabla^2f(\mathbf{x})^{-1} \nabla f(\mathbf{x})\,,
+\Delta \mathbf{x}_\text{nt} = -(\nabla^2f(\mathbf{x}))^{-1} \nabla f(\mathbf{x})\,,
 $$
 which is called the *Newton step*.
 
 If $f$ is convex, then $\nabla^2f(\mathbf{x})$ is positive definite and
 $$
-\nabla f(x)^\intercal \Delta \mathbf{x}_\text{nt} \geq 0\,,
+\nabla f(\mathbf{x})^\intercal \Delta \mathbf{\mathbf{x}}_\text{nt} \geq 0\,,
 $$
-hence the Newton step is a descent direction unless $x$ is optimal.
+hence the Newton step is a descent direction unless $\mathbf{x}$ is optimal.
 
 This Newton step can be motivated in several ways.
 
-### Motivation of the Newton step
+**Minimizer of a second order approximation**
+
+The second order Taylor approximation $\hat{f}$ of $f$ at $\mathbf{x}$ is
+
+$$
+\hat{f}(\mathbf{x}+\mathbf{v}) = f(\mathbf{x}) + \nabla f(\mathbf{x})^\intercal \mathbf{v} + \frac{1}{2} \mathbf{v}^\intercal \nabla^2 f(\mathbf{x}) \mathbf{v}\,
+$$
+
+which is a convex quadratic function of $\mathbf{v}$, and is minimized when $v=\Delta \mathbf{x}_\text{nt}$.
+
+This quadratic model will be particularly accurate when $\mathbf{x}$ is close to $\mathbf{x}^*$.
+
+**Steepest descent direction in Hessian norm**
+
+The Newton step is the steepest descent step if a quadratic norm using the Hessian is used, i.e.
+$$
+||\mathbf{u}||_{\nabla^2f(\mathbf{x})}=(\mathbf{u}^\intercal\nabla^2f(\mathbf{x})\mathbf{u})^\frac{1}{2}\,.
+$$
+
+**Affine invariance of the Newton step**
+
+> *A consistent algorithm should give the same results independent of the units in which quantities are measured.*  ~ Donald Knuth
+
+The Newton step is independent of linear or affine changes of coordinates. Consider a non-singular $n\times n$ transformation matrix $T$. If we apply a coordinate transformation $\mathbf{y}=T\mathbf{x}$ and define $\bar{f}(\mathbf{y}) = f(\mathbf{x})$, then
+$$
+\nabla \bar{f}(\mathbf{y}) = T^\intercal\nabla f(\mathbf{x})\,,\quad \nabla^2 \bar{f}(\mathbf{y}) = T^\intercal\nabla^2f(\mathbf{x})T\,.
+$$
+As such it follows that
+$$
+\mathbf{x} + \Delta \mathbf{x}_\text{nt} = T (\mathbf{y} + \Delta \mathbf{y}_\text{nt})\,.
+$$
+
+### Newton decrement
+
+The Newton decrement is defined as
+$$
+\lambda(x)  = (\nabla f(x)^\intercal\nabla^2 f(x)^{-1}\nabla f(x))^{1/2}\,.
+$$
+
+This can be related to the quantity $f(x)-\text{inf}_y\ \hat{f}(y)$:
+$$
+f(x)-\text{inf}_y\ \hat{f}(y) = f(x) - \hat{f}(x +\Delta x_\text{nt}) = \frac{1}{2} \lambda(x)^2\,.
+$$
+Thus $\frac{1}{2} \lambda(x)^2$ is an estimate of $f(x) - p^*$, based on the quadratic approximation of $f$ at $x$.
+
+### Pseudocode of Newton's algortihm
+
+>**input** starting point $\mathbf{x}\in$ **dom** $f$.
+>
+>**repeat**
+>
+>>    1. Compute the Newton step and decrement $\Delta \mathbf{x}_\text{nt} := -\nabla^2f(\mathbf{x})^{-1} \nabla f(\mathbf{x})$; $\lambda^2:=\nabla f(\mathbf{x})^\intercal\nabla^2 f(x)^{-1}\nabla f(x)$.
+>>    2. *Stopping criterion* **break** if $\lambda^2/2 \leq \epsilon$.
+>>    2. *Line seach*. Choose a step size $t$ via exact or backtracking line search.
+>>    3. *Update*. $\mathbf{x}:=\mathbf{x}+t\Delta \mathbf{x}$.
+>
+>**until** stopping criterion is satisfied.
+>
+>**output** $\mathbf{x}$
+
+The above algorithm is sometimes called the *damped* Newton method, as it uses a variable step size $t$. In practice, using a fixed step also works well.
+
+**Assignment 4**
+1. Complete the code for Newton's method.
+2. Find the minima of the two toy problems.
+
+```
+def newtons_method(f, x0, grad_f, hess_f, alpha=0.3, beta=0.8, epsilon=1e-3, trace=False):
+    '''
+    Newton's method for minimizing functions.
+    Inputs:
+        - f: function to be minimized
+        - x0: starting point
+        - grad_f: gradient of the function to be minimized
+        - hess_f: hessian matrix of the function to be minimized
+        - alpha: parameter for btls
+        - beta: parameter for btls
+        - nu: parameter to determine if the algortihm is convered
+        - trace: (bool) store the path that is followed?
+    Outputs:
+        - xstar: the found minimum
+        - x_steps: path in the domain that is followed (if trace=True)
+        - f_steps: image of x_steps (if trace=True)
+    '''
+    x = x0  # initial value
+    if trace: x_steps = [x.copy()]
+    if trace: f_steps = [f(x0)]
+    while True:
+        # ...
+        if # ...  # stopping criterion
+            break  # converged
+        # ...
+        if trace: x_steps.append(x.copy())
+        if trace: f_steps.append(f(x))
+    if trace: return x, x_steps, f_steps    
+    else: return x
+```
 
 ### Convergence analysis
 
-### Illustration
+Iterations in Newton’s method fall into two stages:
+- *damped Newton phase* $(t < 1)$ until $||\nabla f(\mathbf{x})||_2 \leq \eta$
+- *pure Newton phase* $(t = 1)$: quadratic convergence
+
+After a sufficiently large number of iterations, the number of correct digits doubles at each iteration.
+
+Illustration!
+
+### Summary Newton's method
+
+* Convergence of Newton's algorithm is rapid and quadratic near $x^*$
+* Newton's algorithm is affine invariant, e.g. invariant to choice of coordinates or condition number
+* Newton's algorithm scales well with problem size
+* The hyperparameters $\alpha$ and $\beta$ do not influence the performance much.
 
 ## Quasi-Newton methods
 
+Quasi-Newton methods try to emulate the success of the Newton method, but without the high computational burden of constructing the Hessian matrix every step. One of the most popular quasi-Newton algorithms is the **Broyden–Fletcher–Goldfarb–Shanno** (BFGS) algorithm. Here, the Hessian is approximated by a symmetric rank-one matrix.
+
 ## Numerical approximation of the gradient and Hessian
 
+In many cases, there is no analytical expression for gradient and the Hessian. The finite difference method can motivate the following approximations for the gradient-vector product
+$$
+\nabla f(\mathbf{x})^\intercal\Delta\mathbf{x} \approx \frac{1}{2\epsilon} (f(\mathbf{x}+\epsilon\Delta\mathbf{x} ) - f(\mathbf{x}-\epsilon\Delta\mathbf{x} ))
+$$
+and the Hessian-vector product
+$$
+\nabla^2 f(\mathbf{x})^\intercal\Delta\mathbf{x} \approx \frac{1}{2\epsilon} (\nabla f(\mathbf{x}+\epsilon\Delta\mathbf{x} ) - \nabla f(\mathbf{x}-\epsilon\Delta\mathbf{x} ))\,
+$$
+with $\epsilon$ a small constant.
 ## Exercise: logistic regression
 
 Consider the following problem: we have a dataset of $n$ instances: $T=\{(\mathbf{x}_i, y_i)\mid i=1\ldots n\}$. Here $\mathbf{x}_i\in \mathbb{R}^p$ is a $p$-dimensional feature vector and $y_i\in\{0,1\}$ is a binary label. This a a binary classification problem, we are interested in predicting the label of an instance based on its feature description. The goal of logistic regression is to find a function $f(\mathbf{x})$ that estimates the conditional probability of $Y$:

@@ -78,6 +78,6 @@ This course consists of three main parts:
   - Bayesian optimization
   - Reinforcement Learning
   - Learning inverse mappings
-  - ...
+  - Guest lecture Raul?
   - *application*: ...
-12. **Project dirty problems**:
+12. **Project dirty problems**: structured output prediction using reinforcement learning?
