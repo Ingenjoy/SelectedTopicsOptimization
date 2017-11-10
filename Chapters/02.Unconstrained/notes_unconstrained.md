@@ -145,7 +145,7 @@ Many methods exist for this, we will consider the *backtracking line search*, de
 1. Complete the code for the backtracking line search
 2. Use this function find the step size $t$ to (approximately) minimize $f(x) = x^2 - 2x - 5$ starting from the point $0$. Choose a $\Delta x=10$.
 
-```
+```python
 def backtracking_line_search(f, x0, Dx, grad_f, alpha=0.1, beta=0.7):
     '''
     Uses backtracking for finding the minimum over a line.
@@ -165,7 +165,7 @@ def backtracking_line_search(f, x0, Dx, grad_f, alpha=0.1, beta=0.7):
     return t
 ```
 
-```
+```python
 function = lambda x : x**2 - 2*x - 5
 gradient_function = lambda x : 2*x -2
 backtracking_line_search(function, 0, 10, gradient_function)
@@ -213,7 +213,7 @@ We conclude:
 2. Plot the paths for the two toy problems.
 3. Analyze the convergence
 
-```
+```python
 def gradient_descent(f, x0, grad_f, alpha=0.2, beta=0.7,
       nu=1e-3, trace=False):
     '''
@@ -336,7 +336,7 @@ The stopping criterion is usually of the form $||\nabla f(\mathbf{x})||_2 \leq \
 2. Plot the paths for the two toy problems.
 3. Analyze the convergence
 
-```
+```python
 def coordinate_descent(f, x0, grad_f, alpha=0.2, beta=0.7, nu=1e-3, trace=False):
     '''
     General coordinate descent algorithm.
@@ -456,7 +456,7 @@ The above algorithm is sometimes called the *damped* Newton method, as it uses a
 1. Complete the code for Newton's method.
 2. Find the minima of the two toy problems.
 
-```
+```python
 def newtons_method(f, x0, grad_f, hess_f, alpha=0.3, beta=0.8, epsilon=1e-3, trace=False):
     '''
     Newton's method for minimizing functions.

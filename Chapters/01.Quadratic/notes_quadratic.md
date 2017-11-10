@@ -35,7 +35,28 @@ $$
 $$
 so if $p>0$ then $x^\star$ is the minimizer of $f(x)$.
 
-> coding exercise
+**Assignment 1**
+Complete the code for solving the 1-D quadratic system. Use it to find the minimum of
+$$
+4x^2+8x + 2\,.
+$$
+
+```python
+def solve_1d_quadratic(p, q, r=0):
+    """
+    Finds the minimizer of an 1-D quadratic system, raises an error if there is
+    no minimizer (p<0)
+
+    Inputs:
+        - p, q, r: the coefficients of the 1D quadratic system
+
+    Output:
+        - xstar: the minimizer
+    """
+    assert ...
+    return ...
+```
+
 
 ## Towards $n$-dimensional quadratic systems
 
@@ -47,15 +68,16 @@ $$
 $$
 A general $n$-dimensional linear system is given by:
 $$
-f(\mathbf{x}) = \mathbf{x}^\intercal P \mathbf{x} + \mathbf{q}^\intercal\mathbf{x} + r\,,
+f(\mathbf{x}) = \mathbf{x}^\top P \mathbf{x} + \mathbf{q}^\top\mathbf{x} + r\,,
 $$
 with $P$ an $n\times n$ symmetric matrix, $\mathbf{q}$ an $n$-dimensional vector and $r$ a scalar.
 
-> Why is $P$ symmetric?
+**Question 1**
+Why is $P$ symmetric?
 
 So we want to solve the problem:
 $$
-\min_\mathbf{x}\,\mathbf{x}^\intercal P \mathbf{x} + \mathbf{q}^\intercal\mathbf{x} + r\,.
+\min_\mathbf{x}\,\mathbf{x}^\top P \mathbf{x} + \mathbf{q}^\top\mathbf{x} + r\,.
 $$
 
 The concept of a derivative is extended towards higher dimensions using the *gradient* operator:
@@ -70,16 +92,16 @@ $$
        \frac{\partial f{x}f(\mathbf{x}) }{\partial x_1} \\ \vdots \\ \frac{\partial f{x}f(\mathbf{x}) }{\partial x_n}
      \end{bmatrix}\,.
 $$
-From now on, we will drop the subscript in the gradient, unless it is not clear from context how the gradient is computed. For those not familiar to vector calculus, the most useful rules are given below.
+From now on, we will drop the subscript in the gradient when clear from context. For those not familiar to vector calculus, the most useful rules are given below.
 
 | rule | example     |
 | :------------- | :------------- |
-| linearity      | $\nabla(a f(\mathbf{x}) +b g(\mathbf{x})) = a\nabla f(\mathbf{x}) +b\nabla g(\mathbf{x})$       |
-| product rule | $\nabla(f(\mathbf{x}) g(\mathbf{x})) = g(\mathbf{x})\nabla f(\mathbf{x}) + f(\mathbf{x})\nabla g(\mathbf{x})$|
-|chain rule|$\nabla f(g(\mathbf{x})) = \left.\frac{\partial f}{\partial g}\right|_\mathbf{x}\nabla f(\mathbf{x})$|
-| quadratic term | $\nabla (\frac{1}{2}\mathbf{x}^\intercal A\mathbf{x})= A\mathbf{x}$|
-|linear term| $\nabla (\mathbf{b}^\intercal\mathbf{x})=\mathbf{b}$|
-|constant term |$\nabla c = 0$ |
+| linearity      | $\nabla_\mathbf{x}(a f(\mathbf{x}) +b g(\mathbf{x})) = a\nabla_\mathbf{x} f(\mathbf{x}) +b\nabla_\mathbf{x} g(\mathbf{x})$       |
+| product rule | $\nabla_\mathbf{x}(f(\mathbf{x}) g(\mathbf{x})) = g(\mathbf{x})\nabla f(\mathbf{x}) + f(\mathbf{x})\nabla_\mathbf{x} g(\mathbf{x})$|
+|chain rule|$\nabla_\mathbf{x} f(g(\mathbf{x})) = \left.\frac{\partial f}{\partial g}\right|_\mathbf{x}\nabla_\mathbf{x} f(\mathbf{x})$|
+| quadratic term | $\nabla_\mathbf{x} \left(\frac{1}{2}\mathbf{x}^\top A\mathbf{x}\right)= A\mathbf{x}$|
+|linear term| $\nabla_\mathbf{x} (\mathbf{b}^\top\mathbf{x})=\mathbf{b}$|
+|constant term |$\nabla_\mathbf{x} c = 0$ |
 
 The gradient of the quadratic function is
 $$
@@ -106,7 +128,7 @@ The condition for $\mathbf{x}^\star$ to be the minimizer of $f(\mathbf{x})$ is t
 
 > A symmetric $n\times n$ matrix $A$ is positive-definite (in symbols: $A\succ0$), if for any vector $\mathbf{z}\in\mathbb{R}^n$
 > $$
-> \mathbf{z}^\intercal A \mathbf{z} > 0\,.
+> \mathbf{z}^\top A \mathbf{z} > 0\,.
 > $$
 
 A matrix is positive-definite if (and only if) all its eigenvalues as positive.
@@ -117,25 +139,51 @@ $$
 $$
 So, for the quadratic problem, $x\star$ is the unique minimizer iff $P\succ 0$. This means that along every direction $\mathbf{v}\in \mathbb{R}^n$ to project $\mathbf{x}$, the problem reduces to a one-dimensional quadratic function with a positive second-order constant:
 $$
-x_v = \mathbf{v}^\intercal \mathbf{x}\\
-f'(x_v) = x_v (\mathbf{v}^\intercal P \mathbf{v}) x_v + (\mathbf{v}^\intercal \mathbf{q})x_v + r\,,
+x_v = \mathbf{v}^\top \mathbf{x}\\
+f'(x_v) = x_v (\mathbf{v}^\top P \mathbf{v}) x_v + (\mathbf{v}^\top \mathbf{q})x_v + r\,,
 $$
-where $\mathbf{v}^\intercal P \mathbf{v}>0$ if $P\succ 0$, which in turn implies that $f'(x_v)$ has a minimizer.
+where $\mathbf{v}^\top P \mathbf{v}>0$ if $P\succ 0$, which in turn implies that $f'(x_v)$ has a minimizer.
 
 If $P\succ 0$, the quadratic system is a *convect* function with a single minimizer. In many problems, $P$ is positive-definite, so there is a well-defined solution. We will develop this further in Chapter 2.
 
-> Consider $L_2$ regularized ridge regression:
-> $$
-> \min_\mathbf{x}\, (\mathbf{y} - B\mathbf{x})^\intercal(\mathbf{y} - B\mathbf{x}) + c \mathbf{x}^\intercal\mathbf{x}\,,
-> $$
-> with $c>0$. Write this in the standard form of a quadratic system and show that it is convex. Give the expression for the minimizer.
+**Assignment 2**
+
+Complete the code for solving the $n$-D quadratic system. Use it to find the minimum of
+$$
+....
+$$
+
+```python
+def solve_nd_quadratic(P, q, r=0):
+    """
+    Finds the minimizer of an N-D quadratic system,
+    raises an error if there is no minimizer
+    (P is not positive-definite)
+
+    Inputs:
+        - Q, q, r: the terms of the nD quadratic system
+
+    Output:
+        - xstar: the minimizer, an (n x 1) vector
+    """
+    assert np.all(np.linalg.eigvalsh(P) > 0)
+    return - np.linalg.solve(P, q)
+```
+
+**Question 2**
+
+Consider $L_2$ regularized ridge regression:
+$$
+\min_\mathbf{x}\, (\mathbf{y} - B\mathbf{x})^\top(\mathbf{y} - B\mathbf{x}) + c\cdot \mathbf{x}^\top\mathbf{x}\,,
+$$
+with $c>0$. Write this in the standard form of a quadratic system and show that it is convex. Give the expression for the minimizer.
 
 ## Time and memory complexity of exact solution
 
 The exact solution for convex quadratic system hinges on solving a $n\times n$ linear system. Conventional solvers for linear systems have a time complexity of $\mathcal{O}(n^3)$. This is doable for problems of moderate size ($n<1000$), but becomes infeasible for large-scale problems.
 
 Storing an $n\times n$ matrix also has a memory requirement of $\mathcal{O}(n^2)$. When $n$ is too large, this cannot fit in main memory. In the remainder of this chapter, we will consider the case when $P$ is too large to work with, while matrix-vector products $P\mathbf{x}$ can be computed. Some examples of when such settings occur:
-- $P=B^\intercal B$, with $B\in \mathbb{R}^{n\times p}$, with $p\ll n$.
+- $P=B^\top B$, with $B\in \mathbb{R}^{n\times p}$, with $p\ll n$.
 - $P$ is a very sparse matrix.
 - $P$ has a special structure so that $P\mathbf{x}$ can be computed on the fly, e.g. $P_{ij}=i^2j^3$.
 - $P$ is loaded an processed as different blocks.
@@ -152,7 +200,7 @@ f(\mathbf{x}^{(k+1)}) < f(\mathbf{x}^{(k)})\,,
 $$
 except when $\mathbf{x}^{(k)}$ is optimal. In this property to hold, the search direction should satisfy
 $$
-(\Delta \mathbf{x}^{(k)})^\intercal \nabla f(\mathbf{x}) < 0\,.
+(\Delta \mathbf{x}^{(k)})^\top \nabla f(\mathbf{x}) < 0\,.
 $$
 
 > figure!
@@ -183,13 +231,33 @@ The step size can be chosen in several ways:
 
 For quadratic systems we can compute the exact step size, as this amounts to a simple one-dimensional quadratic problem:
 $$
-t=\arg\min_{s\geq 0}\, \frac{1}{2}(\mathbf{x}+s\Delta \mathbf{x})^\intercal P (\mathbf{x}+s\Delta \mathbf{x}) + (\mathbf{x}+s\Delta \mathbf{x}) \mathbf{q} + r
+t=\arg\min_{s\geq 0}\, \frac{1}{2}(\mathbf{x}+s\Delta \mathbf{x})^\top P (\mathbf{x}+s\Delta \mathbf{x}) + (\mathbf{x}+s\Delta \mathbf{x})^\top \mathbf{q} + r
 $$
 $$
-t = \frac{-(\Delta\mathbf{x})^\intercal P \mathbf{x}-(\Delta\mathbf{x})^\intercal\mathbf{q}}{(\Delta\mathbf{x})^\intercal P \Delta\mathbf{x}}
+t = \frac{-(\Delta\mathbf{x})^\top P \mathbf{x}-(\Delta\mathbf{x})^\top\mathbf{q}}{(\Delta\mathbf{x})^\top P \Delta\mathbf{x}}
 $$
 
-> implement exact line search
+**Assignment 3**
+
+Complete the code for the exact line search for quadratic systems.
+
+```python
+def quadratic_exact_line_search(P, q, Dx, x):
+    """
+    Find the exact stepsize that minimized a quadratic system in
+    a given point x for a given search direction Dx
+
+    Inputs:
+        - Q, q: the terms of the nD quadratic system
+        - x: starting point
+        - Dx: search direction
+
+    Output:
+        - t: optimal stepsize
+    """
+    t = ...
+    return t
+```
 
 ## Gradient descent
 
@@ -197,7 +265,11 @@ A natural choice for the search direction is the negative gradient:
 $$
 \Delta \mathbf{x} = - \nabla f(\mathbf{x})\,.
 $$
-Remember, for the quadratic system, the gradient was $\nabla f(\mathbf{x})=P\mathbf{x} + \mathbf{q}$, so
+Remember, for the quadratic system, the gradient was
+$$
+\nabla f(\mathbf{x})=P\mathbf{x} + \mathbf{q}\,,
+$$
+so
 $$
 \Delta \mathbf{x} = - P\mathbf{x} - \mathbf{q}\,.
 $$
@@ -227,7 +299,7 @@ with $\gamma$ set to 10.
 
 We can study the convergence of the gradient descent algorithm by using eigenvalue decomposition. The matrix $P$ can be written as:
 $$
-P = U\Lambda U^\intercal\,,
+P = U\Lambda U^\top\,,
 $$
 with
 - $\Lambda=\text{diag}(\lambda_1,\ldots,\lambda_n)$, a matrix with the eigenvalues on the diagonal (sorted from small to large).
@@ -237,11 +309,11 @@ Note that because $P\succ 0$, all eigenvalues are real and positive and all eige
 
 Consider the following linear transformation:
 $$
-\mathbf{z}^{(k)}= U^\intercal ( \mathbf{x}^{\star}-\mathbf{x}^{(k)})\,,
+\mathbf{z}^{(k)}= U^\top ( \mathbf{x}^{\star}-\mathbf{x}^{(k)})\,,
 $$
 which allows us to rewrite the error in closed-form:
 $$
-f(\mathbf{x}^{(k)}) - f(\mathbf{x}^\star) = \frac{1}{2}\sum_{i=1}^n (1-t\lambda_i)^{2k}\lambda_i[(\mathbf{U}_i)^\intercal(\mathbf{x}^{(0)}-\mathbf{x}^\star)]^2\,.
+f(\mathbf{x}^{(k)}) - f(\mathbf{x}^\star) = \frac{1}{2}\sum_{i=1}^n (1-t\lambda_i)^{2k}\lambda_i[(\mathbf{U}_i)^\top(\mathbf{x}^{(0)}-\mathbf{x}^\star)]^2\,.
 $$
 Here, we see that:
 1. The error decomposes in independent terms in the eigenspace.
@@ -304,13 +376,13 @@ Might add something here, remove in time constraint
 
 ## Exercise: signal recovery
 
-As a practical example of minimizing quadratic systems, let us consider a simple signal recovery problem. Consider an $n$-dimensional real vector $\mathbf{x}=[x_1,\ldots,x_n]^\intercal$. Rather than observing this vector directly, we have $m$ noisy measurements at random indices (indices drawn randomly with replacement from $\{1,\ldots,n\}$): $\mathcal{O} = \{(i_j, y_j)\mid j=1,\ldots,m\}$. These measurements are stored in an $m$-dimensional vector $\mathbf{y}$. Can we recover $\mathbf{x}$ from $\mathbf{y}$?
+As a practical example of minimizing quadratic systems, let us consider a simple signal recovery problem. Consider an $n$-dimensional real vector $\mathbf{x}=[x_1,\ldots,x_n]^\top$. Rather than observing this vector directly, we have $m$ noisy measurements at random indices (indices drawn randomly with replacement from $\{1,\ldots,n\}$): $\mathcal{O} = \{(i_j, y_j)\mid j=1,\ldots,m\}$. These measurements are stored in an $m$-dimensional vector $\mathbf{y}$. Can we recover $\mathbf{x}$ from $\mathbf{y}$?
 
 If $m<n$, then we do not have a single measurement for every element of $\mathbf{x}$. Even if $m>n$, it is likely that some elements of $\mathbf{x}$ are not observed due to chance (for large $n$, if $n=m$ then about 37% of the elements will not be sampled). Clearly, recovering $\mathbf{x}$ from $\mathbf{y}$ is an impossible assumption if we do not make some assumptions, this seems an impossible problem in general.
 
 If we assume that the different values of $\mathbf{x}$ are on a line, then we can make a *smoothness* assumption: elements of $\mathbf{x}$ for which the indices are close, likely will have similar values. This idea is expressed in the follow minimization problem:
 $$
-\min_\mathbf{x}\, \frac{1}{2}\sum_{j=1}^m(y_j-{x}_{i_j})^2 + \frac{C}{2} \mathbf{x}^\intercal K^{-1}\mathbf{x}\,,
+\min_\mathbf{x}\, \frac{1}{2}\sum_{j=1}^m(y_j-{x}_{i_j})^2 + \frac{C}{2} \mathbf{x}^\top K^{-1}\mathbf{x}\,,
 $$
 with $K^{-1}$ an inverse kernel (or covariance matrix) and $C$ a tuning hyperparameter. The matrix $K^{-1}$ encodes how the different elements of $\mathbf{x}$ are related, constructing such a matrix is a topic in machine learning (see course Predictive Modelling). For our purposes, we have chosen this matrix as such that elements should have values closes to each other. Hence, the minimization problem has two terms:
 - a data fitting term to make sure that the recovered vector $\mathbf{x}$ matches the observations,
@@ -319,7 +391,7 @@ The parameter $C$ determines the trade-off between the two terms.
 
 The problem can written purely in matrix notation by using the $(m\times n)$ bookkeeping matrix $R$, which contains for every row UITWERKEN
 $$
-\min_\mathbf{x}\, \frac{1}{2}(\mathbf{y}-R\mathbf{x})^\intercal(\mathbf{y}-R\mathbf{x}) + \frac{C}{2} \mathbf{x}^\intercal K^{-1}\mathbf{x}\,,
+\min_\mathbf{x}\, \frac{1}{2}(\mathbf{y}-R\mathbf{x})^\top(\mathbf{y}-R\mathbf{x}) + \frac{C}{2} \mathbf{x}^\top K^{-1}\mathbf{x}\,,
 $$
 
 **assignments**

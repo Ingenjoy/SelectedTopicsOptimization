@@ -169,11 +169,13 @@ if __name__ == '__main__':
     plot_contour(quadratic, (-11, 11), (-5, 5), ax1)
     plot_contour(nonquadratic, (-2, 2), (-1, 1), ax2)
 
-    xstar_q, x_steps_q, f_steps_q = gradient_descent(quadratic, np.array([[10.0], [1.0]]),
-                                                 grad_quadratic, nu=1e-5, trace=True)
+    xstar_q, x_steps_q, f_steps_q = gradient_descent(quadratic,\
+                                                    np.array([[10.0], [1.0]]),
+                                        grad_quadratic, nu=1e-5, trace=True)
     add_path(ax1, x_steps_q, red, label='GD')
 
-    print('Number of steps quadratic function (gradient descent): {}'.format(len(x_steps_q) - 1))
+    print('Number of steps quadratic function (gradient descent): {}'.format(\
+                                                    len(x_steps_q) - 1))
 
     xstar_nq, x_steps_nq, f_steps_nq = gradient_descent(nonquadratic,
                                             np.array([[-0.5], [0.9]]),
@@ -249,14 +251,14 @@ if __name__ == '__main__':
     xstar_q, x_steps_q, f_steps_q = newtons_method(quadratic, np.array([[10.0],
                             [1.0]]), grad_quadratic, hessian_quadratic,
                             epsilon=1e-8, trace=True)
-    add_path(ax1, x_steps_q, blue, label='Newton')
+    add_path(ax1, x_steps_q, red, label='Newton')
 
     print("Number of steps quadratic function (Newton's method): {}".format(len(x_steps_q) - 1))
 
     xstar_nq, x_steps_nq, f_steps_nq = newtons_method(nonquadratic,
                                 np.array([[-0.5], [0.9]]), grad_nonquadratic,
                                 hessian_nonquadratic, epsilon=1e-5, trace=True)
-    add_path(ax2, x_steps_nq, blue, label='Newton')
+    add_path(ax2, x_steps_nq, red, label='Newton')
 
     print("Number of steps non-quadratic function (Newton's method): {}".format(len(
                                 x_steps_nq) - 1))

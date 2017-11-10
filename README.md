@@ -53,7 +53,6 @@ This course consists of three main parts:
   - Bellman equation?
   - *application*: something cool
 6. **Bayesian networks**: MAP estimation
-6. **Optimal transport**?
 7. **Shortest path algorithms**
   - greedy
   - Dijkstra's algorithm
@@ -78,6 +77,6 @@ This course consists of three main parts:
   - Bayesian optimization
   - Reinforcement Learning
   - Learning inverse mappings
-  - Guest lecture Raul?
+  - ...
   - *application*: ...
-12. **Project dirty problems**: structured output prediction using reinforcement learning?
+12. **Project dirty problems**:

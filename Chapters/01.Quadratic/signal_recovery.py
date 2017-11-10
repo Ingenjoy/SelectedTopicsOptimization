@@ -1,6 +1,6 @@
 """
 Created on Saturday 26 August 2017
-Last update: Sunday 27 August 2017
+Last update: Thursday 9 November 2017
 
 @author: Michiel Stock
 michielfmstock@gmail.com
@@ -10,16 +10,39 @@ Data and solution of the signal recovery problem
 
 import numpy as np
 from random import randint
+import argparse
+from sys import path
+path.append('../../Scripts')
+from plotting import plt, blue, orange, green, red, yellow
+import seaborn as sns
+sns.set_style('white')
+from math import pi
+import matplotlib.pyplot as plt
 
 periodic_fun = lambda x : 3 * np.sin(x * 2 * pi / n) +\
             2 * np.cos(x * 4 * pi / n) +\
             np.sin(x * 4 *pi / n) + 0.8 * np.cos(x * 12 * pi / n)
 
-n = 1000
-m = 100
-noise = 1
-C = noise
-gamma = 100
+arg_parser = argparse.ArgumentParser()
+
+arg_parser.add_argument('-n', '--n_points', type=int, default=1000,
+                help='number of points (default: 1000)' )
+arg_parser.add_argument('-m', '--n_measurements', type=int, default=100,
+                help='number of measurements (default: 100)')
+arg_parser.add_argument('-noise', type=float, default=1,
+                help='std of noise (default: 1)')
+arg_parser.add_argument('-C', type=float, default=1,
+                help='regularization (default: 1)')
+arg_parser.add_argument('-gamma', type=float, default=100,
+                help='length scale of kernel (default: 100)')
+args = arg_parser.parse_args()
+
+
+n = args.n_points
+m = args.n_measurements
+noise = args.noise
+C = args.C
+gamma = args.gamma
 reach = min(n//2, gamma * 3)
 
 def generate_noisy_measurements(m, n, f=periodic_fun, sigma=noise):
@@ -81,14 +104,7 @@ def make_bookkeeping(I, n):
     return L
 
 
-if __name__ == '__main__':
-    from sys import path
-    path.append('../../Scripts')
-    from plotting import plt, blue, orange, green, red, yellow
-    import seaborn as sns
-    sns.set_style('white')
-    from math import pi
-    import matplotlib.pyplot as plt
+def main(n=n, m=m, noise=noise, C=C, gamma=gamma, reach=reach):
 
     np.random.seed(10)
 
@@ -110,3 +126,6 @@ if __name__ == '__main__':
 
     ax.legend(loc=0)
     fig.show()
+
+if __name__ == '__main__':
+    main()
