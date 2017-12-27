@@ -6,9 +6,7 @@
 
 Notes and exercises of the optimization course given in the Master of Bioinformatics Bioscience Engineering and Systems Biology (Ghent University).
 
-Goal,...
-
-Will be updated through the semester.
+The goal of this course is to give students a general overview of the rich field of mathematical optimization. This course will put a particular emphasis on **practical implementations** and **performance**. After this course, students should be able to formulate problems from computational biology as optimization problems and be able to read, understand and implement new optimization algorithms.
 
 ## Contents
 
@@ -22,7 +20,7 @@ This course consists of three main parts:
   - motivation
   - exact solution, scalar case, multi-dimensional case
   - conditions for optimality
-  - very large (sparse) systems and the need for iterative solutions
+  - large (sparse) systems and the need for iterative solutions
   - gradient descent, convergence and condition numbers
   - brief notion of conjugated gradient descent
   - gradient descent with momentum (intelligent search)
@@ -40,41 +38,57 @@ This course consists of three main parts:
 3. **Constrained convex problems**
   - quadratic systems with linear equality constraints: exact solution
   - Newton's method for convex systems with linear equality constraints
+  - Lagrangians and the Karush–Kuhn–Tucker conditions
   - Convex problems with convex inequality constraints
     - geometric interpretation
     - the logarithmic barrier
     - the barrier method
   - *application*: maximum flow problems
 4. **Project continuous optimization**: protein oligiomerization by minimizing the Gibbs free energy
-5. **Optimal transport**
-6. **Minimum spanning trees**
-  - + introduction to time complexities
-  - *application*: phylogenetic tree reconstruction
-7. **Shortest path algorithms**
-  - greedy
+5. **Optimal transport**:
+  - motivation: the KERMIT dessert party
+  - quick recap of probability distributions
+  - Monge and Kantorovich formulation
+  - Wasserstein distances and Geodesic displacements
+  - Entropic regularization and the Sinkhorn algorithm
+  - *applications*:
+    - comparing distribitions (e.g. expression profiles)
+    - color transfer
+    - learning epigenetic landscapes
+    - computational fluid dynamics
+6. **Minimum spanning trees**:
+  - graphs and basic data structures (i.e. `list`, `dict`, `set`)
+  - introduction to time complexities
+  - Kruskal's algorithm
+  - Prim's algorithm
+  - *application*: phylogenetic tree reconstruction, building a maze
+7. **Shortest path algorithms**:
+  - greedy search
   - Dijkstra's algorithm
   - A* algorithm: using a heuristic
-  - minimum spanning tree?
-8. **Project discrete optimization**: something really cool!
+8. **Project discrete optimization**: optimal routing through a city
 9. **NP hard problems**
   - classification
-  - example problems: knapsack, TSA, ...
+  - example problems: knapsack, TSA, graph cutting
   - algorithms:
     - exhaustive
     - greedy
     - dynamic programming
     - branch and bound
   - longest common subsequence: golfing contest
-10. **Bio-inspired optimization**
+10. **Bio-inspired optimization**:
   - hill climbing?
   - simulated annealing
   - genetic algorithms
-  - ...
-  - *application*: Ising models + antimicrobial peptide optimization?
-11. **Learning and optimization**
+  - other methods
+  - *application*: Ising models or antimicrobial peptide optimization?
+11. **Project dirty problems**: optimizing peptides or designing a microfluidics device
+12. **Learning and optimization**
   - Bayesian optimization
   - Reinforcement Learning
   - Learning inverse mappings
-  - ...
-  - *application*: ...
-12. **Project dirty problems**:
+
+
+## Thanks
+
+Bernard De Baets, Raul Pérez-Fernández
