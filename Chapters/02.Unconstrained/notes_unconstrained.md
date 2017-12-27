@@ -6,9 +6,9 @@ In this chapter we will study unconstrained convex problems, i.e. problems of th
 $$
 \min_\mathbf{x}\, f(\mathbf{x})\,,
 $$
-in which $f$ is convex. Convex optimization problems are well understood. Their most attractive property is that when a minimizer exists, it is unique.
+in which $f$ is convex. Convex optimization problems are well understood. Their most attractive property is that when a minimizer exists, the minimizer is the unique global minimizer.
 
-Most convex optimization problems, of which the quadratic problems are a notable exception, do not have a closed-from solution. We will again use descent methods to find an approximate solution.
+Most convex optimization problems do not have a closed-from solution, with the quadratic problems as a notable exception. We will hence again have to resort to descent methods to find an (arbitrary accurate) approximate solution.
 
 ## Convex sets and functions
 
@@ -21,7 +21,7 @@ Most convex optimization problems, of which the quadratic problems are a notable
 > \theta x + (1 − \theta)x' \in \mathcal{C}\,.
 > $$
 
-Figure: some convex and non-convex sets
+Figure: some convex and non-convex sets #TODO
 
 ### Convex functions
 
@@ -34,18 +34,18 @@ Figure: some convex and non-convex sets
 > f(\theta \mathbf{x} + (1-\theta)\mathbf{x}) \leq\theta f(\mathbf{x}) +(1-\theta)f(\mathbf{x})\,.
 > $$
 
-examples
+examples #TODO
 
-Figure
+Figure  #TODO
 
 From the definition, it follows that:
 - If the function is differentiable, then $f(\mathbf{x})\geq f(\mathbf{x}')+\nabla f(\mathbf{x}')(\mathbf{x}-\mathbf{x}')$ for all $\mathbf{x}$ and $\mathbf{x}' \in \text{dom}(f)$.
 - If the function is twice differentiable, then $\nabla^2 f(\mathbf{x})\succeq 0$ for any $\mathbf{x}\in\text{dom}(f)$.
 
-Figure!
+Figure!  #TODO
 
 Convex functions frequently arise:
-- Ff $f$ and $g$ are both convex, then $m(x)=\max(f(x), g(x))$ and $h(x)=f(x)+g(x)$ are also convex.
+- If $f$ and $g$ are both convex, then $m(x)=\max(f(x), g(x))$ and $h(x)=f(x)+g(x)$ are also convex.
 - If $f$ and $g$ are convex functions and $g$ is non-decreasing over a univariate domain, then $h(x)=g(f(x))$ is convex. Example: $e^{f(x)}$ is convex if $f(\mathbf{x})$ is convex.
 
 Note, the convexity of expected value in probability theory gives rise to **Jensen's inequality**. For any convex function $\varphi$, if holds that
@@ -128,7 +128,7 @@ Exact line search is used when the cost of solving the above minimization proble
 
 Often, the descent methods work well when the line search is done only approximately. This is because the computational resourches are better spend to performing more *approximate* steps in the differnt directions because the direction of descent will change anyway.
 
-Many methods exist for this, we will consider the *backtracking line search*, described by the following pseudocode.
+Many methods exist for this, we will consider the *backtracking line search* (BTLS), described by the following pseudocode.
 
 > **input** starting point $x\in$ **dom** $f$, descent direction $\Delta x$, $\alpha\in(0,0.05)$ and $\beta\in(0,1)$.
 >
@@ -140,6 +140,8 @@ Many methods exist for this, we will consider the *backtracking line search*, de
 >
 >
 >**output** $t$
+
+![Illustration of the backtracking line search.](Figures/btls.png)
 
 **Assignment 1**
 1. Complete the code for the backtracking line search
@@ -202,9 +204,9 @@ $$
 iterations, where $c =1-\frac{m}{M}<1$.
 
 We conclude:
-1. Number of steps needed for a given quality is proportional to the logarithm of the initial error.
-2. To increase the accuracy with an order of magnitude, only a few more steps are needed.
-3. Convergence is again determined by the *condition number* $m/M$. Note that for large condition numbers: $\log(1/c)=-\log(1-\frac{m}{M})\approx m/M$, so the number of required iterations increases linearly with increasing $m/M$.
+- Number of steps needed for a given quality is proportional to the logarithm of the initial error.
+- To increase the accuracy with an order of magnitude, only a few more steps are needed.
+- Convergence is again determined by the *condition number* $m/M$. Note that for large condition numbers: $\log(1/c)=-\log(1-\frac{m}{M})\approx m/M$, so the number of required iterations increases linearly with increasing $m/M$.
 
 ### Illustration
 
@@ -252,7 +254,7 @@ def gradient_descent(f, x0, grad_f, alpha=0.2, beta=0.7,
 Optimize the first-order Taylor approximation of a function:
 
 $$
-f(\mathbf{x}+\mathbf{v}) \approx \hat{f}(\mathbf{x}+\mathbf{v}) =f(\mathbf{x}) +\nabla f(\mathbf{x})^T \mathbf{v}\,.
+f(\mathbf{x}+\mathbf{v}) \approx \hat{f}(\mathbf{x}+\mathbf{v}) =f(\mathbf{x}) +\nabla f(\mathbf{x})^\top \mathbf{v}\,.
 $$
 
 The linear approximation $\hat{f}$ can be made arbitrary negative if we can freely choose $\mathbf{v}$! We have to contrain the *norm* of $\mathbf{v}$.
@@ -270,9 +272,7 @@ $$
 ||\mathbf{x}||_p = \left(\sum_{i=1}^n |x_i|^p\right)^\frac{1}{2}\,.
 $$
 
-Example figure
-
-Consider $P\in \mathbb{R}^{n\times n}$ such that $P\succ 0$. The  corresponding **quadratic norm*:
+Consider $P\in \mathbb{R}^{n\times n}$ such that $P\succ 0$. The  corresponding *quadratic norm*:
 $$
 ||\mathbf{z}||_P = (\mathbf{z}^\intercal P\mathbf{z})^\frac{1}{2}=||P^\frac{1}{2}\mathbf{z}||_2\,.
 $$
@@ -330,6 +330,8 @@ Using the $L_1$ norm results in coordinate descent.
 Here, $e_i$ is the $i$-th basic vector.
 
 The stopping criterion is usually of the form $||\nabla f(\mathbf{x})||_2 \leq \nu$.
+
+![Coordinate descent.](Figures/steepest_descent.png)
 
 **Assignment 3**
 1. Complete the implementation of the coordinate descent method.
@@ -450,7 +452,7 @@ Thus $\frac{1}{2} \lambda(x)^2$ is an estimate of $f(x) - p^*$, based on the qua
 >
 >**output** $\mathbf{x}$
 
-The above algorithm is sometimes called the *damped* Newton method, as it uses a variable step size $t$. In practice, using a fixed step also works well.
+The above algorithm is sometimes called the *damped* Newton method, as it uses a variable step size $t$. In practice, using a fixed step also works well. Here, one has to consider the computational cost of using BTLS versus performing a few extra Newton steps to attain the same accuracy.
 
 **Assignment 4**
 1. Complete the code for Newton's method.
@@ -496,14 +498,14 @@ Iterations in Newton’s method fall into two stages:
 
 After a sufficiently large number of iterations, the number of correct digits doubles at each iteration.
 
-Illustration!
+Illustration #TODO: make figure of the convergence of Newton
 
 ### Summary Newton's method
 
-* Convergence of Newton's algorithm is rapid and quadratic near $x^*$
-* Newton's algorithm is affine invariant, e.g. invariant to choice of coordinates or condition number
-* Newton's algorithm scales well with problem size
-* The hyperparameters $\alpha$ and $\beta$ do not influence the performance much.
+* Convergence of Newton's algorithm is rapid and quadratic near $\mathbf{x}^*$.
+* Newton's algorithm is affine invariant, e.g. invariant to choice of coordinates or condition number.
+* Newton's algorithm scales well with problem size. Computationally, computing and storing the Hessian might be prohibitive.
+* The hyperparameters $\alpha$ and $\beta$  of BTLS do not influence the performance much.
 
 ## Quasi-Newton methods
 
@@ -551,3 +553,5 @@ $$
 Here, the first part is the cross entropy, which penalizes disagreement between the prediction $f(\mathbf{x}_i)$ and the true label $y_i$, while the second term penalizes complex models in which $\mathbf{w}$ has a large norm. The trade-off between these two components is controlled by $\lambda$, a hyperparameters. In the course *Predictive modelling* it is explained that by carefully tuning this parameter one can obtain an improved performance. **In this project we will study the influence $\lambda$ on the convergence of the optimization algorithms.**
 
 Below is a toy example in two dimensions illustrating the loss function.
+
+Complete: #TODO: add the questions and load the data

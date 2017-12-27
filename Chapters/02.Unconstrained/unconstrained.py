@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Created on Tue 19 Jan 2016
-Last update: Tue 14 Feb 2016
+Last update: Wed 27 Dec 2017
 
 @author: Michiel Stock
 michielfmstock@gmail.com
@@ -158,6 +158,7 @@ if __name__ == '__main__':
     ax.scatter(0, function(0), color=green, label='$x_0$')
     ax.vlines(0+tbest*Dx, -7, -1, red)
     ax.legend(loc=0)
+    fig.tight_layout()
     fig.savefig('Figures/backtracking_ls.png')
 
     # assignment 2
@@ -185,6 +186,7 @@ if __name__ == '__main__':
     print('Number of steps non-quadratic function (gradient descent): {}'.format(len(
                     f_steps_nq) - 1))
 
+    fig.tight_layout()
     fig.savefig('Figures/gradient_descent.png')
 
     fig, (ax1, ax2) = plt.subplots(ncols=2, figsize=(10, 5))
@@ -200,6 +202,7 @@ if __name__ == '__main__':
         ax.set_xlabel('Iteration')
         ax.set_ylabel('Absolute error')
 
+    fig.tight_layout()
     fig.savefig('Figures/convergence_gd.png')
 
     # assignment 3
@@ -222,7 +225,7 @@ if __name__ == '__main__':
     add_path(ax2, x_steps_nq, red)
 
     print('Number of steps non-quadratic function (steepest descent): {}'.format(len(f_steps_nq) - 1))
-
+    fig.tight_layout()
     fig.savefig('Figures/steepest_descent.png')
 
     fig, (ax1, ax2) = plt.subplots(ncols=2, figsize=(10, 5))
@@ -237,6 +240,7 @@ if __name__ == '__main__':
         ax.set_xlabel('Iteration')
         ax.set_ylabel('Absolute error')
 
+    fig.tight_layout()
     fig.savefig('Figures/convergence_sd.png')
 
     # assignment 4
@@ -262,7 +266,7 @@ if __name__ == '__main__':
 
     print("Number of steps non-quadratic function (Newton's method): {}".format(len(
                                 x_steps_nq) - 1))
-
+    fig.tight_layout()
     fig.savefig('Figures/newtons_method.png')
 
     fig, (ax1, ax2) = plt.subplots(ncols=2, figsize=(10, 5))
@@ -276,4 +280,5 @@ if __name__ == '__main__':
         ax.set_xlabel('iteration')
         ax.set_ylabel('function value')
 
+    fig.tight_layout()
     fig.savefig('Figures/convergence_nm.png')
