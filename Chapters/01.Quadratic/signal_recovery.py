@@ -8,14 +8,12 @@ michielfmstock@gmail.com
 Data and solution of the signal recovery problem
 """
 
+import sys
+sys.path.append('helpers/')
 import numpy as np
 from random import randint
 import argparse
-from sys import path
-path.append('../../Scripts')
 from plotting import plt, blue, orange, green, red, yellow
-import seaborn as sns
-sns.set_style('white')
 from math import pi
 import matplotlib.pyplot as plt
 
@@ -118,14 +116,14 @@ def main(n=n, m=m, noise=noise, C=C, gamma=gamma, reach=reach):
 
     fig, ax = plt.subplots()
 
-    ax.plot(ivals, periodic_fun(ivals), color=blue, label='true signal')
+    ax.plot(ivals, periodic_fun(ivals), color=blue, label='true signal', linewidth=2)
     ax.scatter(I, y, color=orange, label='observations ($y_i$)')
-    ax.plot(ivals, x, color='green', label='recovered signal ($f_i$)')
+    ax.plot(ivals, x, color=green, label='recovered signal ($f_i$)', linewidth=2)
     ax.set_xlabel('$i$')
     ax.set_ylabel('value')
 
     ax.legend(loc=0)
-    fig.show()
+    fig.savefig('Chapters/01.Quadratic/Figures/signal.png')  # TODO: make general
 
 if __name__ == '__main__':
     main()

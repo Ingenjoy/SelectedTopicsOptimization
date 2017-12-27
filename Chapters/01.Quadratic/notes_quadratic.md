@@ -14,7 +14,7 @@ $$
 f(x) = \frac{1}{2}px^2+qx +r\,,
 $$
 
-with $p>0$ (as we will see).
+with $p>0$ (we will shortly see why).
 
 Our optimization problem is given by:
 
@@ -26,7 +26,7 @@ This can easily be solved by setting the first order derivative equal to zero:
 
 $$
 \frac{\mathrm{d}f(x)}{\mathrm{d}x} = px + q \\
-px^\star+q = 0 \Leftrightarrow x^\star=\frac{-q}{p}
+px^\star+q = 0 \Leftrightarrow x^\star=\frac{-q}{p}\,.
 $$
 
 To show that this is the sole minimizer of $f(x)$, we have to prove that the second order derivative is positive in this point. This means that at that point the derivative of the function is increasing: a little to the left the function is increasing and a little to the right and the function is decreasing. We have
@@ -68,7 +68,7 @@ $$
 $$
 A general $n$-dimensional linear system is given by:
 $$
-f(\mathbf{x}) = \mathbf{x}^\top P \mathbf{x} + \mathbf{q}^\top\mathbf{x} + r\,,
+f(\mathbf{x}) =\frac{1}{2} \mathbf{x}^\top P \mathbf{x} + \mathbf{q}^\top\mathbf{x} + r\,,
 $$
 with $P$ an $n\times n$ symmetric matrix, $\mathbf{q}$ an $n$-dimensional vector and $r$ a scalar.
 
@@ -77,7 +77,7 @@ Why is $P$ symmetric?
 
 So we want to solve the problem:
 $$
-\min_\mathbf{x}\,\mathbf{x}^\top P \mathbf{x} + \mathbf{q}^\top\mathbf{x} + r\,.
+\min_\mathbf{x}\,\frac{1}{2}\mathbf{x}^\top P \mathbf{x} + \mathbf{q}^\top\mathbf{x} + r\,.
 $$
 
 The concept of a derivative is extended towards higher dimensions using the *gradient* operator:
@@ -89,7 +89,7 @@ $$
 so that the gradient of $f(\mathbf{x})$ is given by:
 $$
 \nabla_\mathbf{x} f(\mathbf{x}) = \begin{bmatrix}
-       \frac{\partial f{x}f(\mathbf{x}) }{\partial x_1} \\ \vdots \\ \frac{\partial f{x}f(\mathbf{x}) }{\partial x_n}
+       \frac{\partial f(\mathbf{x}) }{\partial x_1} \\ \vdots \\ \frac{\partial f(\mathbf{x}) }{\partial x_n}
      \end{bmatrix}\,.
 $$
 From now on, we will drop the subscript in the gradient when clear from context. For those not familiar to vector calculus, the most useful rules are given below.
@@ -97,8 +97,8 @@ From now on, we will drop the subscript in the gradient when clear from context.
 | rule | example     |
 | :------------- | :------------- |
 | linearity      | $\nabla_\mathbf{x}(a f(\mathbf{x}) +b g(\mathbf{x})) = a\nabla_\mathbf{x} f(\mathbf{x}) +b\nabla_\mathbf{x} g(\mathbf{x})$       |
-| product rule | $\nabla_\mathbf{x}(f(\mathbf{x}) g(\mathbf{x})) = g(\mathbf{x})\nabla f(\mathbf{x}) + f(\mathbf{x})\nabla_\mathbf{x} g(\mathbf{x})$|
-|chain rule|$\nabla_\mathbf{x} f(g(\mathbf{x})) = \left.\frac{\partial f}{\partial g}\right|_\mathbf{x}\nabla_\mathbf{x} f(\mathbf{x})$|
+| product rule | $\nabla_\mathbf{x}(f(\mathbf{x}) g(\mathbf{x})) = g(\mathbf{x})\nabla_\mathbf{x} f(\mathbf{x}) + f(\mathbf{x})\nabla_\mathbf{x} g(\mathbf{x})$|
+|chain rule|$\nabla_\mathbf{x} f(g(\mathbf{x})) = \left.\frac{\partial f}{\partial g}\right|_{g(\mathbf{x})}\nabla_\mathbf{x} f(\mathbf{x})$|
 | quadratic term | $\nabla_\mathbf{x} \left(\frac{1}{2}\mathbf{x}^\top A\mathbf{x}\right)= A\mathbf{x}$|
 |linear term| $\nabla_\mathbf{x} (\mathbf{b}^\top\mathbf{x})=\mathbf{b}$|
 |constant term |$\nabla_\mathbf{x} c = 0$ |
@@ -111,10 +111,13 @@ Setting this to zero gives
 $$
 \mathbf{x}^\star=-P^{-1}\mathbf{q}\,.
 $$
+
+> Even though the solution contains the inverse of a matrix, it is seldom a good idea to compute a matrix inverse. Instead, use a solver for the linear system $A\mathbf{x}=\mathbf{b}$ (numerically stable).
+
 How do we know that $\mathbf{x}^\star$ is the minimizer of the quadratic system? For this we have to extend the concept of a second order derivative to $n$ dimensions. We define the *Hessian* as:
 $$
 \nabla^2 f(\mathbf{x}) = \begin{bmatrix}
-\frac{\partial^2 f(\mathbf{x})}{\partial {x_{1}}^2} & \frac{\partial^2 f(\mathbf{x})}{\partial x_1 x_2} & \ldots &  \frac{\partial^2 f(\mathbf{x})}{\partial x_1 x_n}\\
+\frac{\partial^2 f(\mathbf{x})}{\partial {x_{1}^2}} & \frac{\partial^2 f(\mathbf{x})}{\partial x_1 x_2} & \ldots &  \frac{\partial^2 f(\mathbf{x})}{\partial x_1 x_n}\\
 \frac{\partial^2 f(\mathbf{x})}{\partial x_1 x_2} & \frac{\partial^2 f(\mathbf{x})}{\partial {x_2}^2} & \ldots & \vdots \\
 \vdots & \vdots & \ddots & \vdots \\
 \frac{\partial^2 f(\mathbf{x})}{\partial x_1 x_n} & \frac{\partial^2 f(\mathbf{x})}{\partial x_2 x_n} & \ldots & \frac{\partial^2 f(\mathbf{x})}{\partial x_n^2}
@@ -137,7 +140,7 @@ A point $\mathbf{x}^\star$ at which the gradient vanishes is a minimizer if and 
 $$
 \nabla^2 f(\mathbf{x})|_{\mathbf{x}^\star} \succ 0\,.
 $$
-So, for the quadratic problem, $x\star$ is the unique minimizer iff $P\succ 0$. This means that along every direction $\mathbf{v}\in \mathbb{R}^n$ to project $\mathbf{x}$, the problem reduces to a one-dimensional quadratic function with a positive second-order constant:
+So, for the quadratic problem, $x^\star$ is the unique minimizer iff $P\succ 0$. This means that along every direction $\mathbf{v}\in \mathbb{R}^n$ to project $\mathbf{x}$, the problem reduces to a one-dimensional quadratic function with a positive second-order constant:
 $$
 x_v = \mathbf{v}^\top \mathbf{x}\\
 f'(x_v) = x_v (\mathbf{v}^\top P \mathbf{v}) x_v + (\mathbf{v}^\top \mathbf{q})x_v + r\,,
@@ -150,7 +153,7 @@ If $P\succ 0$, the quadratic system is a *convect* function with a single minimi
 
 Complete the code for solving the $n$-D quadratic system. Use it to find the minimum of
 $$
-....
+f(\mathbf{x}) = \mathbf{x}^\top\begin{bmatrix}4 & 1 \\ 1 & 2\end{bmatrix}\mathbf{x} + \begin{bmatrix}3 \\1\end{bmatrix}^\top\mathbf{x} + 12\,.
 $$
 
 ```python
@@ -161,13 +164,13 @@ def solve_nd_quadratic(P, q, r=0):
     (P is not positive-definite)
 
     Inputs:
-        - Q, q, r: the terms of the nD quadratic system
+        - P, q, r: the terms of the nD quadratic system
 
     Output:
         - xstar: the minimizer, an (n x 1) vector
     """
     assert np.all(np.linalg.eigvalsh(P) > 0)
-    return - np.linalg.solve(P, q)
+    return ...  # to complete
 ```
 
 **Question 2**
@@ -180,13 +183,13 @@ with $c>0$. Write this in the standard form of a quadratic system and show that 
 
 ## Time and memory complexity of exact solution
 
-The exact solution for convex quadratic system hinges on solving a $n\times n$ linear system. Conventional solvers for linear systems have a time complexity of $\mathcal{O}(n^3)$. This is doable for problems of moderate size ($n<1000$), but becomes infeasible for large-scale problems.
+The exact solution for convex quadratic system hinges on solving a $n\times n$ linear system. Conventional solvers for linear systems have a time complexity of $\mathcal{O}(n^3)$. This is doable for problems of moderate size ($n<1000$), but becomes infeasible for large-scale problems (on a standard computer).
 
-Storing an $n\times n$ matrix also has a memory requirement of $\mathcal{O}(n^2)$. When $n$ is too large, this cannot fit in main memory. In the remainder of this chapter, we will consider the case when $P$ is too large to work with, while matrix-vector products $P\mathbf{x}$ can be computed. Some examples of when such settings occur:
+Storing an $n\times n$ matrix also has a memory requirement of $\mathcal{O}(n^2)$. When $n$ is too large, this cannot fit in main memory. In the remainder of this chapter, we will consider the case when $P$ is too large to work with, while matrix-vector products $P\mathbf{x}$ *can* be computed. Some examples of when such settings occur:
 - $P=B^\top B$, with $B\in \mathbb{R}^{n\times p}$, with $p\ll n$.
 - $P$ is a very sparse matrix.
 - $P$ has a special structure so that $P\mathbf{x}$ can be computed on the fly, e.g. $P_{ij}=i^2j^3$.
-- $P$ is loaded an processed as different blocks.
+- $P$ is a sparse block matrix (blocks can be loaded and processed independently).
 
 ## Descent methods
 
@@ -194,7 +197,7 @@ Instead of computing the solution of a convex quadratic system in one step, we w
 $$
 \mathbf{x}^{(k+1)} = \mathbf{x}^{(k)} +t^{(k)}\Delta \mathbf{x}^{(k)}\,,
 $$
-with $t^{(k)}\geq 0$ called the *step size* (in machine learning often called *learning rate*)and $\Delta \mathbf{x}^{(k)}$ called the *search direction*. Proper descent methods have that
+with $t^{(k)}\geq 0$ called the *step size* (in machine learning often called *learning rate*) and $\Delta \mathbf{x}^{(k)}$ called the *search direction*. Proper descent methods have that
 $$
 f(\mathbf{x}^{(k+1)}) < f(\mathbf{x}^{(k)})\,,
 $$
@@ -203,7 +206,7 @@ $$
 (\Delta \mathbf{x}^{(k)})^\top \nabla f(\mathbf{x}) < 0\,.
 $$
 
-> figure!
+![Descent and ascent step.](Figures/descent_step.png)
 
 ### General descent algorithm
 
@@ -244,18 +247,18 @@ Complete the code for the exact line search for quadratic systems.
 ```python
 def quadratic_exact_line_search(P, q, Dx, x):
     """
-    Find the exact stepsize that minimized a quadratic system in
+    Find the exact step size that minimized a quadratic system in
     a given point x for a given search direction Dx
 
     Inputs:
-        - Q, q: the terms of the nD quadratic system
+        - P, q: the terms of the nD quadratic system
         - x: starting point
         - Dx: search direction
 
     Output:
-        - t: optimal stepsize
+        - t: optimal step size
     """
-    t = ...
+    t = ...  # to complete
     return t
 ```
 
@@ -329,7 +332,7 @@ $$
 $$
 with $c=1-\frac{\lambda_1}{\lambda_n}<1$. The quantity $\kappa=\frac{\lambda_n}{\lambda_1}$ is called the *condition number* and largely determines the convergence. We observe:
 - The quality of the initial guess ($f(\mathbf{x}^{(k)}) - f(\mathbf{x}^\star$) has only a logarithmic impact on the number of steps required.
-- Only a few extra steps are needed to decrease $\epsilon$ with one order or magnitute.
+- Only a few extra steps are needed to decrease $\epsilon$ with one order of magnitude.
 - If the condition number is large, then $\log(1/c)\approx 1/\kappa$. Large condition numbers require more steps.
 
 [![Illustration of the convergence bounds for different condition numbers.](Figures/convergence_bound.png)]()
@@ -389,10 +392,12 @@ with $K^{-1}$ an inverse kernel (or covariance matrix) and $C$ a tuning hyperpar
 - a regularization term to ensure smoothness of the solution.
 The parameter $C$ determines the trade-off between the two terms.
 
-The problem can written purely in matrix notation by using the $(m\times n)$ bookkeeping matrix $R$, which contains for every row UITWERKEN
+The problem can written purely in matrix notation by using the $(m\times n)$ bookkeeping matrix $R$, which contains for every row  TODO: uitwerken
 $$
 \min_\mathbf{x}\, \frac{1}{2}(\mathbf{y}-R\mathbf{x})^\top(\mathbf{y}-R\mathbf{x}) + \frac{C}{2} \mathbf{x}^\top K^{-1}\mathbf{x}\,,
 $$
+
+![](Figures/signal.png)
 
 **assignments**
 1. Write the minimization problem in the standard form.

@@ -1,0 +1,6 @@
+*.pyc
+results/*
+__pycache__
+.DS_Store
+*.pdf
+*.png

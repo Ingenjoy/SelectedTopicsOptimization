@@ -46,13 +46,10 @@ This course consists of three main parts:
     - the barrier method
   - *application*: maximum flow problems
 4. **Project continuous optimization**: protein oligiomerization by minimizing the Gibbs free energy
-5. **Dynamic programming**
-  - main idea: counting and Fibonacci sequence
-  - sequence alignment
-  - RNA fold prediction
-  - Bellman equation?
-  - *application*: something cool
-6. **Bayesian networks**: MAP estimation
+5. **Optimal transport**
+6. **Minimum spanning trees**
+  - + introduction to time complexities
+  - *application*: phylogenetic tree reconstruction
 7. **Shortest path algorithms**
   - greedy
   - Dijkstra's algorithm
@@ -67,12 +64,13 @@ This course consists of three main parts:
     - greedy
     - dynamic programming
     - branch and bound
+  - longest common subsequence: golfing contest
 10. **Bio-inspired optimization**
   - hill climbing?
   - simulated annealing
   - genetic algorithms
   - ...
-  - *application*: finding anti-microbibial peptides
+  - *application*: Ising models + antimicrobial peptide optimization?
 11. **Learning and optimization**
   - Bayesian optimization
   - Reinforcement Learning

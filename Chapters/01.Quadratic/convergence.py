@@ -1,6 +1,6 @@
 """
 Created on Friday 25 August 2017
-Last update: Saturday 26 August 2017
+Last update: Tuesday 26 December 2017
 
 @author: Michiel Stock
 michielfmstock@gmail.com
@@ -9,9 +9,10 @@ Some functions to illustrate the convergence of the optimization algorithms
 for quadratic systems
 """
 
-from sys import path
-path.append('../../Scripts')
-from plotting import plt, colors_list
+import sys
+sys.path.append('helpers/')
+from colors import colors_list
+import matplotlib.pyplot as plt
 import numpy as np
 #import seaborn as sns
 #sns.set_style('white')
@@ -20,6 +21,7 @@ def gd_error_decomposition(eigenvalues=[0.1, 1.5, 1.6, 1.8, 2],
                     x0=np.ones((5, 1)), n_steps=50, t='optimal', ax=None,
                     cumulative=True):
     """
+    #FIX: docstring
     short description
 
     Inputs:
@@ -64,6 +66,7 @@ def gd_error_decomposition(eigenvalues=[0.1, 1.5, 1.6, 1.8, 2],
 def gd_convergence_and_bound(eigenvalues=[0.1, 1.5, 1.6, 1.8, 2], n_steps=50,
                         t='optimal', x0=np.ones((5, 1))):
     # condition number
+    #FIX: docstring
     kappa = max(eigenvalues) / min(eigenvalues)
     c = 1 - 1/kappa
     error = gd_error_decomposition(eigenvalues=eigenvalues, n_steps=n_steps,
@@ -87,7 +90,7 @@ if __name__ == '__main__':
     gd_error_decomposition(ax=ax1, n_steps=n_steps, cumulative=False)
     ax1.set_title('Error of gradient descent\n(individual eigencomponents)')
     ax1.loglog()
-    fig.savefig('Figures/convergence_decomposition.{}'.format(format))
+    fig.savefig('Chapters/01.Quadratic/Figures/convergence_decomposition.{}'.format(format))
 
 
     # error vs bound
@@ -111,4 +114,6 @@ if __name__ == '__main__':
     ax.set_ylabel(r'$f(\mathbf{x}^{(k)})-f(\mathbf{x}^\star)$')
     ax.set_xlabel(r'$k+1$')
 
-    fig.savefig('Figures/convergence_bound.{}'.format(format))
+    fig.savefig('Chapters/01.Quadratic/Figures/convergence_bound.{}'.format(format))
+
+    plt.close('all')

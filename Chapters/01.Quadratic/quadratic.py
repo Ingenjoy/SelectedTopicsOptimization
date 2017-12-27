@@ -31,7 +31,7 @@ def solve_nd_quadratic(P, q, r=0):
     (P is not positive-definite)
 
     Inputs:
-        - Q, q, r: the terms of the nD quadratic system
+        - P, q, r: the terms of the nD quadratic system
 
     Output:
         - xstar: the minimizer, an (n x 1) vector
@@ -41,16 +41,16 @@ def solve_nd_quadratic(P, q, r=0):
 
 def quadratic_exact_line_search(P, q, Dx, x):
     """
-    Find the exact stepsize that minimized a quadratic system in
+    Find the exact step size that minimized a quadratic system in
     a given point x for a given search direction Dx
 
     Inputs:
-        - Q, q: the terms of the nD quadratic system
+        - P, q: the terms of the nD quadratic system
         - x: starting point
         - Dx: search direction
 
     Output:
-        - t: optimal stepsize
+        - t: optimal step size
     """
     DxTPx = np.sum(Dx.T @ P @ x)
     DxTq = np.sum(Dx * q)
@@ -61,7 +61,7 @@ def gradient_descent_quadratic(P, q, x0, epsilon=1e-3, trace=False):
     Gradient descent for quadratic systems
 
     Inputs:
-        - Q, q: the terms of the nD quadratic system
+        - P, q: the terms of the nD quadratic system
         - x0: starting point
         - trace: (bool) store the path that is followed?
 
@@ -89,7 +89,7 @@ def gradient_descent_quadratic_momentum(P, q, x0, epsilon=1e-3, trace=False):
     Gradient descent for quadratic systems with momentum
 
     Inputs:
-        - Q, q: the terms of the nD quadratic system
+        - P, q: the terms of the nD quadratic system
         - x0: starting point
         - trace: (bool) store the path that is followed?
 
