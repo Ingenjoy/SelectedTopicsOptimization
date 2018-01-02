@@ -57,7 +57,6 @@ def solve_1d_quadratic(p, q, r=0):
     return ...
 ```
 
-
 ## Towards $n$-dimensional quadratic systems
 
 Let directly move from the one-dimensional case to the $n$-dimensional case. We will use vector notation
@@ -92,7 +91,7 @@ $$
        \frac{\partial f(\mathbf{x}) }{\partial x_1} \\ \vdots \\ \frac{\partial f(\mathbf{x}) }{\partial x_n}
      \end{bmatrix}\,.
 $$
-From now on, we will drop the subscript in the gradient when clear from context. For those not familiar to vector calculus, the most useful rules are given below.
+From now on, we will drop the subscript in the gradient when clear from context. For those not familiar to vector calculus, the most useful rules are given below. Here, $a, b$ and $c$ are scalars, $f$ and $g$ are arbitrary differentiable functions and $\mathbf{b}$ is a vector.
 
 | rule | example     |
 | :------------- | :------------- |

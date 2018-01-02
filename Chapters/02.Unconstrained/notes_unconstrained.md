@@ -8,7 +8,7 @@ $$
 $$
 in which $f$ is convex. Convex optimization problems are well understood. Their most attractive property is that when a minimizer exists, the minimizer is the unique global minimizer.
 
-Most convex optimization problems do not have a closed-from solution, with the quadratic problems as a notable exception. We will hence again have to resort to descent methods to find an (arbitrary accurate) approximate solution.
+Most convex optimization problems do not have a closed-from solution, with the quadratic problems of the previous chapters as a notable exception. We will hence again have to resort to descent methods to find an (arbitrary accurate) approximate solution.
 
 ## Convex sets and functions
 
@@ -21,7 +21,7 @@ Most convex optimization problems do not have a closed-from solution, with the q
 > \theta x + (1 − \theta)x' \in \mathcal{C}\,.
 > $$
 
-Figure: some convex and non-convex sets #TODO
+![Some convex (A & B) and non-convex sets (B & D).](Figures/convex_sets.png)
 
 ### Convex functions
 
@@ -31,12 +31,12 @@ Figure: some convex and non-convex sets #TODO
 > - dom($f$) is convex
 > - for any $\mathbf{x}, \mathbf{x}' \in \text{dom}(f)$ and any $\theta \in [0, 1]$, it holds that
 > $$
-> f(\theta \mathbf{x} + (1-\theta)\mathbf{x}) \leq\theta f(\mathbf{x}) +(1-\theta)f(\mathbf{x})\,.
+> f(\theta \mathbf{x} + (1-\theta)\mathbf{x}') \leq\theta f(\mathbf{x}) +(1-\theta)f(\mathbf{x}')\,.
 > $$
 
-examples #TODO
+![](Figures/convex_function_illustration.png)
 
-Figure  #TODO
+![Some convex (A & C) and non-convex functions (B).](Figures/convex_functions.png)
 
 From the definition, it follows that:
 - If the function is differentiable, then $f(\mathbf{x})\geq f(\mathbf{x}')+\nabla f(\mathbf{x}')(\mathbf{x}-\mathbf{x}')$ for all $\mathbf{x}$ and $\mathbf{x}' \in \text{dom}(f)$.
