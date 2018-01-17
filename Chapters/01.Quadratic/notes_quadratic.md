@@ -366,7 +366,7 @@ Connection to machine learning...
 > **until** stopping criterion is reached.
 
 
-> implementation
+> implementation  #TODO: add implementation momentum
 
 ### Illustration
 
@@ -374,7 +374,7 @@ Connection to machine learning...
 
 ## Conjugated gradient descent
 
-Might add something here, remove in time constraint
+Might add something here, remove in time constraint  #TODO: add very brief explanation
 
 ## Exercise: signal recovery
 
@@ -409,5 +409,5 @@ $$
 
 ## References
 
-- Boyd, S. and Vandenberghe, L. '*[Convex Optimization](https://web.stanford.edu/~boyd/cvxbook/bv_cvxbook.pdf))*'. Cambridge University Press (2004)
+- Boyd, S. and Vandenberghe, L., '*[Convex Optimization](https://web.stanford.edu/~boyd/cvxbook/bv_cvxbook.pdf)*'. Cambridge University Press (2004)
 - Goh, G. '[*Why Momentum really works*](https://distill.pub/2017/momentum/)' (2017)

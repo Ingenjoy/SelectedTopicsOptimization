@@ -90,6 +90,7 @@ if __name__ == '__main__':
     gd_error_decomposition(ax=ax1, n_steps=n_steps, cumulative=False)
     ax1.set_title('Error of gradient descent\n(individual eigencomponents)')
     ax1.loglog()
+    fig.tight_layout()
     fig.savefig('Chapters/01.Quadratic/Figures/convergence_decomposition.{}'.format(format))
 
 
@@ -113,7 +114,7 @@ if __name__ == '__main__':
     ax.legend(loc=0)
     ax.set_ylabel(r'$f(\mathbf{x}^{(k)})-f(\mathbf{x}^\star)$')
     ax.set_xlabel(r'$k+1$')
-
+    fig.tight_layout()
     fig.savefig('Chapters/01.Quadratic/Figures/convergence_bound.{}'.format(format))
 
     plt.close('all')

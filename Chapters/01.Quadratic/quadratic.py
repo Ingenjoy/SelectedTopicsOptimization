@@ -84,6 +84,7 @@ def gradient_descent_quadratic(P, q, x0, epsilon=1e-3, trace=False):
     if trace: return x, x_steps, f_steps
     else: return x
 
+#TODO: implement momentum updates
 def gradient_descent_quadratic_momentum(P, q, x0, epsilon=1e-3, trace=False):
     """
     Gradient descent for quadratic systems with momentum

@@ -69,8 +69,9 @@ If the first- and second order derivatives exists, an strongly $m$-convex satisf
 
 If a function is $m$-strongly convex, this also implies that there exists an $M>m$ such that
 $$
-\nabla^2 \mathbf{x} \preceq MI\,.
+\nabla^2 f(\mathbf{x}) \preceq MI\,.
 $$
+TODO: check!
 
 ## Minimizing convex functions
 
@@ -550,7 +551,7 @@ $$
 \mathcal{L}(\mathbf{w})=-\sum_{i=1}^n[y_i\log(\sigma(\mathbf{w}^\intercal\mathbf{x}_i))+(1-y_i)\log(1-\sigma(\mathbf{w}^\intercal\mathbf{x}_i))] +\lambda \mathbf{w}^\intercal\mathbf{w}\,.
 $$
 
-Here, the first part is the cross entropy, which penalizes disagreement between the prediction $f(\mathbf{x}_i)$ and the true label $y_i$, while the second term penalizes complex models in which $\mathbf{w}$ has a large norm. The trade-off between these two components is controlled by $\lambda$, a hyperparameters. In the course *Predictive modelling* it is explained that by carefully tuning this parameter one can obtain an improved performance. **In this project we will study the influence $\lambda$ on the convergence of the optimization algorithms.**
+Here, the first part is the cross entropy, which penalizes disagreement between the prediction $f(\mathbf{x}_i)$ and the true label $y_i$, while the second term penalizes complex models in which $\mathbf{w}$ has a large norm. The trade-off between these two components is controlled by $\lambda$, a hyperparameters. In the course *Predictive modelling* of Willem Waegeman it is explained that by carefully tuning this parameter one can obtain an improved performance. **In this project we will study the influence $\lambda$ on the convergence of the optimization algorithms.**
 
 Below is a toy example in two dimensions illustrating the loss function.
 
