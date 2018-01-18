@@ -4,7 +4,11 @@
 
 Quadratic systems are important:
 - Systems close to their maximum can closely be approximated by a quadratic system, studying the minimization of quadratic systems can teach us about minimization of general convex functions.
-- Quadratic systems are important in their own right! Many statistical models, graph problems, molecular models etc. can be formulated as quadratic systems!
+- Quadratic systems are important in their own right! Many statistical models, graph problems, molecular models etc. can be formulated as quadratic systems:
+  - least-square minimization problems
+  - inference using multivariate normal distributions
+  - molecular modelling using spring-mass systems
+  - signal recovery
 
 ## Warming up: one-dimensional quadratic systems
 
@@ -229,11 +233,12 @@ The step size can be chosen in several ways:
 - **exact**: $t=\arg\min_{s\geq 0}\, f(\mathbf{x}+s\Delta \mathbf{x})$.
 - **approximate**: choose a $t$ that only approximately minimizes $f(\mathbf{x}+s\Delta \mathbf{x})$.
 - **decaying**: choose some decaying series, e.g. $t = \frac{1}{\alpha+k}$.
-- **constant**: a constant step size (often done in practice).
+- **constant**: a constant step size (often works fine in practice).
 
 For quadratic systems we can compute the exact step size, as this amounts to a simple one-dimensional quadratic problem:
 $$
-t=\arg\min_{s\geq 0}\, \frac{1}{2}(\mathbf{x}+s\Delta \mathbf{x})^\top P (\mathbf{x}+s\Delta \mathbf{x}) + (\mathbf{x}+s\Delta \mathbf{x})^\top \mathbf{q} + r
+t=\arg\min_{s\geq 0}\, \frac{1}{2}(\mathbf{x}+s\Delta \mathbf{x})^\top P (\mathbf{x}+s\Delta \mathbf{x}) + (\mathbf{x}+s\Delta \mathbf{x})^\top \mathbf{q} + r\\
+ =\arg\min_{s\geq 0}\, \frac{1}{2}s^2(\Delta\mathbf{x})^\top P \Delta\mathbf{x} + s((\Delta \mathbf{x})^\top P\mathbf{x}+(\Delta \mathbf{x})^\top\mathbf{q}) +\text{constant}
 $$
 $$
 t = \frac{-(\Delta\mathbf{x})^\top P \mathbf{x}-(\Delta\mathbf{x})^\top\mathbf{q}}{(\Delta\mathbf{x})^\top P \Delta\mathbf{x}}
@@ -287,11 +292,42 @@ $$
 >
 > **until** stopping criterion is reached.
 
+**Assignment 4**
+
+Complete the code for the gradient descent algorithm. Solve the previous quadratic system and compare with the analytic solution. Start at $\mathbf{x}^{(0)}=[0,0]^\top$. How many steps do you need for the algorithm to converge? This can be obtained by setting `trace=True`.
+
+```python
+def gradient_descent_quadratic(P, q, x0, epsilon=1e-4, trace=False):
+    """
+    Gradient descent for quadratic systems
+
+    Inputs:
+        - P, q: the terms of the nD quadratic system
+        - x0: starting point
+        - trace: (bool) count number of steps?
+
+    Outputs:
+        - xstar: the found minimum
+        - n_steps: number of steps before algorithm terminates (if trace=True)
+    """
+    x = x0  # initial value
+    n_steps = 0
+    while True:
+        ...  # compute GD direction
+        if ...
+            break
+        t = ...  # step size
+        ...  # perform step
+        n_steps += 1
+    if trace: return x, n_steps
+    else: return x
+```
+
 ### Illustration
 
 We illustrate the gradient descent algorithm for the following system:
 $$
-\min_\mathbf{x}\, \frac{1}{2} (x_1^2 + \gamma x_2^2)\,
+\min_{x_1,x_2}\, \frac{1}{2} (x_1^2 + \gamma x_2^2)\,
 $$
 with $\gamma$ set to 10.
 
@@ -334,7 +370,7 @@ with $c=1-\frac{\lambda_1}{\lambda_n}<1$. The quantity $\kappa=\frac{\lambda_n}{
 - Only a few extra steps are needed to decrease $\epsilon$ with one order of magnitude.
 - If the condition number is large, then $\log(1/c)\approx 1/\kappa$. Large condition numbers require more steps.
 
-[![Illustration of the convergence bounds for different condition numbers.](Figures/convergence_bound.png)]()
+[Illustration of the convergence bounds for different condition numbers.](Figures/convergence_bound.png)]
 
 ## Gradient descent with momentum
 
@@ -345,12 +381,10 @@ Even on simple quadratic problems as discussed here, gradient descent often take
 ### Steps with memory
 
 $$
-\Delta \mathbf{x}^{(k+1)} = \beta \Delta \mathbf{x}^{(k)} - \alpha\nabla f(\mathbf{x}^{(k)})\\
+\Delta \mathbf{x}^{(k+1)} = \beta \Delta \mathbf{x}^{(k)} - (1-\beta)\nabla f(\mathbf{x}^{(k)})\\
 \mathbf{x}^{(k+1)} = \mathbf{x}^{(k)} + t^{(k)}\Delta \mathbf{x}^{(k+1)}\,,
 $$
-with $\alpha,\beta\in[0,1]$.
-
-Connection to machine learning...
+with $\beta\in[0,1]$.
 
 ### Gradient descent algorithm with momentum
 
@@ -359,14 +393,54 @@ Connection to machine learning...
 > **initialize** $\Delta \mathbf{x}= \mathbf{0}$
 >
 > **repeat**
->> 1. $\Delta \mathbf{x} := \beta \Delta \mathbf{x}- \alpha\nabla f(\mathbf{x})$
+>> 1. $\Delta \mathbf{x} := \beta \Delta \mathbf{x}- (1-\beta)\nabla f(\mathbf{x})$ ($\nabla f(\mathbf{x}) = P\mathbf{x}$)
 >> 2. *Line search*. Choose optimal $t>0$.
 >> 3. *Update*. $\mathbf{x}:=\mathbf{x} + t \Delta \mathbf{x}$.
 >
 > **until** stopping criterion is reached.
 
+**Assignment 5**
 
-> implementation  #TODO: add implementation momentum
+Complete the code for gradient descent with momentum. Use it find the solution for the above system, also starting at $\mathbf{x}=[0,0]^\top$. Set $\beta=0.1$. Do you see an improvement?
+
+Compare both algorithms for minimizing system:
+
+$$
+f(\mathbf{x}) = \frac{1}{2}\mathbf{x}^\top\begin{bmatrix}500 & 2 \\ 2 & 1\end{bmatrix}\mathbf{x} + \begin{bmatrix}-40 \\100 \end{bmatrix}^\top\mathbf{x} -5\,,
+$$
+
+at $\mathbf{x}_0= [0, 0, 0]^\top$. Does momentum increase the speed now?
+
+```python
+def gradient_descent_quadratic_momentum(P, q, x0,
+                                        beta=0.2, epsilon=1e-4,
+                                        trace=False):
+    """
+    Gradient descent for quadratic systems with momentum
+
+    Inputs:
+        - P, q: the terms of the nD quadratic system
+        - x0: starting point
+        - beta: momentum parameter (default set to 0.2)
+        - trace: (bool) count number of steps?
+
+    Outputs:
+        - xstar: the found minimum
+        - n_steps: number of steps before algorithm terminates (if trace=True)
+    """
+    x = x0  # initial value
+    n_steps = 0
+    ...  # init Dx
+    while True:
+        ...  # compute gradient and search direction
+        if ...  # complete
+            break
+        t = ...  # optimal step size
+        ...  # descent step
+        n_steps += 1
+    if trace: return x, n_steps
+    else: return x
+```
 
 ### Illustration
 
@@ -374,7 +448,15 @@ Connection to machine learning...
 
 ## Conjugated gradient descent
 
-Might add something here, remove in time constraint  #TODO: add very brief explanation
+Conjugated gradient descent is an important method for approximately minimizing quadratic systems. It converges much faster than simple gradient descent and does not have a hyperparameter as with momentum updates.
+
+The main idea is that in every step the current search direction and all previous search directions are conjugate with respect to $P$, i.e.
+
+$$
+\Delta (\mathbf{x}^{(k)})^\top  P\Delta\mathbf{x}^{(l)}=0 \quad\forall  k> l\,.
+$$
+
+The interested reader is referred to '[An Introduction to the Conjugate Gradient Method Without the Agonizing Pain](http://www.cs.cmu.edu/~quake-papers/painless-conjugate-gradient.pdf)' by Jonathan Richard Shewchuk for an in-depth overview.
 
 ## Exercise: signal recovery
 
@@ -384,28 +466,26 @@ If $m<n$, then we do not have a single measurement for every element of $\mathbf
 
 If we assume that the different values of $\mathbf{x}$ are on a line, then we can make a *smoothness* assumption: elements of $\mathbf{x}$ for which the indices are close, likely will have similar values. This idea is expressed in the follow minimization problem:
 $$
-\min_\mathbf{x}\, \frac{1}{2}\sum_{j=1}^m(y_j-{x}_{i_j})^2 + \frac{C}{2} \mathbf{x}^\top K^{-1}\mathbf{x}\,,
+\min_\mathbf{x}\, \frac{1}{2}\sum_{(i_j, y_j)\in \mathcal{O}}(y_j-{x}_{i_j})^2 + \frac{C}{2} \mathbf{x}^\top K^{-1}\mathbf{x}\,,
 $$
 with $K^{-1}$ an inverse kernel (or covariance matrix) and $C$ a tuning hyperparameter. The matrix $K^{-1}$ encodes how the different elements of $\mathbf{x}$ are related, constructing such a matrix is a topic in machine learning (see course Predictive Modelling). For our purposes, we have chosen this matrix as such that elements should have values closes to each other. Hence, the minimization problem has two terms:
 - a data fitting term to make sure that the recovered vector $\mathbf{x}$ matches the observations,
 - a regularization term to ensure smoothness of the solution.
 The parameter $C$ determines the trade-off between the two terms.
 
-The problem can written purely in matrix notation by using the $(m\times n)$ bookkeeping matrix $R$, which contains for every row  TODO: uitwerken
+The problem can written purely in matrix notation by using the $(m\times n)$ bookkeeping matrix $R$ for which $R_{ij}=1$ if the the $j$-th element of $\mathbf{y}$ corresponds to the $i$-th element of $\mathbf{x}$ and $R_{ij}=1$ otherwise. Hence, the compact matrix form is:
+
 $$
-\min_\mathbf{x}\, \frac{1}{2}(\mathbf{y}-R\mathbf{x})^\top(\mathbf{y}-R\mathbf{x}) + \frac{C}{2} \mathbf{x}^\top K^{-1}\mathbf{x}\,,
+\min_\mathbf{x}\, \frac{1}{2}(\mathbf{y}-R\mathbf{x})^\top(\mathbf{y}-R\mathbf{x}) + \frac{C}{2} \mathbf{x}^\top K^{-1}\mathbf{x}\,.
 $$
 
 ![](Figures/signal.png)
 
 **assignments**
 1. Write the minimization problem in the standard form.
-2. Use the function `generate_noisy_measurements` to generate $m=100$ noisy measurements (standard deviation is 1, default) of a vector with dimensionality $n=1000$. Use the functions `make_connection_matrix` and `make_bookkeeping` to generate the associated $K^{-1}$ and $L$.
+2. Use the function `generate_noisy_measurements` to generate $m=100$ noisy measurements (standard deviation is 1, default) of a vector with dimensionality $n=1000$. Use the functions `make_connection_matrix` and `make_bookkeeping` to generate the associated matrices $K^{-1}$ and $L$. All are implemented in the module `signal_recovery`.
 3. Use $C=1$, generate $\mathbf{x}^\star$ using the closed-form solution, using gradient descent and gradient descent with momentum. How many steps do the two descent methods need to converge?
-4. Solve the system for values of $C=1\times 10^{-3}, 1\times 10^{-2}, \ldots,1\times 10^{2},1\times 10^{3}$. Make three different plots:
-    - The different $\mathbf{x}^\star$ visualized for different values of $C$.
-    - The convergence $f(\mathbf{x}^{(k)})-f(\mathbf{x}^\star)$ using gradient descent for different values of $C$.
-    - The convergence $f(\mathbf{x}^{(k)})-f(\mathbf{x}^\star)$ using gradient descent with momentum for different values of $C$.
+4. Solve the system for values of $C=1\times 10^{-3}, 1\times 10^{-2}, \ldots,1\times 10^{2},1\times 10^{3}$.  Use for $\beta=0, 0.1, 0.2,\ldots, 0.9$. Make a table of the number of steps needed to reach convergence for the different values of $C$ and $\beta$.
 
 ## References
 

@@ -82,8 +82,7 @@ def make_connection_matrix(n, gamma=gamma, reach=reach):
             kij = np.exp(-dsq / gamma**2)
             M[i,j] = kij
             M[j,i] = kij
-    M[:] = np.linalg.inv(M)
-    return M
+    return np.linalg.inv(M)
 
 def make_bookkeeping(I, n):
     """
