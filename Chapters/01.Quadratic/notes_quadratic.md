@@ -359,7 +359,7 @@ Here, we see that:
 3. The total convergence is determined by either the smallest or largest eigenvalue.
 4. Optimal value for fixed step size is $t=\frac{1}{\lambda_1+\lambda_n}$.
 
-![Illustration of eigendecomposition of the error during the iterations.](Figures/convergence_decomposition.png)
+![Illustration of eigen decomposition of the error during the iterations.](Figures/convergence_decomposition.png)
 
 Furthermore, it can be shown that if we use an exact linesearch for the step size, the error $f(\mathbf{x}^{(k)}) - f(\mathbf{x}^\star)\leq \epsilon$ we need fewer than
 $$
@@ -370,7 +370,7 @@ with $c=1-\frac{\lambda_1}{\lambda_n}<1$. The quantity $\kappa=\frac{\lambda_n}{
 - Only a few extra steps are needed to decrease $\epsilon$ with one order of magnitude.
 - If the condition number is large, then $\log(1/c)\approx 1/\kappa$. Large condition numbers require more steps.
 
-[Illustration of the convergence bounds for different condition numbers.](Figures/convergence_bound.png)]
+![Illustration of the convergence bounds for different condition numbers.](Figures/convergence_bound.png)]
 
 ## Gradient descent with momentum
 
@@ -481,11 +481,11 @@ $$
 
 ![](Figures/signal.png)
 
-**assignments**
+**Assignments**
 1. Write the minimization problem in the standard form.
 2. Use the function `generate_noisy_measurements` to generate $m=100$ noisy measurements (standard deviation is 1, default) of a vector with dimensionality $n=1000$. Use the functions `make_connection_matrix` and `make_bookkeeping` to generate the associated matrices $K^{-1}$ and $L$. All are implemented in the module `signal_recovery`.
-3. Use $C=1$, generate $\mathbf{x}^\star$ using the closed-form solution, using gradient descent and gradient descent with momentum. How many steps do the two descent methods need to converge?
-4. Solve the system for values of $C=1\times 10^{-3}, 1\times 10^{-2}, \ldots,1\times 10^{2},1\times 10^{3}$.  Use for $\beta=0, 0.1, 0.2,\ldots, 0.9$. Make a table of the number of steps needed to reach convergence for the different values of $C$ and $\beta$.
+3. Use $C=1$, generate $\mathbf{x}^\star$ using the closed-form solution, using gradient descent and gradient descent with momentum. How many steps do the two descent methods need to converge? Use a vector of zeros as the initial point.
+4. Minimize the system for values of $C=1\times 10^{-2}, 1\times 10^{-1}, 1, 10, 100$.  Use for momentum $\beta=0, 0.1, 0.2,\ldots, 0.9$. Make a table of the number of steps needed to reach convergence for the different values of $C$ and $\beta$. Make a plot with the different $\mathbf{x^\star}$ for different values of $C$. Note that the result should be (nearly) the same whether you use momentum or not, only the number of steps will differ.
 
 ## References
 
