@@ -3,6 +3,7 @@
 ## Motivation
 
 Quadratic systems are important:
+
 - Systems close to their maximum can closely be approximated by a quadratic system, studying the minimization of quadratic systems can teach us about minimization of general convex functions.
 - Quadratic systems are important in their own right! Many statistical models, graph problems, molecular models etc. can be formulated as quadratic systems:
   - least-square minimization problems
@@ -48,8 +49,8 @@ $$
 ```python
 def solve_1d_quadratic(p, q, r=0):
     """
-    Finds the minimizer of an 1-D quadratic system, raises an error if there is
-    no minimizer (p<0)
+    Finds the minimizer of an 1-D quadratic system,
+    raises an error if there is no minimizer (p<0)
 
     Inputs:
         - p, q, r: the coefficients of the 1D quadratic system
@@ -101,7 +102,7 @@ From now on, we will drop the subscript in the gradient when clear from context.
 | :------------- | :------------- |
 | linearity      | $\nabla_\mathbf{x}(a f(\mathbf{x}) +b g(\mathbf{x})) = a\nabla_\mathbf{x} f(\mathbf{x}) +b\nabla_\mathbf{x} g(\mathbf{x})$       |
 | product rule | $\nabla_\mathbf{x}(f(\mathbf{x}) g(\mathbf{x})) = g(\mathbf{x})\nabla_\mathbf{x} f(\mathbf{x}) + f(\mathbf{x})\nabla_\mathbf{x} g(\mathbf{x})$|
-|chain rule|$\nabla_\mathbf{x} f(g(\mathbf{x})) = \left.\frac{\partial f}{\partial g}\right|_{g(\mathbf{x})}\nabla_\mathbf{x} f(\mathbf{x})$|
+|chain rule| $\nabla_{\mathbf{x}} f(g(\mathbf{x})) = \frac{\partial f}{\partial g}\mid_{g(\mathbf{x})} \nabla_\mathbf{x} f(\mathbf{x})$|
 | quadratic term | $\nabla_\mathbf{x} \left(\frac{1}{2}\mathbf{x}^\top A\mathbf{x}\right)= A\mathbf{x}$|
 |linear term| $\nabla_\mathbf{x} (\mathbf{b}^\top\mathbf{x})=\mathbf{b}$|
 |constant term |$\nabla_\mathbf{x} c = 0$ |
@@ -115,7 +116,7 @@ $$
 \mathbf{x}^\star=-P^{-1}\mathbf{q}\,.
 $$
 
-> Even though the solution contains the inverse of a matrix, it is seldom a good idea to compute a matrix inverse. Instead, use a solver for the linear system $A\mathbf{x}=\mathbf{b}$ (numerically stable).
+> *Even though the solution contains the inverse of a matrix, it is seldom a good idea to compute a matrix inverse. Instead, use a solver for the linear system $A\mathbf{x}=\mathbf{b}$ (numerically stable).*
 
 How do we know that $\mathbf{x}^\star$ is the minimizer of the quadratic system? For this we have to extend the concept of a second order derivative to $n$ dimensions. We define the *Hessian* as:
 $$
@@ -143,6 +144,7 @@ A point $\mathbf{x}^\star$ at which the gradient vanishes is a minimizer if and 
 $$
 \nabla^2 f(\mathbf{x})|_{\mathbf{x}^\star} \succ 0\,.
 $$
+
 So, for the quadratic problem, $x^\star$ is the unique minimizer iff $P\succ 0$. This means that along every direction $\mathbf{v}\in \mathbb{R}^n$ to project $\mathbf{x}$, the problem reduces to a one-dimensional quadratic function with a positive second-order constant:
 $$
 x_v = \mathbf{v}^\top \mathbf{x}\\
@@ -189,6 +191,7 @@ with $c>0$. Write this in the standard form of a quadratic system and show that 
 The exact solution for convex quadratic system hinges on solving a $n\times n$ linear system. Conventional solvers for linear systems have a time complexity of $\mathcal{O}(n^3)$. This is doable for problems of moderate size ($n<1000$), but becomes infeasible for large-scale problems (on a standard computer).
 
 Storing an $n\times n$ matrix also has a memory requirement of $\mathcal{O}(n^2)$. When $n$ is too large, this cannot fit in main memory. In the remainder of this chapter, we will consider the case when $P$ is too large to work with, while matrix-vector products $P\mathbf{x}$ *can* be computed. Some examples of when such settings occur:
+
 - $P=B^\top B$, with $B\in \mathbb{R}^{n\times p}$, with $p\ll n$.
 - $P$ is a very sparse matrix.
 - $P$ has a special structure so that $P\mathbf{x}$ can be computed on the fly, e.g. $P_{ij}=i^2j^3$.
@@ -230,6 +233,7 @@ $$
 $$
 
 The step size can be chosen in several ways:
+
 - **exact**: $t=\arg\min_{s\geq 0}\, f(\mathbf{x}+s\Delta \mathbf{x})$.
 - **approximate**: choose a $t$ that only approximately minimizes $f(\mathbf{x}+s\Delta \mathbf{x})$.
 - **decaying**: choose some decaying series, e.g. $t = \frac{1}{\alpha+k}$.
@@ -237,9 +241,14 @@ The step size can be chosen in several ways:
 
 For quadratic systems we can compute the exact step size, as this amounts to a simple one-dimensional quadratic problem:
 $$
-t=\arg\min_{s\geq 0}\, \frac{1}{2}(\mathbf{x}+s\Delta \mathbf{x})^\top P (\mathbf{x}+s\Delta \mathbf{x}) + (\mathbf{x}+s\Delta \mathbf{x})^\top \mathbf{q} + r\\
+t=\arg\min_{s\geq 0}\, \frac{1}{2}(\mathbf{x}+s\Delta \mathbf{x})^\top P (\mathbf{x}+s\Delta \mathbf{x}) + (\mathbf{x}+s\Delta \mathbf{x})^\top \mathbf{q} + r
+$$
+$$
  =\arg\min_{s\geq 0}\, \frac{1}{2}s^2(\Delta\mathbf{x})^\top P \Delta\mathbf{x} + s((\Delta \mathbf{x})^\top P\mathbf{x}+(\Delta \mathbf{x})^\top\mathbf{q}) +\text{constant}
 $$
+
+This can be solved as:
+
 $$
 t = \frac{-(\Delta\mathbf{x})^\top P \mathbf{x}-(\Delta\mathbf{x})^\top\mathbf{q}}{(\Delta\mathbf{x})^\top P \Delta\mathbf{x}}
 $$
@@ -308,7 +317,8 @@ def gradient_descent_quadratic(P, q, x0, epsilon=1e-4, trace=False):
 
     Outputs:
         - xstar: the found minimum
-        - n_steps: number of steps before algorithm terminates (if trace=True)
+        - n_steps: number of steps before algorithm terminates
+                  (if trace=True)
     """
     x = x0  # initial value
     n_steps = 0
@@ -340,6 +350,7 @@ $$
 P = U\Lambda U^\top\,,
 $$
 with
+
 - $\Lambda=\text{diag}(\lambda_1,\ldots,\lambda_n)$, a matrix with the eigenvalues on the diagonal (sorted from small to large).
 - $U = [\mathbf{u}_1, \ldots, \mathbf{u}_n]$, a matrix with the corresponding eigenvectors.
 
@@ -349,11 +360,15 @@ Consider the following linear transformation:
 $$
 \mathbf{z}^{(k)}= U^\top ( \mathbf{x}^{\star}-\mathbf{x}^{(k)})\,,
 $$
+
 which allows us to rewrite the error in closed-form:
+
 $$
 f(\mathbf{x}^{(k)}) - f(\mathbf{x}^\star) = \frac{1}{2}\sum_{i=1}^n (1-t\lambda_i)^{2k}\lambda_i[(\mathbf{U}_i)^\top(\mathbf{x}^{(0)}-\mathbf{x}^\star)]^2\,.
 $$
+
 Here, we see that:
+
 1. The error decomposes in independent terms in the eigenspace.
 2. The convergence of each term is determined by the *rate*: $|1-t\lambda_i|$. Convergence occurs as a geometric series.
 3. The total convergence is determined by either the smallest or largest eigenvalue.
@@ -366,6 +381,7 @@ $$
 \frac{\log((f(\mathbf{x}^{(k)}) - f(\mathbf{x}^\star))/\epsilon)}{\log(1/c)}\,,
 $$
 with $c=1-\frac{\lambda_1}{\lambda_n}<1$. The quantity $\kappa=\frac{\lambda_n}{\lambda_1}$ is called the *condition number* and largely determines the convergence. We observe:
+
 - The quality of the initial guess ($f(\mathbf{x}^{(k)}) - f(\mathbf{x}^\star$) has only a logarithmic impact on the number of steps required.
 - Only a few extra steps are needed to decrease $\epsilon$ with one order of magnitude.
 - If the condition number is large, then $\log(1/c)\approx 1/\kappa$. Large condition numbers require more steps.
@@ -381,7 +397,9 @@ Even on simple quadratic problems as discussed here, gradient descent often take
 ### Steps with memory
 
 $$
-\Delta \mathbf{x}^{(k+1)} = \beta \Delta \mathbf{x}^{(k)} - (1-\beta)\nabla f(\mathbf{x}^{(k)})\\
+\Delta \mathbf{x}^{(k+1)} = \beta \Delta \mathbf{x}^{(k)} - (1-\beta)\nabla f(\mathbf{x}^{(k)})
+$$
+$$
 \mathbf{x}^{(k+1)} = \mathbf{x}^{(k)} + t^{(k)}\Delta \mathbf{x}^{(k+1)}\,,
 $$
 with $\beta\in[0,1]$.
@@ -426,7 +444,8 @@ def gradient_descent_quadratic_momentum(P, q, x0,
 
     Outputs:
         - xstar: the found minimum
-        - n_steps: number of steps before algorithm terminates (if trace=True)
+        - n_steps: number of steps before algorithm terminates
+                  (if trace=True)
     """
     x = x0  # initial value
     n_steps = 0
@@ -482,6 +501,7 @@ $$
 ![](Figures/signal.png)
 
 **Assignments**
+
 1. Write the minimization problem in the standard form.
 2. Use the function `generate_noisy_measurements` to generate $m=100$ noisy measurements (standard deviation is 1, default) of a vector with dimensionality $n=1000$. Use the functions `make_connection_matrix` and `make_bookkeeping` to generate the associated matrices $K^{-1}$ and $L$. All are implemented in the module `signal_recovery`.
 3. Use $C=1$, generate $\mathbf{x}^\star$ using the closed-form solution, using gradient descent and gradient descent with momentum. How many steps do the two descent methods need to converge? Use a vector of zeros as the initial point.

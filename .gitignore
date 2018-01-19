@@ -3,3 +3,8 @@ results/*
 __pycache__
 .DS_Store
 *.pdf
+*.tex
+*.out
+*.log
+*.gz
+*.out
