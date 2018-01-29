@@ -14,8 +14,15 @@ import sympy as sp
 #from unconstrained import gradient_descent, newtons_method, coordinate_descent
 import matplotlib.pyplot as plt
 from sys import path
-path.append('../../helpers/')
-from plotting import plot_contour, add_path, blue, red, green, yellow, orange
+#path.append('../../helpers/')
+#from plotting import plot_contour, add_path, blue, red, green, yellow, orange
+
+blue = '#264653'
+green = '#2a9d8f'
+yellow = '#e9c46a'
+orange = '#f4a261'
+red = '#e76f51'
+black = '#50514F'
 
 # VISUALIZATION
 # -------------

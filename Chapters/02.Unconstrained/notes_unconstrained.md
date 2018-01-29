@@ -53,6 +53,8 @@ $$
 \varphi(\mathbb{E}[X]) \leq\mathbb{E}[\varphi(X)]\,.
 $$
 
+This implies for example that the square of an expected value of quantity is never greater than the expected square of that quantity.
+
 ### Strongly convex functions
 
 > **In words**: a function $f$ is called **strongly convex** if it is at least as convex as a quadratic function
@@ -214,7 +216,7 @@ We conclude:
 **Assignment 2**
 1. Complete the implementation of the gradient descent method.
 2. Plot the paths for the two toy problems.
-3. Analyze the convergence
+3. Analyze the convergence.
 
 ```python
 def gradient_descent(f, x0, grad_f, alpha=0.2, beta=0.7,
@@ -227,7 +229,7 @@ def gradient_descent(f, x0, grad_f, alpha=0.2, beta=0.7,
         - grad_f: gradient of the function to be minimized
         - alpha: parameter for btls
         - beta: parameter for btls
-        - nu: parameter to determine if the algortihm is convered
+        - nu: parameter to determine if the algorithm is converged
         - trace: (bool) store the path that is followed?
     Outputs:
         - xstar: the found minimum
@@ -296,7 +298,7 @@ Examples:
 **Normalized steepest descent direction**:
 
 $$
-\Delta x_\text{nsd} = \text{arg min} \{\nabla f(x)^T v \mid ||v||\leq 1 \}\,.
+\Delta x_\text{nsd} = \text{arg min} \{\nabla f(x)^T \mathbf{v} \mid ||\mathbf{v}||\leq 1 \}\,.
 $$
 
 **Unnormalized steepest descent direction**:
@@ -337,7 +339,7 @@ The stopping criterion is usually of the form $||\nabla f(\mathbf{x})||_2 \leq \
 **Assignment 3**
 1. Complete the implementation of the coordinate descent method.
 2. Plot the paths for the two toy problems.
-3. Analyze the convergence
+3. Analyze the convergence.
 
 ```python
 def coordinate_descent(f, x0, grad_f, alpha=0.2, beta=0.7, nu=1e-3, trace=False):
@@ -349,7 +351,7 @@ def coordinate_descent(f, x0, grad_f, alpha=0.2, beta=0.7, nu=1e-3, trace=False)
         - grad_f: gradient of the function to be minimized
         - alpha: parameter for btls
         - beta: parameter for btls
-        - nu: parameter to determine if the algortihm is convered
+        - nu: parameter to determine if the algorithm is converged
         - trace: (bool) store the path that is followed?
     Outputs:
         - xstar: the found minimum
@@ -470,7 +472,7 @@ def newtons_method(f, x0, grad_f, hess_f, alpha=0.3, beta=0.8, epsilon=1e-3, tra
         - hess_f: hessian matrix of the function to be minimized
         - alpha: parameter for btls
         - beta: parameter for btls
-        - nu: parameter to determine if the algortihm is convered
+        - nu: parameter to determine if the algorithm is converged
         - trace: (bool) store the path that is followed?
     Outputs:
         - xstar: the found minimum

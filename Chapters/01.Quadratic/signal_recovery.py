@@ -1,6 +1,6 @@
 """
 Created on Saturday 26 August 2017
-Last update: Thursday 18 January 2018
+Last update: Friday 26 January 2018
 
 @author: Michiel Stock
 michielfmstock@gmail.com
@@ -125,14 +125,14 @@ if __name__ == '__main__':
 
 
     y, I = generate_noisy_measurements(m, n)
-    L = make_bookkeeping(I, n)
+    R = make_bookkeeping(I, n)
     _, Kinv = make_connection_matrix(n)
 
     ivals = np.arange(n)
 
     # standard form
-    P = L.T @ L + C * Kinv
-    q = -L.T @ y
+    P = R.T @ R + C * Kinv
+    q = -R.T @ y
 
     x = np.linalg.solve(P, -q)
 
@@ -161,7 +161,7 @@ if __name__ == '__main__':
     bar = Bar('Computing...', max=len(Cs)*len(betas))
 
     for j, C in enumerate(Cs):
-        P = L.T @ L + C * Kinv
+        P = R.T @ R + C * Kinv
         for i, beta in enumerate(betas):
             bar.next()
             xstar, n_steps = gradient_descent_quadratic_momentum(P, q,

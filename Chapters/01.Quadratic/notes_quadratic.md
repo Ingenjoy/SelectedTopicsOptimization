@@ -8,7 +8,7 @@ Quadratic systems are important:
 - Quadratic systems are important in their own right! Many statistical models, graph problems, molecular models etc. can be formulated as quadratic systems:
   - least-square minimization problems
   - inference using multivariate normal distributions
-  - molecular modelling using spring-mass systems
+  - molecular modeling using spring-mass systems
   - signal recovery
 
 ## Warming up: one-dimensional quadratic systems
@@ -371,7 +371,7 @@ Here, we see that:
 
 1. The error decomposes in independent terms in the eigenspace.
 2. The convergence of each term is determined by the *rate*: $|1-t\lambda_i|$. Convergence occurs as a geometric series.
-3. The total convergence is determined by either the smallest or largest eigenvalue.
+3. The total number of steps until convergence is determined by either the smallest and largest eigenvalue.
 4. Optimal value for fixed step size is $t=\frac{1}{\lambda_1+\lambda_n}$.
 
 ![Illustration of eigen decomposition of the error during the iterations.](Figures/convergence_decomposition.png)
@@ -411,7 +411,7 @@ with $\beta\in[0,1]$.
 > **initialize** $\Delta \mathbf{x}= \mathbf{0}$
 >
 > **repeat**
->> 1. $\Delta \mathbf{x} := \beta \Delta \mathbf{x}- (1-\beta)\nabla f(\mathbf{x})$ ($\nabla f(\mathbf{x}) = P\mathbf{x}$)
+>> 1. $\Delta \mathbf{x} := \beta \Delta \mathbf{x}- (1-\beta)P\mathbf{x}$
 >> 2. *Line search*. Choose optimal $t>0$.
 >> 3. *Update*. $\mathbf{x}:=\mathbf{x} + t \Delta \mathbf{x}$.
 >

@@ -15,7 +15,6 @@ implements:
 
 import numpy as np
 
-
 def backtracking_line_search(f, x0, Dx, grad_f, alpha=0.05, beta=0.6):
     '''
     Uses backtracking for finding the minimum over a line.
@@ -44,7 +43,7 @@ def gradient_descent(f, x0, grad_f, alpha=0.05, beta=0.6, nu=1e-3, trace=False):
         - grad_f: gradient of the function to be minimized
         - alpha: parameter for btls
         - beta: parameter for btls
-        - nu: parameter to determine if the algortihm is convered
+        - nu: parameter to determine if the algorithm is converged
         - trace: (bool) store the path that is followed?
 
     Outputs:
@@ -76,7 +75,7 @@ def coordinate_descent(f, x0, grad_f, alpha=0.2, beta=0.7, nu=1e-3, trace=False)
         - grad_f: gradient of the function to be minimized
         - alpha: parameter for btls
         - beta: parameter for btls
-        - nu: parameter to determine if the algortihm is convered
+        - nu: parameter to determine if the algorithm is converged
         - trace: (bool) store the path that is followed?
 
     Outputs:
@@ -113,7 +112,7 @@ def newtons_method(f, x0, grad_f, hess_f, alpha=0.3, beta=0.8, epsilon=1e-3,
         - hess_f: hessian matrix of the function to be minimized
         - alpha: parameter for btls
         - beta: parameter for btls
-        - nu: parameter to determine if the algortihm is convered
+        - nu: parameter to determine if the algorithm is converged
         - trace: (bool) store the path that is followed?
 
     Outputs:
@@ -140,8 +139,7 @@ if __name__ == '__main__':
     from sys import path
     import matplotlib.pyplot as plt
     from teachingtools import *
-    path.append('../../Scripts')
-    from plotting import plot_contour, add_path, blue, red, green, yellow
+    
 
     # assignment 1
     # ------------
@@ -194,7 +192,6 @@ if __name__ == '__main__':
     ax2.set_title('Non-quadratic')
     ax1.plot(np.abs(f_steps_q), color=blue)
     ax1.semilogy()
-    ax1.set_title('Convergence ')
     ax2.plot(np.abs(f_steps_nq[:-1] - f_steps_nq[-1]), color=blue)  # error compared to last step
     ax2.semilogy()
 
