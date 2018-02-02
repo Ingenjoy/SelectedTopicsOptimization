@@ -1,0 +1,12 @@
+*.pyc
+results/*
+__pycache__
+.DS_Store
+*.pdf
+*.tex
+*.out
+*.log
+*.aux
+*.gz
+*.out
+solution_*

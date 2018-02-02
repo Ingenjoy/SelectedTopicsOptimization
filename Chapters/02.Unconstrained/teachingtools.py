@@ -13,6 +13,16 @@ import numpy as np
 import sympy as sp
 #from unconstrained import gradient_descent, newtons_method, coordinate_descent
 import matplotlib.pyplot as plt
+from sys import path
+#path.append('../../helpers/')
+#from plotting import plot_contour, add_path, blue, red, green, yellow, orange
+
+blue = '#264653'
+green = '#2a9d8f'
+yellow = '#e9c46a'
+orange = '#f4a261'
+red = '#e76f51'
+black = '#50514F'
 
 # VISUALIZATION
 # -------------
@@ -97,21 +107,26 @@ def show_inexact_ls(alpha=0.4, beta=0.9, Dx=10):
     t_begin = -0.4
     t_end = 1.5
     tvals = np.linspace(t_begin, t_end)
-    ax.plot(tvals, f(tvals * Dx), label=r'$f(x+t\Delta x)$')
-    ax.plot(tvals, f(0) + tvals * df(0) * Dx, 'r-', label=r'$f(x)+t\nabla f(x)^\top \Delta x$')
-    ax.plot(tvals, f(0) + tvals * df(0) * alpha * Dx, 'r--', label=r'$f(x)+t\alpha\nabla f(x)^\top \Delta x$')
+    ax.plot(tvals, f(tvals * Dx), color=blue, label=r'$f(x+t\Delta x)$')
+    ax.plot(tvals, f(0) + tvals * df(0) * Dx, color=red,
+                label=r'$f(x)+t\nabla f(x)^\top \Delta x$')
+    ax.plot(tvals, f(0) + tvals * df(0) * alpha * Dx, color=red, ls='--',
+                        label=r'$f(x)+t\alpha\nabla f(x)^\top \Delta x$')
     t = 1
     n_steps = 0
     while f(t * Dx) > f(0) + alpha * t * df(0) * Dx:
-        ax.plot([t, t], [f(t * Dx), f(0) + alpha * t * df(0) * Dx], 'g-', lw=2)
+        ax.plot([t, t], [f(t * Dx), f(0) + alpha * t * df(0) * Dx], color=green,
+                                    lw=2)
         f_old = f(t * Dx)
         t *= beta
-        ax.plot([t, t / beta], [f(0) + alpha * t * df(0) * Dx, f_old], 'g-', lw=2)
+        ax.plot([t, t / beta], [f(0) + alpha * t * df(0) * Dx, f_old],
+                                    color=green, lw=2)
         n_steps += 1
     print('Converged after {} steps'.format(n_steps))
     ax.set_xlabel('$t$')
     ax.grid()
     ax.legend(loc=3)
+    return fig
 
 
 # defining the quadric function, gradient and hessian
@@ -251,4 +266,6 @@ def logistic_toy(separation=0, log_lambda=1):
     ax1.set_title('Contours of likelihood function')
 
 if __name__ == '__main__':
-    pass
+    # make figure
+    fig = show_inexact_ls(alpha=0.4, beta=0.9, Dx=10)
+    fig.savefig('Figures/btls.png')
