@@ -91,4 +91,5 @@ This course consists of three main parts:
 
 ## Thanks
 
-Bernard De Baets, Raúl Pérez-Fernández
+- Bernard De Baets
+- Raúl Pérez-Fernández
