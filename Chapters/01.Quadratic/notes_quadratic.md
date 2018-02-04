@@ -66,7 +66,7 @@ def solve_1d_quadratic(p, q, r=0):
 
 ## Towards $n$-dimensional quadratic systems
 
-Let directly move from the one-dimensional case to the $n$-dimensional case. We will use vector notation
+Let directly move from the one-dimensional case to the $n$-dimensional case. We will use vector notation:
 $$
 \mathbf{x} = \begin{bmatrix}
        x_1 \\ \vdots \\ x_n
@@ -154,10 +154,9 @@ f'(x_v) = x_v (\mathbf{v}^\top P \mathbf{v}) x_v + (\mathbf{v}^\top \mathbf{q})x
 $$
 where $\mathbf{v}^\top P \mathbf{v}>0$ if $P\succ 0$, which in turn implies that $f'(x_v)$ has a minimizer.
 
-If $P\succ 0$, the quadratic system is a *convect* function with a single minimizer. In many problems, $P$ is positive-definite, so there is a well-defined solution. We will develop this further in Chapter 2.
+If $P\succ 0$, the quadratic system is a *convex* function with a single minimizer. In many problems, $P$ is positive-definite, so there is a well-defined solution. We will develop this further in Chapter 2.
 
 **Assignment 2**
-
 Complete the code for solving the $n$-D quadratic system. Use it to find the minimum of
 $$
 f(\mathbf{x}) = \mathbf{x}^\top\begin{bmatrix}4 & 1 \\ 1 & 2\end{bmatrix}\mathbf{x} + \begin{bmatrix}3 \\1\end{bmatrix}^\top\mathbf{x} + 12\,.
@@ -388,7 +387,7 @@ with $c=1-\frac{\lambda_1}{\lambda_n}<1$. The quantity $\kappa=\frac{\lambda_n}{
 - Only a few extra steps are needed to decrease $\epsilon$ with one order of magnitude.
 - If the condition number is large, then $\log(1/c)\approx 1/\kappa$. Large condition numbers require more steps.
 
-![Illustration of the convergence bounds for different condition numbers.](Figures/convergence_bound.png)]
+![Illustration of the convergence bounds for different condition numbers.](Figures/convergence_bound.png)
 
 ## Gradient descent with momentum
 
@@ -429,7 +428,7 @@ $$
 f(\mathbf{x}) = \frac{1}{2}\mathbf{x}^\top\begin{bmatrix}500 & 2 \\ 2 & 1\end{bmatrix}\mathbf{x} + \begin{bmatrix}-40 \\100 \end{bmatrix}^\top\mathbf{x} -5\,,
 $$
 
-at $\mathbf{x}_0= [0, 0, 0]^\top$. Does momentum increase the speed now?
+at $\mathbf{x}_0= [0, 0]^\top$. Does momentum increase the speed now?
 
 ```python
 def gradient_descent_quadratic_momentum(P, q, x0,
@@ -494,7 +493,7 @@ with $K^{-1}$ an inverse kernel (or covariance matrix) and $C$ a tuning hyperpar
 - a regularization term to ensure smoothness of the solution.
 The parameter $C$ determines the trade-off between the two terms.
 
-The problem can written purely in matrix notation by using the $(m\times n)$ bookkeeping matrix $R$ for which $R_{ij}=1$ if the the $j$-th element of $\mathbf{y}$ corresponds to the $i$-th element of $\mathbf{x}$ and $R_{ij}=1$ otherwise. Hence, the compact matrix form is:
+The problem can written purely in matrix notation by using the $(m\times n)$ bookkeeping matrix $R$ for which $R_{ij}=1$ if the the $j$-th element of $\mathbf{y}$ corresponds to the $i$-th element of $\mathbf{x}$ and $R_{ij}=0$ otherwise. Hence, the compact matrix form is:
 
 $$
 \min_\mathbf{x}\, \frac{1}{2}(\mathbf{y}-R\mathbf{x})^\top(\mathbf{y}-R\mathbf{x}) + \frac{C}{2} \mathbf{x}^\top K^{-1}\mathbf{x}\,.
