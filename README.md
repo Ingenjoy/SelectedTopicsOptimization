@@ -93,3 +93,4 @@ This course consists of three main parts:
 
 - Bernard De Baets
 - Raúl Pérez-Fernández
+- Bram De Jaegher

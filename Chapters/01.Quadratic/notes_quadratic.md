@@ -1,5 +1,7 @@
 # Quadratic optimization
 
+![](Figures/logo.png)
+
 ## Motivation
 
 Quadratic systems are important:
