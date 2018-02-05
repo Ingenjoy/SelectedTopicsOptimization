@@ -203,39 +203,39 @@ def get_unit_circle(order=2, P=None, scale=0.5):
 def get_steepest_descent(X, dx):
     return X[np.argmax(X.dot(dx))].reshape((-1, 1))
 
-def show_steepest_descent_gradientens(x, ax):
+def show_steepest_descent_gradients(x, ax):
     plot_contour(nonquadratic, (-2, 2), (-1, 1), ax, plot_f=False)
-    ax.scatter(x[0], x[1], c='k', label=r'$x$')
+    ax.scatter(x[0], x[1], c=black, label=r'$x$')
 
     # gradient + L_2
     neg_grad = -grad_nonquadratic(x)
     neg_grad /= np.linalg.norm(neg_grad)  # normalize
     neg_grad *= 0.4
-    plot_vector(x, neg_grad , ax, 'r', '$\nabla f(x)')
+    plot_vector(x, neg_grad , ax, red, '$\nabla f(x)')
     X2 = get_unit_circle(2, scale=0.4) + x.reshape((1, 2))
-    ax.plot(X2[:, 0], X2[:, 1], c='r', label='$L_2$ norm')
+    ax.plot(X2[:, 0], X2[:, 1], c=red, label='$L_2$ norm')
 
     # L1 norm
     X1 = get_unit_circle(1, scale=0.4)
     dx_l1 = get_steepest_descent(X1, neg_grad)
-    plot_vector(x, dx_l1.ravel(), ax, 'g')
+    plot_vector(x, dx_l1.ravel(), ax, green)
     X1 += x.reshape((1, 2))
-    ax.plot(X1[:, 0], X1[:, 1], c='g', label='$L_1$ norm')
+    ax.plot(X1[:, 0], X1[:, 1], c=green, label='$L_1$ norm')
 
     # scaling along axes
     X_P = get_unit_circle(2, P=np.diag([1, 4]))
     dx_P = get_steepest_descent(X_P, neg_grad)
-    plot_vector(x, dx_P.ravel(), ax, 'b')
+    plot_vector(x, dx_P.ravel(), ax, blue)
     X_P += x.reshape((1, 2))
-    ax.plot(X_P[:, 0], X_P[:, 1], c='b', label='$P$ norm')
+    ax.plot(X_P[:, 0], X_P[:, 1], c=blue, label='$P$ norm')
 
     # scaling using Hessian
     X_H = get_unit_circle(2, P=hessian_nonquadratic(x.reshape((-1, 1))),
                 scale=0.1)
     dx_H = get_steepest_descent(X_H, neg_grad)
-    plot_vector(x, dx_H.ravel(), ax, 'orange')
+    plot_vector(x, dx_H.ravel(), ax, orange)
     X_H += x.reshape((1, -1))
-    ax.plot(X_H[:, 0], X_H[:, 1], c='orange', label='Hessian norm')
+    ax.plot(X_H[:, 0], X_H[:, 1], c=orange, label='Hessian norm')
 
     ax.legend(loc=3)
 
@@ -250,8 +250,8 @@ def logistic_toy(separation=0, log_lambda=1):
     fig, (ax0, ax1) = plt.subplots(ncols=2, figsize=(10, 5))
     X1 = X1_cent - separation * direction/2
     X2 = X2_cent + separation * direction/2
-    ax0.scatter(X1[:,0], X1[:,1], c='orange', s=50, label='Class 1')
-    ax0.scatter(X2[:,0], X2[:,1], marker='^', c='blue', s=50, label='Class 2')
+    ax0.scatter(X1[:,0], X1[:,1], c=orange, s=50, label='Class 1')
+    ax0.scatter(X2[:,0], X2[:,1], marker='^', c=blue, s=50, label='Class 2')
     ax0.legend(loc=0)
     ax0.set_xlabel('x1')
     ax0.set_ylabel('x2')

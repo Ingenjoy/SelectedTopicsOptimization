@@ -1,5 +1,11 @@
 # Unconstrained convex optimization
 
+*Selected Topics in Mathematical Opimization: 2017-2018*
+
+**Michiel Stock** ([email](michiel.stock@ugent.be))
+
+![](Figures/logo.png)
+
 ## Motivation
 
 In this chapter we will study unconstrained convex problems, i.e. problems of the form
@@ -41,8 +47,6 @@ Most convex optimization problems do not have a closed-from solution, with the q
 From the definition, it follows that:
 - If the function is differentiable, then $f(\mathbf{x})\geq f(\mathbf{x}')+\nabla f(\mathbf{x}')(\mathbf{x}-\mathbf{x}')$ for all $\mathbf{x}$ and $\mathbf{x}' \in \text{dom}(f)$.
 - If the function is twice differentiable, then $\nabla^2 f(\mathbf{x})\succeq 0$ for any $\mathbf{x}\in\text{dom}(f)$.
-
-Figure!  #TODO
 
 Convex functions frequently arise:
 - If $f$ and $g$ are both convex, then $m(x)=\max(f(x), g(x))$ and $h(x)=f(x)+g(x)$ are also convex.
@@ -93,7 +97,9 @@ $$
 f(x_1, x_2) = \log(e^{x_1 +3x_2-0.1}+e^{x_1 -3x_2-0.1}+e^{-x_1 -0.1})\,.
 $$
 
-## Backtracking line search
+TODO: add figures
+
+## General descent methods (recap)
 
 Convex functions are usually minimized using descent methods. Again, line search is often used as a subroutine.
 
@@ -113,13 +119,17 @@ The outline of a general descent algorithm is given in the following pseudocode.
 
 
 The specific optimization algorithms are hence determined by:
-- method for determining the step size $\Delta x$, this is usually based on the gradient of $f$
+- method for determining the step size $\Delta x$, this is almost always based on the gradient of $f$
 - method for choosing the step size $t$, may be fixed or adaptive
-- the criterion used for terminating the descent, usually the algorthm stops when the improvement is smaller than a predefined value
+- the criterion used for terminating the descent, usually the algorithm stops when the improvement is smaller than a predefined value
+
+## Backtracking line search
+
+For quadratic optimization, as covered in Chapter 1, the optimal step size could be computed in closed form. In the general case, only an approximately optimal step size is used.
 
 ### Exact line search
 
-As a subroutine of the general descent algorithm a line search has to be performend. A $t$ is chosen to minimize $f$ along the ray $\{x+t\Delta x \mid t\geq0\}$:
+As a subroutine of the general descent algorithm a line search has to be performed. A $t$ is chosen to minimize $f$ along the ray $\{x+t\Delta x \mid t\geq0\}$:
 
 $$
 t = \text{arg min}_{s\geq0}\ f(x+t\Delta x)\,.
@@ -250,7 +260,7 @@ def gradient_descent(f, x0, grad_f, alpha=0.2, beta=0.7,
     else: return x
 ```
 
-![](Figures/gradient_descent.png)
+![Convergence of gradient descent on the quadratic and non-quadratic functions.](Figures/gradient_descent.png)
 
 ## Steepest descent
 
@@ -298,7 +308,7 @@ Examples:
 **Normalized steepest descent direction**:
 
 $$
-\Delta x_\text{nsd} = \text{arg min} \{\nabla f(x)^T \mathbf{v} \mid ||\mathbf{v}||\leq 1 \}\,.
+\Delta x_\text{nsd} = \text{arg min}_\mathbf{v}\, \{\nabla f(x)^T \mathbf{v} \mid ||\mathbf{v}||\leq 1 \}\,.
 $$
 
 **Unnormalized steepest descent direction**:
@@ -312,6 +322,8 @@ $$
 \nabla f(\mathbf{x})^\intercal \Delta x_\text{sd} = ||\nabla f(\mathbf{x})||_\star \nabla f(\mathbf{x})^\intercal\Delta x_\text{nsd} = -||\nabla f(\mathbf{x})||^2_\star\,,
 $$
 so this is a valid descent method.
+
+![Illustration of some descent directions based on different norms.](Figures/sd_gradients.png)
 
 ### Coordinate descent algorithm
 
@@ -334,7 +346,7 @@ Here, $e_i$ is the $i$-th basic vector.
 
 The stopping criterion is usually of the form $||\nabla f(\mathbf{x})||_2 \leq \nu$.
 
-![Coordinate descent.](Figures/steepest_descent.png)
+![Convergence of coordinate descent on the quadratic and non-quadratic functions.](Figures/steepest_descent.png)
 
 **Assignment 3**
 1. Complete the implementation of the coordinate descent method.
@@ -374,8 +386,6 @@ def coordinate_descent(f, x0, grad_f, alpha=0.2, beta=0.7, nu=1e-3, trace=False)
     else: return x
 ```
 
-Example figures
-
 ## Newton's method
 
 ### The Newton step
@@ -400,7 +410,7 @@ This Newton step can be motivated in several ways.
 The second order Taylor approximation $\hat{f}$ of $f$ at $\mathbf{x}$ is
 
 $$
-\hat{f}(\mathbf{x}+\mathbf{v}) = f(\mathbf{x}) + \nabla f(\mathbf{x})^\intercal \mathbf{v} + \frac{1}{2} \mathbf{v}^\intercal \nabla^2 f(\mathbf{x}) \mathbf{v}\,
+f(\mathbf{x}+\mathbf{v})\approx\hat{f}(\mathbf{x}+\mathbf{v}) = f(\mathbf{x}) + \nabla f(\mathbf{x})^\intercal \mathbf{v} + \frac{1}{2} \mathbf{v}^\intercal \nabla^2 f(\mathbf{x}) \mathbf{v}\,
 $$
 
 which is a convex quadratic function of $\mathbf{v}$, and is minimized when $v=\Delta \mathbf{x}_\text{nt}$.
@@ -457,6 +467,16 @@ Thus $\frac{1}{2} \lambda(x)^2$ is an estimate of $f(x) - p^*$, based on the qua
 
 The above algorithm is sometimes called the *damped* Newton method, as it uses a variable step size $t$. In practice, using a fixed step also works well. Here, one has to consider the computational cost of using BTLS versus performing a few extra Newton steps to attain the same accuracy.
 
+![Convergence of Newton's algorithm on the quadratic and non-quadratic functions.](Figures/convergence_nm.png)
+
+### Convergence analysis
+
+Iterations in Newton’s method fall into two stages:
+- *damped Newton phase* $(t < 1)$ until $||\nabla f(\mathbf{x})||_2 \leq \eta$
+- *pure Newton phase* $(t = 1)$: quadratic convergence
+
+After a sufficiently large number of iterations, the number of correct digits doubles at each iteration.
+
 **Assignment 4**
 1. Complete the code for Newton's method.
 2. Find the minima of the two toy problems.
@@ -493,16 +513,6 @@ def newtons_method(f, x0, grad_f, hess_f, alpha=0.3, beta=0.8, epsilon=1e-3, tra
     else: return x
 ```
 
-### Convergence analysis
-
-Iterations in Newton’s method fall into two stages:
-- *damped Newton phase* $(t < 1)$ until $||\nabla f(\mathbf{x})||_2 \leq \eta$
-- *pure Newton phase* $(t = 1)$: quadratic convergence
-
-After a sufficiently large number of iterations, the number of correct digits doubles at each iteration.
-
-Illustration #TODO: make figure of the convergence of Newton
-
 ### Summary Newton's method
 
 * Convergence of Newton's algorithm is rapid and quadratic near $\mathbf{x}^*$.
@@ -525,6 +535,7 @@ $$
 \nabla^2 f(\mathbf{x})^\intercal\Delta\mathbf{x} \approx \frac{1}{2\epsilon} (\nabla f(\mathbf{x}+\epsilon\Delta\mathbf{x} ) - \nabla f(\mathbf{x}-\epsilon\Delta\mathbf{x} ))\,
 $$
 with $\epsilon$ a small constant.
+
 ## Exercise: logistic regression
 
 Consider the following problem: we have a dataset of $n$ instances: $T=\{(\mathbf{x}_i, y_i)\mid i=1\ldots n\}$. Here $\mathbf{x}_i\in \mathbb{R}^p$ is a $p$-dimensional feature vector and $y_i\in\{0,1\}$ is a binary label. This a a binary classification problem, we are interested in predicting the label of an instance based on its feature description. The goal of logistic regression is to find a function $f(\mathbf{x})$ that estimates the conditional probability of $Y$:
@@ -555,6 +566,83 @@ $$
 
 Here, the first part is the cross entropy, which penalizes disagreement between the prediction $f(\mathbf{x}_i)$ and the true label $y_i$, while the second term penalizes complex models in which $\mathbf{w}$ has a large norm. The trade-off between these two components is controlled by $\lambda$, a hyperparameters. In the course *Predictive modelling* of Willem Waegeman it is explained that by carefully tuning this parameter one can obtain an improved performance. **In this project we will study the influence $\lambda$ on the convergence of the optimization algorithms.**
 
-Below is a toy example in two dimensions illustrating the loss function.
+![Toy example in two dimensions illustrating the loss function.](Figures/loss_logistic.png)
 
-Complete: #TODO: add the questions and load the data
+**Data overview**
+
+Consider the data set in the file `BreastCancer.csv`. This dataset contains information about 569 female patients diagnosed with breast cancer. For each patient it was recorded wether the tumor was benign (B) or malignant (M), this is the response variable. Each tumor is described by 30 features, which encode some information about the tumor. We want to use logistic regression with regularization to predict wether a tumor is benign or malignant based on these features.
+
+```python
+# extract response in binary encoding:
+# 0 : B(enign)
+# 1 : M(alignant)
+binary_response = np.array(list(map(int, cancer_data.y == 'M')))
+
+# extract feature matrix X
+features = cancer_data.select(lambda colname : colname[0] == 'x',
+      axis=1).values
+
+# standarizing features
+# this is needed for gradient descent to run faster
+features -= features.mean(0)
+features /= features.std(0)
+```
+
+**Assignments**
+
+1. Implement the loss function for logistic loss, the gradient and the Hessian of this loss function. These functions have as input the parameter vector $\mathbf{w}$, label vector $\mathbf{y}$, feature matrix $\mathbf{X}$ and $\lambda$. The logistic map and cross-entropy is already provided for you.
+2. Consider $\lambda=0.1$, find the optimal parameter vector for this data using gradient descent, coordinate descent, Newton's algorithm and the BFGS algorithm. Use standarized features. For each algorithm, give the number of steps the algorithm performed and the running time (use the [magic function](https://ipython.org/ipython-doc/3/interactive/magics.html) `%timeit`). Compare the loss for each of parameters obtained by the different algorithms.
+3. How does regularization influence the optimization? Make a separate plot for gradient descent, coordinate descent, Newton's method and the the BFGS algorithm with the the value of the loss as a function of the iteration of the given algorithm. Make separate the different methods and plot the convergence for $\lambda = [10^{-7}, 10^{-5}, 10^{-3}, 10^{-1}, 1, 10, 100]$. Does increased regularization make the optimization go faster or slower? Why does this make sense?
+
+**Assignment 1**
+
+Complete the functions below.
+
+```python
+# COMPLETE THIS FOR QUESTION 1
+
+logistic_map = lambda x : 1 / (1 + np.exp(-x))
+# make sure that no nan is returned when p is very small
+cross_entropy = lambda l, p : - (l * np.log(p))[p>0]  
+
+def logistic_loss(w, y, X, lamb):
+    """
+    Implement the logistic loss
+    returns a scalar
+    """
+    return
+
+def grad_logistic_loss(w, y, X, lamb):
+    """
+    Implement the gradient of the logistic loss
+    returns a column vector
+    """
+    return
+
+def hess_logistic_loss(w, y, X, lamb):
+    """
+    Implement the Hessian of the logistic loss
+    returns a matrix
+    """
+    return
+```
+
+```python
+# functions for first question
+
+l_loss = lambda w : logistic_loss(w, binary_response, features, 0.1)
+l_grad = lambda w : grad_logistic_loss(w, binary_response, features, 0.1)
+l_hess = lambda w : hess_logistic_loss(w, binary_response, features, 0.1)
+```
+
+**Assignment 2**
+
+Use gradient descent, coordinate descent, Newton's method and BFGS method to find the parameters of the logistic model ($\lambda=0.1$).
+
+**Assignment 3**
+
+Make a plot for each of the four optimization method in which you show the convergence for $\lambda = [10^{-7}, 10^{-5}, 10^{-3}, 10^{-1}, 1, 10, 100]$.
+
+## References
+
+- Boyd, S. and Vandenberghe, L., '*[Convex Optimization](https://web.stanford.edu/~boyd/cvxbook/bv_cvxbook.pdf)*'. Cambridge University Press (2004)

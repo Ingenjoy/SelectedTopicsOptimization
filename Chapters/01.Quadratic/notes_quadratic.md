@@ -8,14 +8,11 @@
 
 ## Motivation
 
-Quadratic systems are important:
-
-- Systems close to their maximum can closely be approximated by a quadratic system, studying the minimization of quadratic systems can teach us about minimization of general convex functions.
-- Quadratic systems are important in their own right! Many statistical models, graph problems, molecular models etc. can be formulated as quadratic systems:
-  - least-square minimization problems
-  - inference using multivariate normal distributions
-  - molecular modeling using spring-mass systems
-  - signal recovery
+Quadratic systems are important! Firstly, systems close to their maximum can closely be approximated by a quadratic system, studying the minimization of quadratic systems can teach us about minimization of general convex functions. Quadratic systems are also important in their own right! Many statistical models, graph problems, molecular models etc. can be formulated as quadratic systems:
+- least-square minimization problems
+- inference using multivariate normal distributions
+- molecular modeling using spring-mass systems
+- signal recovery
 
 ## Warming up: one-dimensional quadratic systems
 
@@ -36,7 +33,9 @@ $$
 This can easily be solved by setting the first order derivative equal to zero:
 
 $$
-\frac{\mathrm{d}f(x)}{\mathrm{d}x} = px + q \\
+\frac{\mathrm{d}f(x)}{\mathrm{d}x} = px + q
+$$
+$$
 px^\star+q = 0 \Leftrightarrow x^\star=\frac{-q}{p}\,.
 $$
 
@@ -423,6 +422,11 @@ with $\beta\in[0,1]$ called the *momentum parameter*.
 >
 > **until** stopping criterion is reached.
 
+### Illustration of momentum
+
+![Comparison of the convergence of gradient descent with and without momentum.](Figures/convergence_gd_momentum.png)
+
+
 **Assignment 5**
 
 Complete the code for gradient descent with momentum. Use it find the solution for the above system, also starting at $\mathbf{x}=[0,0]^\top$. Set $\beta=0.1$. Do you see an improvement?
@@ -466,10 +470,6 @@ def gradient_descent_quadratic_momentum(P, q, x0,
     if trace: return x, n_steps
     else: return x
 ```
-
-### Illustration
-
-![](Figures/convergence_gd_momentum.png)
 
 ## Conjugated gradient descent
 
