@@ -22,10 +22,7 @@ Most convex optimization problems do not have a closed-from solution, with the q
 
 > **In words**: a set $\mathcal{C}$ is called **convex** if the line segment between any two points in $\mathcal{C}$ also lies in $\mathcal{C}$.
 
-> **In symbols**:  a set $\mathcal{C}$ is called **convex** if, for any $x, x' \in \mathcal{C}$ and any $\theta \in [0, 1]$, it holds that
-> $$
-> \theta x + (1 − \theta)x' \in \mathcal{C}\,.
-> $$
+> **In symbols**:  a set $\mathcal{C}$ is called **convex** if, for any $x, x' \in \mathcal{C}$ and any $\theta \in [0, 1]$, it holds that $\theta x + (1 - \theta) x' \in \mathcal{C}$.
 
 ![Some convex (A & B) and non-convex sets (B & D).](Figures/convex_sets.png)
 
@@ -35,24 +32,23 @@ Most convex optimization problems do not have a closed-from solution, with the q
 
 > **In symbols**: In symbols: a function $f : \mathbb{R}^n\rightarrow \mathbb{R}$ is convex if
 > - dom($f$) is convex
-> - for any $\mathbf{x}, \mathbf{x}' \in \text{dom}(f)$ and any $\theta \in [0, 1]$, it holds that
-> $$
-> f(\theta \mathbf{x} + (1-\theta)\mathbf{x}') \leq\theta f(\mathbf{x}) +(1-\theta)f(\mathbf{x}')\,.
-> $$
+> - for any $\mathbf{x}, \mathbf{x}' \in \text{dom}(f)$ and any $\theta \in [0, 1]$, it holds that $f(\theta \mathbf{x} + (1-\theta)\mathbf{x}') \leq\theta f(\mathbf{x}) +(1-\theta)f(\mathbf{x}')$.
 
 ![](Figures/convex_function_illustration.png)
 
 ![Some convex (A & C) and non-convex functions (B).](Figures/convex_functions.png)
 
 From the definition, it follows that:
+
 - If the function is differentiable, then $f(\mathbf{x})\geq f(\mathbf{x}')+\nabla f(\mathbf{x}')(\mathbf{x}-\mathbf{x}')$ for all $\mathbf{x}$ and $\mathbf{x}' \in \text{dom}(f)$.
 - If the function is twice differentiable, then $\nabla^2 f(\mathbf{x})\succeq 0$ for any $\mathbf{x}\in\text{dom}(f)$.
 
 Convex functions frequently arise:
+
 - If $f$ and $g$ are both convex, then $m(x)=\max(f(x), g(x))$ and $h(x)=f(x)+g(x)$ are also convex.
 - If $f$ and $g$ are convex functions and $g$ is non-decreasing over a univariate domain, then $h(x)=g(f(x))$ is convex. Example: $e^{f(x)}$ is convex if $f(\mathbf{x})$ is convex.
 
-Note, the convexity of expected value in probability theory gives rise to **Jensen's inequality**. For any convex function $\varphi$, if holds that
+Note, the convexity of expected value in probability theory gives rise to *Jensen's inequality*. For any convex function $\varphi$, if holds that
 $$
 \varphi(\mathbb{E}[X]) \leq\mathbb{E}[\varphi(X)]\,.
 $$
@@ -63,13 +59,10 @@ This implies for example that the square of an expected value of quantity is nev
 
 > **In words**: a function $f$ is called **strongly convex** if it is at least as convex as a quadratic function
 
-> **In symbols**: $f$ is called *strongly $m$-convex* (with $m>0$) if the function
-> $$
-> f_m(\mathbf{x}) = f(\mathbf{x}) - \frac{m}{2}||\mathbf{x}||_2
-> $$
-> is convex.
+> **In symbols**: $f$ is called *strongly $m$-convex* (with $m>0$) if the function $f_m(\mathbf{x}) = f(\mathbf{x}) - \frac{m}{2}||\mathbf{x}||_2$ is convex.
 
 If the first- and second order derivatives exists, an strongly $m$-convex satisfies:
+
 - $f(\mathbf{x}') \geq f(\mathbf{x}) + \nabla f(\mathbf{x})^\intercal (\mathbf{x}'-\mathbf{x}) + \frac{m}{2}||\mathbf{x}'-\mathbf{x}||_2$
 - $\nabla^2 f(\mathbf{x})-mI\succeq 0$
 
@@ -77,7 +70,6 @@ If a function is $m$-strongly convex, this also implies that there exists an $M>
 $$
 \nabla^2 f(\mathbf{x}) \preceq MI\,.
 $$
-TODO: check!
 
 ## Minimizing convex functions
 
@@ -97,7 +89,7 @@ $$
 f(x_1, x_2) = \log(e^{x_1 +3x_2-0.1}+e^{x_1 -3x_2-0.1}+e^{-x_1 -0.1})\,.
 $$
 
-TODO: add figures
+![A quadratic and a non-quadratic two-dimensional function.](Figures/example_functions.png)
 
 ## General descent methods (recap)
 
@@ -119,7 +111,8 @@ The outline of a general descent algorithm is given in the following pseudocode.
 
 
 The specific optimization algorithms are hence determined by:
-- method for determining the step size $\Delta x$, this is almost always based on the gradient of $f$
+
+- method for determining the step size $\Delta \mathbf{x}$, this is almost always based on the gradient of $f$
 - method for choosing the step size $t$, may be fixed or adaptive
 - the criterion used for terminating the descent, usually the algorithm stops when the improvement is smaller than a predefined value
 
@@ -129,10 +122,10 @@ For quadratic optimization, as covered in Chapter 1, the optimal step size could
 
 ### Exact line search
 
-As a subroutine of the general descent algorithm a line search has to be performed. A $t$ is chosen to minimize $f$ along the ray $\{x+t\Delta x \mid t\geq0\}$:
+As a subroutine of the general descent algorithm a line search has to be performed. A value for $t$ is chosen to minimize $f$ along the ray $\{\mathbf{x}+t\Delta \mathbf{x} \mid t\geq0\}$:
 
 $$
-t = \text{arg min}_{s\geq0}\ f(x+t\Delta x)\,.
+t = \text{arg min}_{s\geq0}\ f(x+t\Delta \mathbf{x})\,.
 $$
 
 Exact line search is used when the cost of solving the above minimization problem is small compared to the cost of calculating the search direction itself. This is sometimes the case when an analytical solution is available.
@@ -143,11 +136,11 @@ Often, the descent methods work well when the line search is done only approxima
 
 Many methods exist for this, we will consider the *backtracking line search* (BTLS), described by the following pseudocode.
 
-> **input** starting point $x\in$ **dom** $f$, descent direction $\Delta x$, $\alpha\in(0,0.05)$ and $\beta\in(0,1)$.
+> **input** starting point $\mathbf{x}\in$ **dom** $f$, descent direction $\Delta \mathbf{x}$, $\alpha\in(0,0.05)$ and $\beta\in(0,1)$.
 >
 > $t:=1$
 >
->**while** $f(x+t\Delta x) > f(x) +\alpha t \nabla f(x)^\intercal\Delta x$
+>**while** $f(\mathbf{x}+t\Delta \mathbf{x}) > f(x) +\alpha t \nabla f(\mathbf{x})^\intercal\Delta \mathbf{x}$
 >
 >>    $t:=\beta t$
 >
@@ -188,7 +181,7 @@ backtracking_line_search(function, 0, 10, gradient_function)
 
 ## Gradient descent
 
-A natural choise for the search direction is the negative gradient: $\Delta x = -\nabla f(\mathbf{x})$. This algorithm is called the *gradient descent algorithm*.
+A natural choise for the search direction is the negative gradient: $\Delta \mathbf{x} = -\nabla f(\mathbf{x})$. This algorithm is called the *gradient descent algorithm*.
 
 ### General gradient descent algorithm
 
@@ -204,7 +197,7 @@ A natural choise for the search direction is the negative gradient: $\Delta x = 
 >
 >**output** $\mathbf{x}$
 
-The stopping criterion is usually of the form $||\nabla f(x)||_2 \leq \nu$.
+The stopping criterion is usually of the form $||\nabla f(\mathbf{x})||_2 \leq \nu$.
 
 ### Convergence analysis
 
@@ -217,6 +210,7 @@ $$
 iterations, where $c =1-\frac{m}{M}<1$.
 
 We conclude:
+
 - Number of steps needed for a given quality is proportional to the logarithm of the initial error.
 - To increase the accuracy with an order of magnitude, only a few more steps are needed.
 - Convergence is again determined by the *condition number* $m/M$. Note that for large condition numbers: $\log(1/c)=-\log(1-\frac{m}{M})\approx m/M$, so the number of required iterations increases linearly with increasing $m/M$.
@@ -224,6 +218,7 @@ We conclude:
 ### Illustration
 
 **Assignment 2**
+
 1. Complete the implementation of the gradient descent method.
 2. Plot the paths for the two toy problems.
 3. Analyze the convergence.
@@ -275,12 +270,13 @@ The linear approximation $\hat{f}$ can be made arbitrary negative if we can free
 ### Vector norms
 
 A norm on $\mathbb{R}^n$ is a function $||\cdot||:\mathbb{R}^n\rightarrow \mathbb{R}$ with the following properties:
-- $||\mathbf{x}||>0$, for any $\mathbf{x}\in\mathbb{R}$
-- $||\mathbf{x}+\mathbf{y}|| \leq ||\mathbf{x}||+||\mathbf{y}||$, for any $\mathbf{x}, \mathbf{y}\in\mathbb{R}$
-- $||\lambda \mathbf{x}|| = |\lambda|\, ||\mathbf{x}||$ for any $\lambda \in\mathbb{R}$ and any $\mathbf{x}\in\mathbb{R}$
+
+- $||\mathbf{x}||>0$, for any $\mathbf{x}\in\mathbb{R}^n$
+- $||\mathbf{x}+\mathbf{y}|| \leq ||\mathbf{x}||+||\mathbf{y}||$, for any $\mathbf{x}, \mathbf{y}\in\mathbb{R}^n$
+- $||\lambda \mathbf{x}|| = |\lambda|\, ||\mathbf{x}||$ for any $\lambda \in\mathbb{R}$ and any $\mathbf{x}\in\mathbb{R}^n$
 - $||\mathbf{x}||=0$ if and only if $\mathbf{x}=0$
 
-For example, for any $p\in\mathbb{R}$ and $p\leq 1$:
+For example, for any $\mathbf{x}\in\mathbb{R}^n$ and $p\leq 1$:
 $$
 ||\mathbf{x}||_p = \left(\sum_{i=1}^n |x_i|^p\right)^\frac{1}{2}\,.
 $$
@@ -299,6 +295,7 @@ $$
 $$
 
 Examples:
+
 - The dual norm of $||\cdot||_1$ is $||\cdot||_\infty$
 - The dual norm of $||\cdot||_2$ is $||\cdot||_2$
 - The dual norm of $||\cdot||_P$ is defined by $||\mathbf{z}||_*=||P^{-\frac{1}{2}}\mathbf{z}||$
@@ -349,6 +346,7 @@ The stopping criterion is usually of the form $||\nabla f(\mathbf{x})||_2 \leq \
 ![Convergence of coordinate descent on the quadratic and non-quadratic functions.](Figures/steepest_descent.png)
 
 **Assignment 3**
+
 1. Complete the implementation of the coordinate descent method.
 2. Plot the paths for the two toy problems.
 3. Analyze the convergence.
@@ -441,14 +439,14 @@ $$
 
 The Newton decrement is defined as
 $$
-\lambda(x)  = (\nabla f(x)^\intercal\nabla^2 f(x)^{-1}\nabla f(x))^{1/2}\,.
+\lambda(\mathbf{x})  = (\nabla f(\mathbf{x})^\intercal\nabla^2 f(x)^{-1}\nabla f(\mathbf{x}))^{1/2}\,.
 $$
 
-This can be related to the quantity $f(x)-\text{inf}_y\ \hat{f}(y)$:
+This can be related to the quantity $f(\mathbf{x})-\text{inf}_\mathbf{y}\ \hat{f}(\mathbf{y})$:
 $$
-f(x)-\text{inf}_y\ \hat{f}(y) = f(x) - \hat{f}(x +\Delta x_\text{nt}) = \frac{1}{2} \lambda(x)^2\,.
+f(\mathbf{x})-\text{inf}_\mathbf{y}\ \hat{f}(\mathbf{y}) = f(\mathbf{x}) - \hat{f}(\mathbf{x} +\Delta \mathbf{x}_\text{nt}) = \frac{1}{2} \lambda(\mathbf{x})^2\,.
 $$
-Thus $\frac{1}{2} \lambda(x)^2$ is an estimate of $f(x) - p^*$, based on the quadratic approximation of $f$ at $x$.
+Thus $\frac{1}{2} \lambda(\mathbf{x})^2$ is an estimate of $f(\mathbf{x}) - p^*$, based on the quadratic approximation of $f$ at $\mathbf{x}$.
 
 ### Pseudocode of Newton's algortihm
 
@@ -472,12 +470,14 @@ The above algorithm is sometimes called the *damped* Newton method, as it uses a
 ### Convergence analysis
 
 Iterations in Newton’s method fall into two stages:
+
 - *damped Newton phase* $(t < 1)$ until $||\nabla f(\mathbf{x})||_2 \leq \eta$
 - *pure Newton phase* $(t = 1)$: quadratic convergence
 
 After a sufficiently large number of iterations, the number of correct digits doubles at each iteration.
 
 **Assignment 4**
+
 1. Complete the code for Newton's method.
 2. Find the minima of the two toy problems.
 
@@ -522,7 +522,7 @@ def newtons_method(f, x0, grad_f, hess_f, alpha=0.3, beta=0.8, epsilon=1e-3, tra
 
 ## Quasi-Newton methods
 
-Quasi-Newton methods try to emulate the success of the Newton method, but without the high computational burden of constructing the Hessian matrix every step. One of the most popular quasi-Newton algorithms is the **Broyden–Fletcher–Goldfarb–Shanno** (BFGS) algorithm. Here, the Hessian is approximated by a symmetric rank-one matrix.
+Quasi-Newton methods try to emulate the success of the Newton method, but without the high computational burden of constructing the Hessian matrix every step. One of the most popular quasi-Newton algorithms is the *Broyden–Fletcher–Goldfarb–Shanno* (BFGS) algorithm. Here, the Hessian is approximated by a symmetric rank-one matrix.
 
 ## Numerical approximation of the gradient and Hessian
 
