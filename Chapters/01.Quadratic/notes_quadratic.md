@@ -1,5 +1,9 @@
 # Quadratic optimization
 
+*Selected Topics in Mathematical Opimization: 2017-2018*
+
+**Michiel Stock** ([email](michiel.stock@ugent.be))
+
 ![](Figures/logo.png)
 
 ## Motivation
@@ -66,7 +70,7 @@ def solve_1d_quadratic(p, q, r=0):
 
 ## Towards $n$-dimensional quadratic systems
 
-Let directly move from the one-dimensional case to the $n$-dimensional case. We will use vector notation:
+Let us directly move from the one-dimensional case to the $n$-dimensional case. We will use vector notation:
 $$
 \mathbf{x} = \begin{bmatrix}
        x_1 \\ \vdots \\ x_n
@@ -157,6 +161,7 @@ where $\mathbf{v}^\top P \mathbf{v}>0$ if $P\succ 0$, which in turn implies that
 If $P\succ 0$, the quadratic system is a *convex* function with a single minimizer. In many problems, $P$ is positive-definite, so there is a well-defined solution. We will develop this further in Chapter 2.
 
 **Assignment 2**
+
 Complete the code for solving the $n$-D quadratic system. Use it to find the minimum of
 $$
 f(\mathbf{x}) = \mathbf{x}^\top\begin{bmatrix}4 & 1 \\ 1 & 2\end{bmatrix}\mathbf{x} + \begin{bmatrix}3 \\1\end{bmatrix}^\top\mathbf{x} + 12\,.
@@ -208,7 +213,7 @@ with $t^{(k)}\geq 0$ called the *step size* (in machine learning often called *l
 $$
 f(\mathbf{x}^{(k+1)}) < f(\mathbf{x}^{(k)})\,,
 $$
-except when $\mathbf{x}^{(k)}$ is optimal. In this property to hold, the search direction should satisfy
+except when $\mathbf{x}^{(k)}$ is optimal. For this property to hold, the search direction should satisfy
 $$
 (\Delta \mathbf{x}^{(k)})^\top \nabla f(\mathbf{x}) < 0\,.
 $$
@@ -377,13 +382,13 @@ Here, we see that:
 
 ![Illustration of eigen decomposition of the error during the iterations.](Figures/convergence_decomposition.png)
 
-Furthermore, it can be shown that if we use an exact linesearch for the step size, the error $f(\mathbf{x}^{(k)}) - f(\mathbf{x}^\star)\leq \epsilon$ we need fewer than
+Furthermore, it can be shown that if we use an exact line search for the step size, the error $f(\mathbf{x}^{(k)}) - f(\mathbf{x}^\star)\leq \epsilon$ we need fewer than
 $$
 \frac{\log((f(\mathbf{x}^{(k)}) - f(\mathbf{x}^\star))/\epsilon)}{\log(1/c)}\,,
 $$
 with $c=1-\frac{\lambda_1}{\lambda_n}<1$. The quantity $\kappa=\frac{\lambda_n}{\lambda_1}$ is called the *condition number* and largely determines the convergence. We observe:
 
-- The quality of the initial guess ($f(\mathbf{x}^{(k)}) - f(\mathbf{x}^\star$) has only a logarithmic impact on the number of steps required.
+- The quality of the initial guess $f(\mathbf{x}^{(k)}) - f(\mathbf{x}^\star$) has only a logarithmic impact on the number of steps required.
 - Only a few extra steps are needed to decrease $\epsilon$ with one order of magnitude.
 - If the condition number is large, then $\log(1/c)\approx 1/\kappa$. Large condition numbers require more steps.
 
@@ -403,11 +408,11 @@ $$
 $$
 \mathbf{x}^{(k+1)} = \mathbf{x}^{(k)} + t^{(k)}\Delta \mathbf{x}^{(k+1)}\,,
 $$
-with $\beta\in[0,1]$.
+with $\beta\in[0,1]$ called the *momentum parameter*.
 
 ### Gradient descent algorithm with momentum
 
-> **given** a starting point $\mathbf{x}$, $\alpha$, $\beta$
+> **given** a starting point $\mathbf{x}$,  $\beta$
 >
 > **initialize** $\Delta \mathbf{x}= \mathbf{0}$
 >
@@ -493,7 +498,7 @@ with $K^{-1}$ an inverse kernel (or covariance matrix) and $C$ a tuning hyperpar
 - a regularization term to ensure smoothness of the solution.
 The parameter $C$ determines the trade-off between the two terms.
 
-The problem can written purely in matrix notation by using the $(m\times n)$ bookkeeping matrix $R$ for which $R_{ij}=1$ if the the $j$-th element of $\mathbf{y}$ corresponds to the $i$-th element of $\mathbf{x}$ and $R_{ij}=0$ otherwise. Hence, the compact matrix form is:
+The problem can written purely in matrix notation by using the $(m\times n)$ *bookkeeping matrix* $R$ for which $R_{ij}=1$ if the the $j$-th element of $\mathbf{y}$ corresponds to the $i$-th element of $\mathbf{x}$ and $R_{ij}=0$ otherwise. Hence, the compact matrix form is:
 
 $$
 \min_\mathbf{x}\, \frac{1}{2}(\mathbf{y}-R\mathbf{x})^\top(\mathbf{y}-R\mathbf{x}) + \frac{C}{2} \mathbf{x}^\top K^{-1}\mathbf{x}\,.
