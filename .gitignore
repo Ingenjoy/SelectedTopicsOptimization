@@ -5,8 +5,13 @@ __pycache__
 *.pdf
 *.tex
 *.out
+*.nav
+*.toc
+*.svg
 *.log
 *.aux
 *.gz
+*.snm
 *.out
 solution_*
+Chapters/03.UndirectedGraphs/*

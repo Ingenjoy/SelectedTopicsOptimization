@@ -33,7 +33,8 @@ def backtracking_line_search(f, x0, Dx, grad_f, alpha=0.05, beta=0.6):
         t *= beta
     return t
 
-def gradient_descent(f, x0, grad_f, alpha=0.05, beta=0.6, nu=1e-3, trace=False):
+def gradient_descent(f, x0, grad_f, alpha=0.05,
+                beta=0.6, nu=1e-3, trace=False):
     '''
     General gradient descent algorithm.
 
@@ -65,7 +66,8 @@ def gradient_descent(f, x0, grad_f, alpha=0.05, beta=0.6, nu=1e-3, trace=False):
     if trace: return x, x_steps, f_steps
     else: return x
 
-def coordinate_descent(f, x0, grad_f, alpha=0.2, beta=0.7, nu=1e-3, trace=False):
+def coordinate_descent(f, x0, grad_f, alpha=0.2,
+                    beta=0.7, nu=1e-3, trace=False):
     '''
     General coordinate descent algorithm.
 
@@ -100,8 +102,8 @@ def coordinate_descent(f, x0, grad_f, alpha=0.2, beta=0.7, nu=1e-3, trace=False)
     if trace: return x, x_steps, f_steps
     else: return x
 
-def newtons_method(f, x0, grad_f, hess_f, alpha=0.3, beta=0.8, epsilon=1e-3,
-                   trace=False):
+def newtons_method(f, x0, grad_f, hess_f, alpha=0.3,
+                beta=0.8, epsilon=1e-3, trace=False):
     '''
     Newton's method for minimizing functions.
 
@@ -139,14 +141,14 @@ if __name__ == '__main__':
     from sys import path
     import matplotlib.pyplot as plt
     from teachingtools import *
-    
+
 
     # assignment 1
     # ------------
 
     function = lambda x : x**2 - 2*x - 5
     gradient_function = lambda x : 2*x -2
-    Dx = 5
+    Dx = 10
 
     tbest = backtracking_line_search(function, 0, 5, gradient_function)
 
@@ -211,8 +213,9 @@ if __name__ == '__main__':
     plot_contour(quadratic, (-11, 11), (-5, 5), ax1)
     plot_contour(nonquadratic, (-2, 2), (-1, 1), ax2)
 
-    xstar_q, x_steps_q, f_steps_q = coordinate_descent(quadratic, np.array([[10.1], [1.0]]),
-                                                     grad_quadratic, nu=1e-5, trace=True)
+    xstar_q, x_steps_q, f_steps_q = coordinate_descent(quadratic,
+                                            np.array([[10.1], [1.0]]),
+                                            grad_quadratic, nu=1e-5, trace=True)
     add_path(ax1, x_steps_q, red)
 
     print('Number of steps quadratic function (steepest descent): {}'.format(len(x_steps_q) - 1))

@@ -154,7 +154,8 @@ Many methods exist for this, we will consider the *backtracking line search* (BT
 2. Use this function find the step size $t$ to (approximately) minimize $f(x) = x^2 - 2x - 5$ starting from the point $0$. Choose a $\Delta x=10$.
 
 ```python
-def backtracking_line_search(f, x0, Dx, grad_f, alpha=0.1, beta=0.7):
+def backtracking_line_search(f, x0, Dx, grad_f, alpha=0.1,
+                                            beta=0.7):
     '''
     Uses backtracking for finding the minimum over a line.
     Inputs:
@@ -220,7 +221,7 @@ We conclude:
 **Assignment 2**
 
 1. Complete the implementation of the gradient descent method.
-2. Plot the paths for the two toy problems.
+2. Plot the paths for the two toy problems. Use $\mathbf{x}_0=[10,1]^\top$ for the quadratic function and $\mathbf{x}_0=[-0.5,0.9]^\top$ for the non-quadratic function as starting points.
 3. Analyze the convergence.
 
 ```python
@@ -348,11 +349,12 @@ The stopping criterion is usually of the form $||\nabla f(\mathbf{x})||_2 \leq \
 **Assignment 3**
 
 1. Complete the implementation of the coordinate descent method.
-2. Plot the paths for the two toy problems.
+2. Plot the paths for the two toy problems. Use the same stating points as before.
 3. Analyze the convergence.
 
 ```python
-def coordinate_descent(f, x0, grad_f, alpha=0.2, beta=0.7, nu=1e-3, trace=False):
+def coordinate_descent(f, x0, grad_f, alpha=0.2, beta=0.7,
+                                nu=1e-3, trace=False):
     '''
     General coordinate descent algorithm.
     Inputs:
@@ -482,7 +484,8 @@ After a sufficiently large number of iterations, the number of correct digits do
 2. Find the minima of the two toy problems.
 
 ```python
-def newtons_method(f, x0, grad_f, hess_f, alpha=0.3, beta=0.8, epsilon=1e-3, trace=False):
+def newtons_method(f, x0, grad_f, hess_f, alpha=0.3,
+                beta=0.8, epsilon=1e-3, trace=False):
     '''
     Newton's method for minimizing functions.
     Inputs:
@@ -556,7 +559,13 @@ $$
 \sigma(t) = \frac{e^{t}}{1+e^{t}}=\frac{1}{1+e^{-t}}\,.
 $$
 
-It is easy to see that the logistic mapping will ensure that $f(\mathbf{x})\in[0, 1]$, hence $f(\mathbf{x})$ can be interpretated as a probability.
+It is easy to see that the logistic mapping will ensure that $f(\mathbf{x})\in[0, 1]$, hence $f(\mathbf{x})$ can be interpreted as a probability.
+
+Note that
+
+$$
+\frac{\mathrm{d}\sigma(x)}{\mathrm{d}x} = (1-\sigma(x))\sigma(x)\,.
+$$
 
 To find the best weights that separate the two classes, we can use the following loss function:
 
@@ -566,6 +575,8 @@ $$
 
 Here, the first part is the cross entropy, which penalizes disagreement between the prediction $f(\mathbf{x}_i)$ and the true label $y_i$, while the second term penalizes complex models in which $\mathbf{w}$ has a large norm. The trade-off between these two components is controlled by $\lambda$, a hyperparameters. In the course *Predictive modelling* of Willem Waegeman it is explained that by carefully tuning this parameter one can obtain an improved performance. **In this project we will study the influence $\lambda$ on the convergence of the optimization algorithms.**
 
+> **Warning**: for this project there is a large risk of numerical problems when computing the loss function. This is because in the cross entropy $0\log(0)$ should by definition evaluate to its limit value of $0$. Numpy will evaluate this as `nan`. Use the provided function `cross_entropy` which safely computes $-\sum_{i=1}^n[y_i\log(\sigma_i)+(1-y_i)\log(1-\sigma_i)]$.
+
 ![Toy example in two dimensions illustrating the loss function.](Figures/loss_logistic.png)
 
 **Data overview**
@@ -573,6 +584,12 @@ Here, the first part is the cross entropy, which penalizes disagreement between 
 Consider the data set in the file `BreastCancer.csv`. This dataset contains information about 569 female patients diagnosed with breast cancer. For each patient it was recorded wether the tumor was benign (B) or malignant (M), this is the response variable. Each tumor is described by 30 features, which encode some information about the tumor. We want to use logistic regression with regularization to predict wether a tumor is benign or malignant based on these features.
 
 ```python
+# pandas allows us to comfortably work with datasets in python
+import pandas as pd
+
+cancer_data = pd.read_csv('Data/BreastCancer.csv')  # load data
+cancer_data.head()  # show first five rows
+
 # extract response in binary encoding:
 # 0 : B(enign)
 # 1 : M(alignant)
@@ -590,9 +607,9 @@ features /= features.std(0)
 
 **Assignments**
 
-1. Implement the loss function for logistic loss, the gradient and the Hessian of this loss function. These functions have as input the parameter vector $\mathbf{w}$, label vector $\mathbf{y}$, feature matrix $\mathbf{X}$ and $\lambda$. The logistic map and cross-entropy is already provided for you.
-2. Consider $\lambda=0.1$, find the optimal parameter vector for this data using gradient descent, coordinate descent, Newton's algorithm and the BFGS algorithm. Use standarized features. For each algorithm, give the number of steps the algorithm performed and the running time (use the [magic function](https://ipython.org/ipython-doc/3/interactive/magics.html) `%timeit`). Compare the loss for each of parameters obtained by the different algorithms.
-3. How does regularization influence the optimization? Make a separate plot for gradient descent, coordinate descent, Newton's method and the the BFGS algorithm with the the value of the loss as a function of the iteration of the given algorithm. Make separate the different methods and plot the convergence for $\lambda = [10^{-7}, 10^{-5}, 10^{-3}, 10^{-1}, 1, 10, 100]$. Does increased regularization make the optimization go faster or slower? Why does this make sense?
+1. Implement and derive the loss function for logistic loss, the gradient and the Hessian of this loss function. These functions have as input the parameter vector $\mathbf{w}$, label vector $\mathbf{y}$, feature matrix $\mathbf{X}$ and $\lambda$. The logistic map and cross-entropy is already provided for you.
+2. Consider $\lambda=0.1$, find the optimal parameter vector for this data using gradient descent, coordinate descent and Newton's method. Use standardized features. For each algorithm, give the number of steps the algorithm performed and the running time (use the [magic function](https://ipython.org/ipython-doc/3/interactive/magics.html) `%timeit`). Compare the loss for each of parameters obtained by the different algorithms.
+3. How does regularization influence the optimization? Make a separate plot for gradient descent, coordinate descent and Newton's method with the the value of the loss as a function of the iteration of the given algorithm. Make separate the different methods and plot the convergence for $\lambda = [10^{-3}, 10^{-1}, 1, 10, 100]$. Does increased regularization make the optimization go faster or slower? Why does this make sense?
 
 **Assignment 1**
 
@@ -641,7 +658,7 @@ Use gradient descent, coordinate descent, Newton's method and BFGS method to fin
 
 **Assignment 3**
 
-Make a plot for each of the four optimization method in which you show the convergence for $\lambda = [10^{-7}, 10^{-5}, 10^{-3}, 10^{-1}, 1, 10, 100]$.
+Make a plot for each of the four optimization method in which you show the convergence for $\lambda = [10^{-3}, 10^{-1}, 1, 10, 100]$.
 
 ## References
 
