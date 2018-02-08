@@ -1,6 +1,6 @@
 # Unconstrained convex optimization
 
-*Selected Topics in Mathematical Opimization: 2017-2018*
+*Selected Topics in Mathematical Optimization: 2017-2018*
 
 **Michiel Stock** ([email](michiel.stock@ugent.be))
 
