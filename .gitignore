@@ -13,5 +13,6 @@ __pycache__
 *.gz
 *.snm
 *.out
+*.key
 solution_*
 Chapters/03.UndirectedGraphs/*
