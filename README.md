@@ -15,6 +15,7 @@ This course consists of three main parts:
 2. Discrete optimization problems solvable in polynomial time
 3. 'Dirty problems', NP hard problems and complex problems with no guarantees on optimality and performance
 
+More detailed, tentative overview:
 
 1. **Minimizing quadratic systems**
   - motivation
