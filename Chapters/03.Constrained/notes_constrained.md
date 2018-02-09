@@ -43,7 +43,7 @@ $$
 $$
 with $\nu\neq 0$ called the *Lagrange multiplier*. The constrained minimization problem can also be represented by a *Lagrangian*:
 $$
-L(\mathbf{x}, \nu) 	\equiv f(\mathbf{x}) - \nu g(\mathbf{x})\,.
+L(\mathbf{x}, \nu) 	\equiv f(\mathbf{x}) + \nu g(\mathbf{x})\,.
 $$
 The constrained stationary cndition is obtained by setting $\nabla_\mathbf{x} L(\mathbf{x}, \nu) =0$, the condition $\partial  L(\mathbf{x}, \nu)/\partial \nu=0$ leads to the constraint equation $g(\mathbf{x})=0$.
 
@@ -53,13 +53,13 @@ The same argument can be made for inequality constraints, i.e. solving
 
 $$
 \min_{\mathbf{x}} f(\mathbf{x})\\
-\text{subject to } g(\mathbf{x})\geq0\,.
+\text{subject to } g(\mathbf{x})\leq0\,.
 $$
 
 Here, two situations can arise:
 
-- **Active constraint**: the minimizer of $f$ lies in the region where $g(\mathbf{x}) < 0$. The solution of the constrained problem will lie on the bound where $g(\mathbf{x})=0$, similar to the equality-constrained problem and corresponds to a Lagrange multiplier $\nu>0$.
-- **Inactive constrained**: the minimizer of $f$ lies in the region where $g(\mathbf{x}) > 0$. This corresponds to a Lagrange multiplier $\nu=0$. Note that the solution would be the same if the constraint was not present.
+- **Active constraint**: the minimizer of $f$ lies in the region where $g(\mathbf{x}) > 0$. The solution of the constrained problem will lie on the bound where $g(\mathbf{x})=0$, similar to the equality-constrained problem and corresponds to a Lagrange multiplier $\nu>0$.
+- **Inactive constrained**: the minimizer of $f$ lies in the region where $g(\mathbf{x}) < 0$. This corresponds to a Lagrange multiplier $\nu=0$. Note that the solution would be the same if the constraint was not present.
 
 Both scenarios are shown below:
 
@@ -81,6 +81,8 @@ These are called the *Karush-Kuhn-Tucker* conditions.
 
 It is relatively straightforward to extend this framework towards multiple constraints (equality and inequality) by using several Lagrange multipliers.
 
+TODO: Check this!
+
 ## Equality constrained convex optimization
 
 We will start with convex optimization problems with linear equality constraints:
@@ -92,22 +94,24 @@ $$
 
 where $f : \mathbb{R}^n \rightarrow \mathbb{R}$ is convex and twice continuously differentiable and $A\in \mathbb{R}^{p\times n}$ with a rank $p < n$.
 
-A point $\mathbf{x}^\star\in$ **dom** $f$ is optimal for the above optimization problem only if there is a $\nu\in\mathbb{R}^p$ such that:
+TODO: link with Lagrange multipliers
+
+A point $\mathbf{x}^\star\in$ **dom** $f$ is optimal for the above optimization problem only if there is a $\boldsymbol{\nu}\in\mathbb{R}^p$ such that:
 
 $$
-A\mathbf{x}^\star = b, \qquad \nabla f(\mathbf{x}^\star) + A^\top\nu^\star = 0\,.
+A\mathbf{x}^\star = \mathbf{b}, \qquad \nabla f(\mathbf{x}^\star) + A^\top\boldsymbol{\nu}^\star = 0\,.
 $$
 
 We will reuse the same toy examples from the previous chapter, but add an equality constraint to both.
 
-* Simple quadratic problem:
+- Simple quadratic problem:
 
 $$
  f(x_1, x_2)  = \frac{1}{2} (x_1^2 + 4 x_2^2)\\
  \text{subject to }  x_1 - 2x_2 = 3
 $$
 
-* A non-quadratic function:
+- A non-quadratic function:
 
 $$
 f(x_1, x_2)   = \log(e^{x_1 +3x_2-0.1}+e^{x_1 -3x_2-0.1}+e^{-x_1 -0.1})\\
@@ -121,31 +125,31 @@ $$
 Consider the following equality constrained convex optimization problem:
 
 $$
-\min\frac{1}{2}\mathbf{x}^\intercal P \mathbf{x} + \mathbf{q}^\intercal \mathbf{x} + r  \\
-\text{subject to }  A\mathbf{x}=b
+\min\frac{1}{2}\mathbf{x}^\top P \mathbf{x} + \mathbf{q}^\top \mathbf{x} + r  \\
+\text{subject to }  A\mathbf{x}=\mathbf{b}
 $$
 
 where $P$ is positive definite.
 
 The optimality conditions are
 $$
-A\mathbf{x}^\star = b, \quad P\mathbf{x}^\star+\mathbf{q} +A^\intercal\nu^\star=0\,,
+A\mathbf{x}^\star = \mathbf{b}, \quad P\mathbf{x}^\star+\mathbf{q} +A^\top\boldsymbol{\nu}^\star=\mathbf{0}\,,
 $$
 which we can write as
 
 $$
 \begin{bmatrix}
-P  A^\intercal \\
-A  0 \\
+P & A^\top \\
+A & 0 \\
      \end{bmatrix}
      \begin{bmatrix}
 \mathbf{x}^\star\\
-\nu^\star
+\boldsymbol{\nu}^\star
      \end{bmatrix}
      =
      \begin{bmatrix}
--q \\
-b
+-\mathbf{q} \\
+\mathbf{b}
      \end{bmatrix}
 $$
 
@@ -153,13 +157,15 @@ $$
 def solve_constrained_quadratic_problem(P, q, A, b):
     """
     Solve a linear constrained quadratic convex problem.
+
     Inputs:
         - P, q: quadratic and linear parameters of
                 the linear function to be minimized
-        - A, b: system of the linear constaints
+        - A, b: system of the linear constraints
+        -
     Outputs:
         - xstar: the exact minimizer
-        - vstar: the optimal Lagrance multipliers
+        - vstar: the optimal Lagrange multipliers
     """
     p, n = A.shape  # size of the problem
     # complete this code
@@ -177,50 +183,50 @@ To derive $\Delta \mathbf{x}_{nt}$ for the following equality constrained proble
 
 $$
 \min  f(\mathbf{x}) \\
-\text{subject to }  A\mathbf{x}=b
+\text{subject to }  A\mathbf{x}=\mathbf{b}
 $$
 
 we apply a second-order Taylor approximation at the point $\mathbf{x}$, to obtain
 
 $$
-\min \hat{f}(\mathbf{x} +v) = f(\mathbf{x}) +\nabla f(\mathbf{x})^\intercal v+ (1/2)v^\intercal \nabla^2 f(\mathbf{x}) v \\
-\text{subject to } A(\mathbf{x}+v)=b\,.
+\min \hat{f}(\mathbf{x} +\mathbf{v}) = f(\mathbf{x}) +\nabla f(\mathbf{x})^\top \mathbf{v}+ (1/2)\mathbf{v}^\top \nabla^2 f(\mathbf{x}) \mathbf{v} \\
+\text{subject to } A(\mathbf{x}+\mathbf{v})=\mathbf{b}\,.
 $$
 
 Based on the solution of quadratic convex problems with linear contrains, the Newton $\Delta \mathbf{x}_{nt}$ step is characterized by
 
 $$
 \begin{bmatrix}
- \nabla^2 f(\mathbf{x})  A^\intercal \\
-A  0 \\
+ \nabla^2 f(\mathbf{x})&  A^\top \\
+A & 0 \\
      \end{bmatrix}
      \begin{bmatrix}
 \Delta x_{nt}\\
-w
+\mathbf{w}
      \end{bmatrix}
      =
      -\begin{bmatrix}
 \nabla f(\mathbf{x}) \\
-A\mathbf{x}-b
+A\mathbf{x}-\mathbf{b}
      \end{bmatrix}
 $$
 
-Note that when we start at a feasible point, the residual vector $-(A\mathbf{x}-b)$ vanishes and the path will always remain in a feasible region. Otherwise we will converge to it.
+Note that when we start at a feasible point, the residual vector $-(A\mathbf{x}-\mathbf{b})$ vanishes and the path will always remain in a feasible region. Otherwise we will converge to it.
 
+In this chapter, we will use a fixed step size. For Newton's method this usually leads to only a few extra iterations compared to an adaptive step size.
 
-Rather than performing line search at each step, we will use a fixed step size $\nu\in]0,1]$
-
->**input** starting point $x\in$ **dom** $f$ with $Ax=b$, tolerance $\epsilon>0$, stepsize $\nu$.
+>**input** starting point $x\in$ **dom** $f$ with $A\mathbf{x}=\mathbf{b}$, tolerance $\epsilon>0$.
 >
 >**repeat**
 >
->>    1. Compute the Newton step $\Delta x_{nt}$ and decrement $\lambda(x)$.
+>>    1. Compute the Newton step $\Delta \mathbf{x}_{nt}$ and decrement $\lambda(\mathbf{x})$.
 >>    2. *Stopping criterion*. **quit** if $\lambda^2/2\leq \epsilon$.
->>    3. *Update*. $x:=x+\nu\Delta x_{nt}$.
+>>    3. *Choose step size $t$*: either by line search or fixed $t$.
+>>    4. *Update*. $\mathbf{x}:=\mathbf{x}+t \Delta \mathbf{x}_{nt}$.
 >
 >**until** stopping criterium is satisfied.
-
->**output** $x$
+>
+>**output** $\mathbf{x}$
 
 Again, the convergence can be monitored using the Newton decrement:
 
@@ -233,6 +239,48 @@ The algorithm terminates when
 $$
 \frac{\lambda(\mathbf{x})^2}{2} < \epsilon\,.
 $$
+
+```python
+def linear_constrained_newton(f, x0, grad_f,
+              hess_f, A, b, stepsize=0.25, epsilon=1e-3,
+              trace=False):
+    '''
+    Newton's method for minimizing functions with linear constraints.
+
+    Inputs:
+        - f: function to be minimized
+        - x0: starting point (does not have to be feasible)
+        - grad_f: gradient of the function to be minimized
+        - hess_f: hessian matrix of the function to be minimized
+        - A, b: linear constraints
+        - stepsize: step size for each Newton step (fixed)
+        - epsilon: parameter to determine if the algorithm is converged
+        - trace: (bool) store the path that is followed?
+
+    Outputs:
+        - xstar: the found minimum
+        - x_steps: path in the domain that is followed (if trace=True)
+        - f_steps: image of x_steps (if trace=True)
+    '''
+    assert stepsize < 1 and stepsize > 0
+    x = x0  # initial value
+    p, n = A.shape
+    if trace: x_steps = [x.copy()]
+    if trace: f_steps = [f(x0)]
+    while True:
+        ddfx = hess_f(x)
+        dfx = grad_f(x)
+        # calculate residual
+        Dx, _ = solve_constrained_quadratic_problem(... # complete!
+        newton_decrement = ...
+        if newton_decrement < epsilon:  # stopping criterion
+            break  # converged
+        x += stepsize * Dx
+        if trace: x_steps.append(x.copy())
+        if trace: f_steps.append(f(x))
+    if trace: return x, x_steps, f_steps    
+    else: return x
+```
 
 ## Inequality constrained convex optimization
 
