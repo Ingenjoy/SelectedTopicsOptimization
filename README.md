@@ -8,6 +8,16 @@ Notes and exercises of the optimization course given in the Master of Bioinforma
 
 The goal of this course is to give students a general overview of the rich field of mathematical optimization. This course will put a particular emphasis on **practical implementations** and **performance**. After this course, students should be able to formulate problems from computational biology as optimization problems and be able to read, understand and implement new optimization algorithms.
 
+The project exercises are done in the Python 3.x programming language. It is recommended to use [Anaconda](https://anaconda.org/anaconda/python) to install Python, the required libraries and the Jupyter notebook environment. 
+
+## Using this repository
+
+Course notes are available in Markdown format. Slides and pdf notes will be distributed via [Minerva](http://minerva.ugent.be/). Every week we will cover a new chapter. Exercises of the chapters can be made in the Jupyter notebooks. Ideally, you work in a local clone of this repository. Students without a laptop (or curious browsers) can make the exercises in [Binder](https://mybinder.org/) by clicking on the badge below.
+
+[![Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/MichielStock/SelectedTopicsOptimization/master)
+
+**It seems that Binder does not allow to save your work. This is especially important for the project assignments, which have to be handed in via the student publications in Minerva. Download your notebook after use!**
+
 ## Contents
 
 This course consists of three main parts:
