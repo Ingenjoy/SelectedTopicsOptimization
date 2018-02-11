@@ -175,7 +175,7 @@ if __name__ == '__main__':
 
     print(pd.DataFrame(steps, index=betas, columns=Cs))
 
-    fig, axes = plt.subplots(ncols=2)
+    fig, axes = plt.subplots(ncols=2, figsize=(12,8))
 
     axes[0].imshow(np.log10(steps), interpolation='nearest', cmap='Greens')
     axes[0].set_xticks(range(len(Cs)))

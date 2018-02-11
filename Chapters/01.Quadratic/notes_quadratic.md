@@ -9,6 +9,7 @@
 ## Motivation
 
 Quadratic systems are important! Firstly, systems close to their maximum can closely be approximated by a quadratic system, studying the minimization of quadratic systems can teach us about minimization of general convex functions. Quadratic systems are also important in their own right! Many statistical models, graph problems, molecular models etc. can be formulated as quadratic systems:
+
 - least-square minimization problems
 - inference using multivariate normal distributions
 - molecular modeling using spring-mass systems
@@ -328,7 +329,7 @@ def gradient_descent_quadratic(P, q, x0, epsilon=1e-4, trace=False):
     x = x0  # initial value
     n_steps = 0
     while True:
-        ...  # compute GD direction
+        Dx = ...  # compute GD direction
         if ...
             break
         t = ...  # step size
@@ -369,7 +370,7 @@ $$
 which allows us to rewrite the error in closed-form:
 
 $$
-f(\mathbf{x}^{(k)}) - f(\mathbf{x}^\star) = \frac{1}{2}\sum_{i=1}^n (1-t\lambda_i)^{2k}\lambda_i[(\mathbf{U}_i)^\top(\mathbf{x}^{(0)}-\mathbf{x}^\star)]^2\,.
+f(\mathbf{x}^{(k)}) - f(\mathbf{x}^\star) = \frac{1}{2}\sum_{i=1}^n (1-t\lambda_i)^{2k}\lambda_i[(\mathbf{u}_i)^\top(\mathbf{x}^{(0)}-\mathbf{x}^\star)]^2\,.
 $$
 
 Here, we see that:
@@ -429,10 +430,8 @@ with $\beta\in[0,1]$ called the *momentum parameter*.
 
 **Assignment 5**
 
-Complete the code for gradient descent with momentum. Use it find the solution for the above system, also starting at $\mathbf{x}=[0,0]^\top$. Set $\beta=0.1$. Do you see an improvement?
-
-Compare both algorithms for minimizing system:
-
+1. Complete the code for gradient descent with momentum. Use it find the solution for the above system, also starting at $\mathbf{x}=[0,0]^\top$. Set $\beta=0.1$. Do you see an improvement?
+2. Compare both algorithms for minimizing the following system:
 $$
 f(\mathbf{x}) = \frac{1}{2}\mathbf{x}^\top\begin{bmatrix}500 & 2 \\ 2 & 1\end{bmatrix}\mathbf{x} + \begin{bmatrix}-40 \\100 \end{bmatrix}^\top\mathbf{x} -5\,,
 $$
@@ -496,6 +495,7 @@ $$
 with $K^{-1}$ an inverse kernel (or covariance matrix) and $C$ a tuning hyperparameter. The matrix $K^{-1}$ encodes how the different elements of $\mathbf{x}$ are related, constructing such a matrix is a topic in machine learning (see course Predictive Modelling). For our purposes, we have chosen this matrix as such that elements should have values closes to each other. Hence, the minimization problem has two terms:
 - a data fitting term to make sure that the recovered vector $\mathbf{x}$ matches the observations,
 - a regularization term to ensure smoothness of the solution.
+
 The parameter $C$ determines the trade-off between the two terms.
 
 The problem can written purely in matrix notation by using the $(m\times n)$ *bookkeeping matrix* $R$ for which $R_{ij}=1$ if the the $j$-th element of $\mathbf{y}$ corresponds to the $i$-th element of $\mathbf{x}$ and $R_{ij}=0$ otherwise. Hence, the compact matrix form is:

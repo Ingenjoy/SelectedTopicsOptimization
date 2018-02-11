@@ -6,6 +6,7 @@ __pycache__
 *.tex
 *.out
 *.nav
+*.key
 *.toc
 *.svg
 *.log
@@ -13,5 +14,6 @@ __pycache__
 *.gz
 *.snm
 *.out
+administration/*
 solution_*
 Chapters/03.UndirectedGraphs/*

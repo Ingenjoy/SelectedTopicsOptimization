@@ -139,7 +139,7 @@ if __name__ == '__main__':
     # example system
 
     P = np.array([[4,1],[1,2]]) * 2
-    q = np.array([[2], [1]])
+    q = np.array([[3], [1]])
     r = 12
     x0 = np.zeros((2, 1))
     #x0 = np.array([[1.0], [1.0]])
@@ -174,10 +174,10 @@ if __name__ == '__main__':
     print('new values:')
     xstar_gd, n_steps_gd= gradient_descent_quadratic(P, q,
                         x0.copy(), trace=True)
-    print('solution using GD: xstar_exact={} ({} steps)'.format(
-                                    xstar_exact, n_steps_gd))
+    print('solution using GD: xstar={} ({} steps)'.format(
+                                    xstar_gd, n_steps_gd))
 
     xstar_gdm, n_steps_gdm = gradient_descent_quadratic_momentum(P, q,
                         x0.copy(), beta=0.2, trace=True)
-    print('solution using GDM: xstar_exact={} ({} steps)'.format(xstar_exact,
+    print('solution using GDM: xstar={} ({} steps)'.format(xstar_gdm,
                             n_steps_gdm))
