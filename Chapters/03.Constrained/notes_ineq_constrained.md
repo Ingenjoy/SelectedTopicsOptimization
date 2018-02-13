@@ -1,10 +1,8 @@
 
 ## Inequality constrained convex optimization
-sdo
 
 ### Inequality constrained minimization problems
 
-xnn
 $$
 \min_\mathbf{x}  f_0(\mathbf{x})\\
 \text{subject to } f_i(\mathbf{x}) \leq 0, \quad i=1,\ldots,m\\
@@ -35,38 +33,64 @@ $$
 The non-quadratic function with inequality constraints:
 
 $$
-f(x_1, x_2)   = \log(e^{x_1 +3x_2-0.1}+e^{x_1 -3x_2-0.1}+e^{-x_1 -0.1})\\
+f(x_1, x_2)   = \log(e^{x_1 +3x_2-0.1}+e^{x_1 -3x_2-0.1}+e^{-x_1 -0.1})
+$$
+$$
  \text{subject to }  (x_1 - 1)^2 + (x_2 - 0.25)^2 - 1\leq 0
 $$
 
+![Convex function with an equality constraint. Note that the feasible region is a convex set.](Figures/ineq_const_example.png)
+
 ### Implicit constraints
 
-idea
+Rather than solving a minimization problems with inequality constraints, we can reformulate the objective function to include only the feasible regions:
 
 $$
-\min_{\mathbf{x}} f_0(\mathbf{x})+
+\min_{\mathbf{x}} f_0(\mathbf{x})+\sum_{i=1}^m I_{-}(f_i(\mathbf{x}))
 $$
+$$
+A\mathbf{x}=\mathbf{b}
+$$
+where $I_{-}:\mathbb{R}\rightarrow \mathbb{R}$ is the *indicator function* for the nonpositive reals:
+$$
+I(u) = 0 \text{ if } u\leq 0
+$$
+and
+$$
+I(u) = \infty \text{ if } u> 0\,.
+$$
+Sadly, we cannot directly optimize such a function using gradient-based optimization as $I$ does not provide gradients to guide us.
 
 ### Logarithmic barrier and the central path
 
 Main idea: approximate $I_-$ by the function:
 
 $$
-\hat{I}_-(u) = - (1/t)\log(-u)\,,
+\hat{I}_-(u) = - (1/t)\log(-u) \text{ if } u< 0
 $$
-
+and
+$$
+\hat{I}_-(u)=\infty  \text{ if } u\geq 0
+$$
 where $t>0$ is a parameter that sets the accuracy of the approximation.
-
-![Larger values of $t$ result in a better approximation of](Figures/log_bar.png)
 
 Thus the problem can be approximated by:
 
 $$
-\text{minimize } f_0(\mathbf{x}) +\sum_{i=1}^m-(1/t)\log(-f_i(\mathbf{x}))\\
+\min_\mathbf{x} f_0(\mathbf{x}) +\sum_{i=1}^m-\hat{I}_-(f_i(\mathbf{x})
+$$
+$$
 \text{subject to } A\mathbf{x}=\mathbf{b}\,.
 $$
+Note that:
 
-Since $\hat{I}_-(u)$ is convex and  increasing in $u$, the objective is also convex.
+- since $\hat{I}_-(u)$ is convex and  increasing in $u$, the objective is also convex
+- unlike the function $I$, the function $\hat{I}_-(u)$ is differentiable
+- as $t$ increases, the approximation becomes more accurate, as shown below
+
+![Larger values of $t$ result in a better approximation of](Figures/log_bar.png)
+
+### The barrier method
 
 The function
 
@@ -76,8 +100,55 @@ $$
 
 is called the **logarithmic barrier** for the constrained optimization problem.
 
-The parameter $t$ determines the quality of the approximation, the higher the value the closer the approximation matches the original problem. The drawback of higher values of $t$ is that the problem becomes harder to optimize using Newton's method, as its Hessian will vary rapidly near the boundary of the feasible set.
+The new optimization problem becomes:
+$$
+\min_\mathbf{x} tf_0(\mathbf{x}) +\phi (\mathbf{x})
+$$
+$$
+\text{subject to } A\mathbf{x}=\mathbf{b}\,.
+$$
 
-### The barrier method
+- The parameter $t$ determines the quality of the approximation, the higher the value the closer the approximation matches the original problem.
+- The drawback of higher values of $t$ is that the problem becomes harder to optimize using Newton's method, as its Hessian will vary rapidly near the boundary of the feasible set.
+- This can be circumvented by solving a sequence of problems with increasing $t$ at each step, starting each Newton minimization at the solution of the previous value of $t$.
+
+By the way:
+
+- gradient of $\phi$:
+$$
+\nabla\phi(\mathbf{x}) = \sum_{i=1}^m\frac{1}{-f_i(\mathbf{x})} \nabla f_i(\mathbf{x})
+$$
+- Hessian of $\phi$:
+$$
+\nabla^2\phi(\mathbf{x}) = \sum_{i=1}^m \frac{1}{f_i(\mathbf{x})^2} \nabla f_i(\mathbf{x}) \nabla f_i(\mathbf{x})^\top+\sum_{i=1}^m\frac{1}{-f_i(\mathbf{x})^2} \nabla^2 f_i(\mathbf{x})
+$$
+
+>**input** strictly feasible $\mathbf{x}$, $t:=t^{(0)}>0, \mu>1$, $t_\text{max}$, tolerance $\epsilon>0$.
+>
+>**repeat**
+>
+>>    1. *Centering step*.<br>
+>>   Compute $\mathbf{x}^*(t)$ by minimizing $tf_0+\phi$, subject to $A\mathbf{x}=\mathbf{b}$, starting at $\mathbf{x}$.
+>>    2. *Update*. $\mathbf{x}:=\mathbf{x}^*(t)$
+>>    3. *Increase* $t$. $t:=\mu t$.
+>
+>**until** $t>t_\text{max}$
+>
+>**output** $\mathbf{x}$
+
+TODO: update
+
+### Central path
+
+We solve
+
+The *central path* is the set of points satisfying:
+
+- $\mathbf{x}^\star(t)$ is strictly feasible: $A\mathbf{x}^\star(t)=\mathbf{b}$ and $f_i(\mathbf{x}^\star(t))<0$ for $i=1,\ldots,m$
+- there exist $\hat{\boldsymbol{\nu}}\in\mathbb{R}^p$ such that
+$$
+t\nabla f_0(\mathbf{x}^\star(t)) + \nabla \phi(\mathbf{x}^\star(t)) +A^\top \hat{\boldsymbol{\nu}}=0
+$$
+- one can show that $f_0(\mathbf{x}^\star(t))-p^\star\leq m / t$: $f_0(\mathbf{x}^\star(t))$ converges to an optimal point as $t\rightarrow \infty$.
 
 ## Exercise:
