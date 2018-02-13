@@ -107,11 +107,12 @@ def show_inexact_ls(alpha=0.4, beta=0.9, Dx=10):
     t_begin = -0.4
     t_end = 1.5
     tvals = np.linspace(t_begin, t_end)
-    ax.plot(tvals, f(tvals * Dx), color=blue, label=r'$f(x+t\Delta x)$')
+    ax.plot(tvals, f(tvals * Dx), color=blue,
+                label=r'$f(\mathbf{x}+t\Delta \mathbf{x})$')
     ax.plot(tvals, f(0) + tvals * df(0) * Dx, color=red,
-                label=r'$f(x)+t\nabla f(x)^\top \Delta x$')
+                label=r'$f(\mathbf{x})+t\nabla f(\mathbf{x})^\top \Delta \mathbf{x}$')
     ax.plot(tvals, f(0) + tvals * df(0) * alpha * Dx, color=red, ls='--',
-                        label=r'$f(x)+t\alpha\nabla f(x)^\top \Delta x$')
+                label=r'$f(\mathbf{x})+t\alpha\nabla f(\mathbf{x})^\top \Delta \mathbf{x}$')
     t = 1
     n_steps = 0
     while f(t * Dx) > f(0) + alpha * t * df(0) * Dx:
