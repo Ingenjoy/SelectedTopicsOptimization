@@ -188,7 +188,7 @@ def solve_nd_quadratic(P, q, r=0):
 
 Consider $L_2$ regularized ridge regression:
 $$
-\min_\mathbf{x}\, (\mathbf{y} - B\mathbf{x})^\top(\mathbf{y} - B\mathbf{x}) + c\cdot \mathbf{x}^\top\mathbf{x}\,,
+\min_\mathbf{x}\, \frac{1}{2}(\mathbf{y} - B\mathbf{x})^\top(\mathbf{y} - B\mathbf{x}) + \frac{c}{2}\cdot \mathbf{x}^\top\mathbf{x}\,,
 $$
 with $c>0$. Write this in the standard form of a quadratic system and show that it is convex. Give the expression for the minimizer.
 
@@ -384,7 +384,7 @@ Here, we see that:
 
 Furthermore, it can be shown that if we use an exact line search for the step size, the error $f(\mathbf{x}^{(k)}) - f(\mathbf{x}^\star)\leq \epsilon$ we need fewer than
 $$
-\frac{\log((f(\mathbf{x}^{(k)}) - f(\mathbf{x}^\star))/\epsilon)}{\log(1/c)}\,,
+\frac{\log((f(\mathbf{x}^{(0)}) - f(\mathbf{x}^\star))/\epsilon)}{\log(1/c)}\,,
 $$
 with $c=1-\frac{\lambda_1}{\lambda_n}<1$. The quantity $\kappa=\frac{\lambda_n}{\lambda_1}$ is called the *condition number* and largely determines the convergence. We observe:
 
