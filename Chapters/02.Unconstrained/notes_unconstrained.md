@@ -73,6 +73,8 @@ $$
 
 Stated differently, for strongly convex functions the exist both a quadratic function with a smaller as well as a lower local curvature.
 
+![For strongly convex functions, it holds that there are two constants $m$ and $M$ such that $mI\preceq\nabla^2 f(\mathbf{x}) \preceq MI$. ](Figures/strong_convexity.png)
+
 ## Minimizing convex functions
 
 ## Toy examples
