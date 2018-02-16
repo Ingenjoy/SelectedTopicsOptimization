@@ -12,7 +12,7 @@ In this chapter we will study unconstrained convex problems, i.e. problems of th
 $$
 \min_\mathbf{x}\, f(\mathbf{x})\,,
 $$
-in which $f$ is convex. Convex optimization problems are well understood. Their most attractive property is that when a minimizer exists, the minimizer is the unique global minimizer.
+in which $f$ is *convex*. Convex optimization problems are well understood. Their most attractive property is that when a minimizer exists, the minimizer is the unique global minimizer.
 
 Most convex optimization problems do not have a closed-from solution, with the quadratic problems of the previous chapters as a notable exception. We will hence again have to resort to descent methods to find an (arbitrary accurate) approximate solution.
 
@@ -287,6 +287,8 @@ $$
 ||\mathbf{x}||_p = \left(\sum_{i=1}^n |x_i|^p\right)^\frac{1}{2}\,.
 $$
 
+$||\cdot||_1$ is often called the $L_1$ norm and $||\cdot||_2$ the $L_2$ norm.
+
 Consider $P\in \mathbb{R}^{n\times n}$ such that $P\succ 0$. The  corresponding *quadratic norm*:
 $$
 ||\mathbf{z}||_P = (\mathbf{z}^\top P\mathbf{z})^\frac{1}{2}=||P^\frac{1}{2}\mathbf{z}||_2\,.
@@ -297,7 +299,7 @@ The matrix $P$ can be used to encode prior knowledge about the scales and depend
 
 Let $|| \cdot ||$ be a norm on $\mathbb{R}^n$. The associated dual norm:
 $$
-||\mathbf{z}||_*=\sup \{\mathbf{z}^\top\mathbf{x}\mid ||\mathbf{x}||\leq 0\}\,.
+||\mathbf{z}||_*=\sup_{\mathbf{x}} \{\mathbf{z}^\top\mathbf{x}\mid ||\mathbf{x}||\leq 1\}\,.
 $$
 
 Examples:
@@ -437,7 +439,7 @@ $$
 
 > *A consistent algorithm should give the same results independent of the units in which quantities are measured.*  ~ Donald Knuth
 
-The Newton step is independent of linear or affine changes of coordinates. Consider a non-singular $n\times n$ transformation matrix $T$. If we apply a coordinate transformation $\mathbf{y}=T\mathbf{x}$ and define $\bar{f}(\mathbf{y}) = f(\mathbf{x})$, then
+The Newton step is independent of linear or affine changes of coordinates. Consider a non-singular $n\times n$ transformation matrix $T$. If we apply a coordinate transformation $\mathbf{x}=T\mathbf{y}$ and define $\bar{f}(\mathbf{y}) = f(\mathbf{x})$, then
 $$
 \nabla \bar{f}(\mathbf{y}) = T^\top\nabla f(\mathbf{x})\,,\quad \nabla^2 \bar{f}(\mathbf{y}) = T^\top\nabla^2f(\mathbf{x})T\,.
 $$
@@ -457,9 +459,9 @@ $$
 \lambda(\mathbf{x})  = (\nabla f(\mathbf{x})^\top\nabla^2 f(x)^{-1}\nabla f(\mathbf{x}))^{1/2}\,.
 $$
 
-This can be related to the quantity $f(\mathbf{x})-\text{inf}_\mathbf{y}\ \hat{f}(\mathbf{y})$:
+This can be related to the quantity $f(\mathbf{x})-\inf_\mathbf{y}\ \hat{f}(\mathbf{y})$:
 $$
-f(\mathbf{x})-\text{inf}_\mathbf{y}\ \hat{f}(\mathbf{y}) = f(\mathbf{x}) - \hat{f}(\mathbf{x} +\Delta \mathbf{x}_\text{nt}) = \frac{1}{2} \lambda(\mathbf{x})^2\,.
+f(\mathbf{x})-\inf_\mathbf{y}\ \hat{f}(\mathbf{y}) = f(\mathbf{x}) - \hat{f}(\mathbf{x} +\Delta \mathbf{x}_\text{nt}) = \frac{1}{2} \lambda(\mathbf{x})^2\,.
 $$
 Thus $\frac{1}{2} \lambda(\mathbf{x})^2$ is an estimate of $f(\mathbf{x}) - p^*$, based on the quadratic approximation of $f$ at $\mathbf{x}$.
 
@@ -528,6 +530,10 @@ def newtons_method(f, x0, grad_f, hess_f, alpha=0.3,
     if trace: return x, x_steps, f_steps    
     else: return x
 ```
+
+
+![Paths of Newton's method.](Figures/newtons_method.png)
+
 
 ### Summary Newton's method
 
