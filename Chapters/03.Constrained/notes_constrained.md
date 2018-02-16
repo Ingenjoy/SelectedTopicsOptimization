@@ -12,6 +12,8 @@
 
 Lagrange multipliers are elegant ways of finding stationary points of a function of several variables given one or more constraints. We give a short introduction based on a geometric perspective.
 
+> IMPORTANT: most textbooks treat Lagrange multipliers from as maximization problems. Here they are treated as minimization problems to be consistent with other chapters.
+
 ### Equality constraints
 
 Consider the following optimization problem:
@@ -39,11 +41,11 @@ We seek a point $\mathbf{x}^\star$ on the surface such that $f(\mathbf{x})$ is m
 ![Point on the surface that is a minimizer of $f$.](Figures/Lagr4.png)
 
 $$
-\nabla f(\mathbf{x}^\star) + \nu \nabla g (\mathbf{x}^\star)=0\,,
+\nabla f(\mathbf{x}^\star) - \nu \nabla g (\mathbf{x}^\star)=0\,,
 $$
 with $\nu\neq 0$ called the *Lagrange multiplier*. The constrained minimization problem can also be represented by a *Lagrangian*:
 $$
-L(\mathbf{x}, \nu) 	\equiv f(\mathbf{x}) + \nu g(\mathbf{x})\,.
+L(\mathbf{x}, \nu) 	\equiv f(\mathbf{x}) - \nu g(\mathbf{x})\,.
 $$
 The constrained stationary cndition is obtained by setting $\nabla_\mathbf{x} L(\mathbf{x}, \nu) =0$, the condition $\partial  L(\mathbf{x}, \nu)/\partial \nu=0$ leads to the constraint equation $g(\mathbf{x})=0$.
 
@@ -58,18 +60,19 @@ $$
 
 Here, two situations can arise:
 
+- **Inactive constraint**: the minimizer of $f$ lies in the region where $g(\mathbf{x}) < 0$. This corresponds to a Lagrange multiplier $\nu=0$. Note that the solution would be the same if the constraint was not present.
 - **Active constraint**: the minimizer of $f$ lies in the region where $g(\mathbf{x}) > 0$. The solution of the constrained problem will lie on the bound where $g(\mathbf{x})=0$, similar to the equality-constrained problem and corresponds to a Lagrange multiplier $\nu>0$.
-- **Inactive constrained**: the minimizer of $f$ lies in the region where $g(\mathbf{x}) < 0$. This corresponds to a Lagrange multiplier $\nu=0$. Note that the solution would be the same if the constraint was not present.
 
 Both scenarios are shown below:
 
+![Constrained minimization problem with an active inequality constraint. Optimum lies within the region where $g(\mathbf{x})\leq 0$. ](Figures/Lagr6.png)
+
 ![Constrained minimization problem with an active inequality constraint. Optimum lies on the boundary of the region where $g(\mathbf{x})\leq 0$.](Figures/Lagr5.png)
 
-![Constrained minimization problem with an active inequality constraint. Optimum lies within the region where $g(\mathbf{x})\leq 0$. ](Figures/Lagr6.png)
 
 For both cases, the product $\nu g(\mathbf{x})=0$, the solution should thus satisfy the following conditions:
 $$
-g(\mathbf{x}) \geq 0
+g(\mathbf{x}) \leq 0
 $$
 $$
 \nu \geq 0
@@ -80,8 +83,6 @@ $$
 These are called the *Karush-Kuhn-Tucker* conditions.
 
 It is relatively straightforward to extend this framework towards multiple constraints (equality and inequality) by using several Lagrange multipliers.
-
-TODO: Check this!
 
 ## Equality constrained convex optimization
 
@@ -94,9 +95,14 @@ $$
 
 where $f : \mathbb{R}^n \rightarrow \mathbb{R}$ is convex and twice continuously differentiable and $A\in \mathbb{R}^{p\times n}$ with a rank $p < n$.
 
-TODO: link with Lagrange multipliers
+The Lagrangian of this problem is
 
-A point $\mathbf{x}^\star\in$ **dom** $f$ is optimal for the above optimization problem only if there is a $\boldsymbol{\nu}\in\mathbb{R}^p$ such that:
+$$
+L(\mathbf{x}, \boldsymbol{\nu}) = f(\mathbf{x}) + \boldsymbol{\nu}^\top(A\mathbf{x}-\mathbf{b})\,,
+$$
+with $\boldsymbol{\nu}\in\mathbb{R}^p$ the vector of Lagrange multipliers.
+
+A point $\mathbf{x}^\star\in$ **dom** $f$ is optimal for the above optimization problem only if there is a $\boldsymbol{\nu}^\star\in\mathbb{R}^p$ such that:
 
 $$
 A\mathbf{x}^\star = \mathbf{b}, \qquad \nabla f(\mathbf{x}^\star) + A^\top\boldsymbol{\nu}^\star = 0\,.
@@ -125,7 +131,7 @@ $$
 Consider the following equality constrained convex optimization problem:
 
 $$
-\min\frac{1}{2}\mathbf{x}^\top P \mathbf{x} + \mathbf{q}^\top \mathbf{x} + r  \\
+\min_\mathbf{x}\frac{1}{2}\mathbf{x}^\top P \mathbf{x} + \mathbf{q}^\top \mathbf{x} + r  \\
 \text{subject to }  A\mathbf{x}=\mathbf{b}
 $$
 
@@ -152,6 +158,13 @@ A & 0 \\
 \mathbf{b}
      \end{bmatrix}
 $$
+
+Solving this linear system gives both the constrained minimizer $\mathbf{x}^\star$ as well as the Lagrange multipliers.
+
+**Assignment 1**
+
+1. Complete the code to solve the constrained quadratic system
+2. Use this code to solve the quadratic toy problem defined above.
 
 ```python
 def solve_constrained_quadratic_problem(P, q, A, b):
@@ -182,7 +195,7 @@ def solve_constrained_quadratic_problem(P, q, A, b):
 To derive $\Delta \mathbf{x}_{nt}$ for the following equality constrained problem
 
 $$
-\min  f(\mathbf{x}) \\
+\min_\mathbf{x}  f(\mathbf{x}) \\
 \text{subject to }  A\mathbf{x}=\mathbf{b}
 $$
 
@@ -239,6 +252,11 @@ The algorithm terminates when
 $$
 \frac{\lambda(\mathbf{x})^2}{2} < \epsilon\,.
 $$
+
+**Assignment 2**
+
+1. Complete the code for the linearly constrained Newton method.
+2. Use this code to find the minimum of the non-quadratic toy problem, defined above.
 
 ```python
 def linear_constrained_newton(f, x0, grad_f,

@@ -61,7 +61,7 @@ I(u) = \infty \text{ if } u> 0\,.
 $$
 Sadly, we cannot directly optimize such a function using gradient-based optimization as $I$ does not provide gradients to guide us.
 
-### Logarithmic barrier and the central path
+### Logarithmic barrier
 
 Main idea: approximate $I_-$ by the function:
 
@@ -112,7 +112,7 @@ $$
 - The drawback of higher values of $t$ is that the problem becomes harder to optimize using Newton's method, as its Hessian will vary rapidly near the boundary of the feasible set.
 - This can be circumvented by solving a sequence of problems with increasing $t$ at each step, starting each Newton minimization at the solution of the previous value of $t$.
 
-By the way:
+Computed for you:
 
 - gradient of $\phi$:
 $$
@@ -123,6 +123,10 @@ $$
 \nabla^2\phi(\mathbf{x}) = \sum_{i=1}^m \frac{1}{f_i(\mathbf{x})^2} \nabla f_i(\mathbf{x}) \nabla f_i(\mathbf{x})^\top+\sum_{i=1}^m\frac{1}{-f_i(\mathbf{x})^2} \nabla^2 f_i(\mathbf{x})
 $$
 
+The pseudocode of the barrier method is given below.
+
+TODO: fix parameters
+
 >**input** strictly feasible $\mathbf{x}$, $t:=t^{(0)}>0, \mu>1$, $t_\text{max}$, tolerance $\epsilon>0$.
 >
 >**repeat**
@@ -132,15 +136,12 @@ $$
 >>    2. *Update*. $\mathbf{x}:=\mathbf{x}^*(t)$
 >>    3. *Increase* $t$. $t:=\mu t$.
 >
->**until** $t>t_\text{max}$
+>**until** $m/t < \epsilon$
 >
 >**output** $\mathbf{x}$
 
-TODO: update
 
 ### Central path
-
-We solve
 
 The *central path* is the set of points satisfying:
 
