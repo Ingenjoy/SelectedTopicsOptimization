@@ -1,4 +1,4 @@
-# Constrained convex optimization
+# Constrained convex optimization (1)
 
 *Selected Topics in Mathematical Optimization: 2017-2018*
 
@@ -7,6 +7,12 @@
 ![](Figures/logo.png)
 
 ## Motivation
+
+Many more realistic optimization problems are characterized by constraints. For example, real-word systems often satisfy conservation laws, such as conservation of mass, of atoms or of charge. When designing objects, there are practical constraints of feasible dimensions, range of operations and limitations in materials. Another example is in probability, where a solution should satisfy the axioms of probability theory (probabilities are real values between 0 and 1 and the probabilities of all events should sum to 1).
+
+Other cases, we include constraints in our problem because they encode prior knowledge about the problem or to obtain solutions with certain desirable properties.
+
+In this chapter we discuss convex optimization problems with linear equality constraints (constraining the solution to a linear subspace) and convex inequality constrains (constraining the solution to convex subspace). Both types of constraints result again in a convex optimization problem.
 
 ## Lagrange multipliers
 
@@ -30,9 +36,9 @@ $$
 g(\mathbf{x}+\boldsymbol{\epsilon})\approx g(\mathbf{x}) + \boldsymbol{\epsilon}^\top\nabla g(\mathbf{x})\,.
 $$
 
-![The same optimization problem, with some gradients of $f(\mathbf{x})$ and $g(\mathbf{x})$ shown.](Figures/Lagr2.png)
-
 Given that both $\mathbf{x}$ and $\mathbf{x}+\boldsymbol{\epsilon}$ lie on the surface it follows that $g(\mathbf{x}+\boldsymbol{\epsilon})= g(\mathbf{x})$. In the limit that $||\boldsymbol{\epsilon}||\rightarrow 0$ we have that $\boldsymbol{\epsilon}^\top\nabla g(\mathbf{x})=0$. Because $\boldsymbol{\epsilon}$ is parallel to the surface $g(\mathbf{x})$, it follows that $\nabla g(\mathbf{x})$ is normal to the surface.
+
+![The same optimization problem, with some gradients of $f(\mathbf{x})$ and $g(\mathbf{x})$ shown.](Figures/Lagr2.png)
 
 We seek a point $\mathbf{x}^\star$ on the surface such that $f(\mathbf{x})$ is minimized. For such a point, it should hold that the gradient w.r.t. $f$ should be parallel to $\nabla g$. Otherwise, it would be possible to give a small 'nudge' to $\mathbf{x}^\star$ in the direction of $\nabla f$ to decrease the function value, which would indicate that $\mathbf{x}^\star$ is not a minimizer. This figures below illustrate this point.
 
@@ -41,11 +47,11 @@ We seek a point $\mathbf{x}^\star$ on the surface such that $f(\mathbf{x})$ is m
 ![Point on the surface that is a minimizer of $f$.](Figures/Lagr4.png)
 
 $$
-\nabla f(\mathbf{x}^\star) - \nu \nabla g (\mathbf{x}^\star)=0\,,
+\nabla f(\mathbf{x}^\star) + \nu \nabla g (\mathbf{x}^\star)=0\,,
 $$
 with $\nu\neq 0$ called the *Lagrange multiplier*. The constrained minimization problem can also be represented by a *Lagrangian*:
 $$
-L(\mathbf{x}, \nu) 	\equiv f(\mathbf{x}) - \nu g(\mathbf{x})\,.
+L(\mathbf{x}, \nu) 	\equiv f(\mathbf{x}) + \nu g(\mathbf{x})\,.
 $$
 The constrained stationary cndition is obtained by setting $\nabla_\mathbf{x} L(\mathbf{x}, \nu) =0$, the condition $\partial  L(\mathbf{x}, \nu)/\partial \nu=0$ leads to the constraint equation $g(\mathbf{x})=0$.
 
@@ -156,8 +162,9 @@ A & 0 \\
      \begin{bmatrix}
 -\mathbf{q} \\
 \mathbf{b}
-     \end{bmatrix}
+     \end{bmatrix}\,.
 $$
+Note that this is a block matrix.
 
 Solving this linear system gives both the constrained minimizer $\mathbf{x}^\star$ as well as the Lagrange multipliers.
 
@@ -175,12 +182,12 @@ def solve_constrained_quadratic_problem(P, q, A, b):
         - P, q: quadratic and linear parameters of
                 the linear function to be minimized
         - A, b: system of the linear constraints
-        -
+
     Outputs:
         - xstar: the exact minimizer
         - vstar: the optimal Lagrange multipliers
     """
-    p, n = A.shape  # size of the problem
+    p, n = ...  # size of the problem
     # complete this code
     # HINT: use np.linalg.solve and np.bmat
     solution = ...
@@ -188,7 +195,6 @@ def solve_constrained_quadratic_problem(P, q, A, b):
     vstar = solution[n:]
     return np.array(xstar), np.array(vstar)
 ```
-### Eliminating equality constraints
 
 ### Newton's method with equality constraints
 
@@ -202,7 +208,7 @@ $$
 we apply a second-order Taylor approximation at the point $\mathbf{x}$, to obtain
 
 $$
-\min \hat{f}(\mathbf{x} +\mathbf{v}) = f(\mathbf{x}) +\nabla f(\mathbf{x})^\top \mathbf{v}+ (1/2)\mathbf{v}^\top \nabla^2 f(\mathbf{x}) \mathbf{v} \\
+\min \hat{f}(\mathbf{x} +\mathbf{v}) = f(\mathbf{x}) +\nabla f(\mathbf{x})^\top \mathbf{v}+ \frac{1}{2}\mathbf{v}^\top \nabla^2 f(\mathbf{x}) \mathbf{v} \\
 \text{subject to } A(\mathbf{x}+\mathbf{v})=\mathbf{b}\,.
 $$
 

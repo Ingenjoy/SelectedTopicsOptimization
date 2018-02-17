@@ -1,3 +1,10 @@
+# Constrained convex optimization (2)
+
+*Selected Topics in Mathematical Optimization: 2017-2018*
+
+**Michiel Stock** ([email](michiel.stock@ugent.be))
+
+![](Figures/logo.png)
 
 ## Inequality constrained convex optimization
 
@@ -9,6 +16,13 @@ $$
 A\mathbf{x}=\mathbf{b}
 $$
 where $f_0,\ldots,f_m\ :\ \mathbb{R}^n \rightarrow \mathbb{R}$ are convex and twice continuously differentiable, and $A\in \mathbb{R}^{p\times n}$ with **rank** $A=p<n$.
+
+**Question 1**
+
+Write the inequality constraints for the case when:
+
+1. $x_k\geq 0$
+2. $\mathbf{x}$ lies in the unit sphere.
 
 Using the theory of Lagrange multipliers, a point $\mathbf{x}^\star \in\mathbb{R}^n$ is optimal if and only if there exist a $\boldsymbol{\lambda}^\star\in \mathbb{R}^m$ and $\boldsymbol{\nu}^\star\in \mathbb{R}^p$ such that
 $$
@@ -123,9 +137,8 @@ $$
 \nabla^2\phi(\mathbf{x}) = \sum_{i=1}^m \frac{1}{f_i(\mathbf{x})^2} \nabla f_i(\mathbf{x}) \nabla f_i(\mathbf{x})^\top+\sum_{i=1}^m\frac{1}{-f_i(\mathbf{x})^2} \nabla^2 f_i(\mathbf{x})
 $$
 
-The pseudocode of the barrier method is given below.
+The pseudocode of the barrier method is given below. We start with a low value of $t$ and increase every step with a factor $\mu$ until $m/t$ is smaller than some $\epsilon>0$.
 
-TODO: fix parameters
 
 >**input** strictly feasible $\mathbf{x}$, $t:=t^{(0)}>0, \mu>1$, $t_\text{max}$, tolerance $\epsilon>0$.
 >
@@ -140,6 +153,19 @@ TODO: fix parameters
 >
 >**output** $\mathbf{x}$
 
+**Choice of $\mu$**
+
+The choice has a trade-off in the number of inner and outer iterations required:
+- If $\mu$ is small (close to 1) then $t$ increases slowly. A large number of Newton iterations will be required, but each will go fast.
+- If $\mu$ is large then $t$ increases very fast. Each Newton step will take a long time to converge, but few iterations will be needed.
+
+The exact value of $\mu$ is not particularly critical, values between 10 and 20 work well.
+
+**Choice of $t^{(0)}$**
+
+- If $t^{(0)}$ is chosen too large: the first outer iteration will require many iterations.
+- If $t^{(0)}$ is chosen too small: the algorithm will require extra outer iterations.
+
 
 ### Central path
 
@@ -151,5 +177,3 @@ $$
 t\nabla f_0(\mathbf{x}^\star(t)) + \nabla \phi(\mathbf{x}^\star(t)) +A^\top \hat{\boldsymbol{\nu}}=0
 $$
 - one can show that $f_0(\mathbf{x}^\star(t))-p^\star\leq m / t$: $f_0(\mathbf{x}^\star(t))$ converges to an optimal point as $t\rightarrow \infty$.
-
-## Exercise:
