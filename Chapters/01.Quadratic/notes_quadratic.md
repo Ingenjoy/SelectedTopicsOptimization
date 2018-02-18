@@ -232,6 +232,8 @@ Below is the general pseudocode of a general descent method:
 >> 3. *Update*. $\mathbf{x}:=\mathbf{x} + t \Delta \mathbf{x}$.
 >
 > **until** stopping criterion is reached.
+>
+> **Output**: $\mathbf{x}$
 
 Usually, the convergence criterion is of the form
 $$
@@ -408,11 +410,11 @@ $$
 $$
 \mathbf{x}^{(k+1)} = \mathbf{x}^{(k)} + t^{(k)}\Delta \mathbf{x}^{(k+1)}\,,
 $$
-with $\beta\in[0,1]$ called the *momentum parameter*.
+with $\beta\in[0,1)$ called the *momentum parameter*.
 
 ### Gradient descent algorithm with momentum
 
-> **given** a starting point $\mathbf{x}$,  $\beta$
+> **given** a starting point $\mathbf{x}$,  $\beta\in[0,1)$
 >
 > **initialize** $\Delta \mathbf{x}= \mathbf{0}$
 >
@@ -422,6 +424,8 @@ with $\beta\in[0,1]$ called the *momentum parameter*.
 >> 3. *Update*. $\mathbf{x}:=\mathbf{x} + t \Delta \mathbf{x}$.
 >
 > **until** stopping criterion is reached.
+>
+> **Output** $\mathbf{x}$
 
 ### Illustration of momentum
 
