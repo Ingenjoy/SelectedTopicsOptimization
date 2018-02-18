@@ -9,9 +9,11 @@
 ## Motivation
 
 In this chapter we will study unconstrained convex problems, i.e. problems of the form
+
 $$
 \min_\mathbf{x}\, f(\mathbf{x})\,,
 $$
+
 in which $f$ is *convex*. Convex optimization problems are well understood. Their most attractive property is that when a minimizer exists, the minimizer is the unique global minimizer.
 
 Most convex optimization problems do not have a closed-from solution, with the quadratic problems of the previous chapters as a notable exception. We will hence again have to resort to descent methods to find an (arbitrary accurate) approximate solution.
@@ -67,6 +69,7 @@ If the first- and second order derivatives exists, a strongly $m$-convex satisfi
 - $\nabla^2 f(\mathbf{x})-mI\succeq 0$ (all eigenvalues of the Hessian are greater than $m$)
 
 If a function is $m$-strongly convex, this also implies that there exists an $M>m$ such that
+
 $$
 \nabla^2 f(\mathbf{x}) \preceq MI\,.
 $$
@@ -75,7 +78,6 @@ Stated differently, for strongly convex functions the exist both a quadratic fun
 
 ![For strongly convex functions, it holds that there are two constants $m$ and $M$ such that $mI\preceq\nabla^2 f(\mathbf{x}) \preceq MI$. ](Figures/strong_convexity.png)
 
-## Minimizing convex functions
 
 ## Toy examples
 
@@ -189,6 +191,10 @@ gradient_function = lambda x : 2*x -2
 backtracking_line_search(function, 0, 10, gradient_function)
 ```
 
+**Question 1**
+
+Describe the effect of $\alpha$, $\beta$ and $\Delta \mathbf{x}$. How can you perform a more precise search?
+
 ## Gradient descent
 
 A natural choice for the search direction is the negative gradient: $\Delta \mathbf{x} = -\nabla f(\mathbf{x})$. This algorithm is called the *gradient descent algorithm*.
@@ -224,8 +230,6 @@ We conclude:
 - The number of steps needed for a given quality is proportional to the logarithm of the initial error.
 - To increase the accuracy with an order of magnitude, only a few more steps are needed.
 - Convergence is again determined by the *condition number* $M/m$. Note that for large condition numbers: $\log(1/c)=-\log(1-\frac{m}{M})\approx m/M$, so the number of required iterations increases linearly with increasing $M/m$.
-
-### Illustration
 
 **Assignment 2**
 
@@ -453,7 +457,7 @@ $$
 \mathbf{x} + \Delta \mathbf{x}_\text{nt} = T (\mathbf{y} + \Delta \mathbf{y}_\text{nt})\,.
 $$
 
-**Questions 1**
+**Questions 2**
 
 Does scaling and rotation affect the working of gradient descent and coordinate descent?
 
@@ -669,7 +673,7 @@ l_hess = lambda w : hess_logistic_loss(w, binary_response, features, 0.1)
 
 **Assignment 2**
 
-Use gradient descent, coordinate descent, Newton's method and BFGS method to find the parameters of the logistic model ($\lambda=0.1$).
+Use gradient descent, coordinate descent and Newton's method to find the parameters of the logistic model ($\lambda=0.1$).
 
 **Assignment 3**
 
