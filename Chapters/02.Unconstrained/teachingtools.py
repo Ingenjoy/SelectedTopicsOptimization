@@ -107,11 +107,12 @@ def show_inexact_ls(alpha=0.4, beta=0.9, Dx=10):
     t_begin = -0.4
     t_end = 1.5
     tvals = np.linspace(t_begin, t_end)
-    ax.plot(tvals, f(tvals * Dx), color=blue, label=r'$f(x+t\Delta x)$')
+    ax.plot(tvals, f(tvals * Dx), color=blue,
+                label=r'$f(\mathbf{x}+t\Delta \mathbf{x})$')
     ax.plot(tvals, f(0) + tvals * df(0) * Dx, color=red,
-                label=r'$f(x)+t\nabla f(x)^\top \Delta x$')
+                label=r'$f(\mathbf{x})+t\nabla f(\mathbf{x})^\top \Delta \mathbf{x}$')
     ax.plot(tvals, f(0) + tvals * df(0) * alpha * Dx, color=red, ls='--',
-                        label=r'$f(x)+t\alpha\nabla f(x)^\top \Delta x$')
+                label=r'$f(\mathbf{x})+t\alpha\nabla f(\mathbf{x})^\top \Delta \mathbf{x}$')
     t = 1
     n_steps = 0
     while f(t * Dx) > f(0) + alpha * t * df(0) * Dx:
@@ -227,7 +228,7 @@ def show_steepest_descent_gradients(x, ax):
     dx_P = get_steepest_descent(X_P, neg_grad)
     plot_vector(x, dx_P.ravel(), ax, blue)
     X_P += x.reshape((1, 2))
-    ax.plot(X_P[:, 0], X_P[:, 1], c=blue, label='$P$ norm')
+    ax.plot(X_P[:, 0], X_P[:, 1], c=yellow, label='$P$ norm')
 
     # scaling using Hessian
     X_H = get_unit_circle(2, P=hessian_nonquadratic(x.reshape((-1, 1))),
