@@ -16,7 +16,7 @@ $$
 
 in which $f$ is *convex*. Convex optimization problems are well understood. Their most attractive property is that when a minimizer exists, the minimizer is the unique global minimizer.
 
-Most convex optimization problems do not have a closed-from solution, with the quadratic problems of the previous chapters as a notable exception. We will hence again have to resort to descent methods to find an (arbitrary accurate) approximate solution.
+Most convex optimization problems do not have a closed-form solution, with the quadratic problems of the previous chapters as a notable exception. We will hence again have to resort to descent methods to find an (arbitrary accurate) approximate solution.
 
 ## Convex sets and functions
 
@@ -24,7 +24,7 @@ Most convex optimization problems do not have a closed-from solution, with the q
 
 > **In words**: a set $\mathcal{C}$ is called *convex* if the line segment between any two points in $\mathcal{C}$ also lies in $\mathcal{C}$.
 
-> **In symbols**:  a set $\mathcal{C}$ is called *convex* if, for any $x, x' \in \mathcal{C}$ and any $\theta \in [0, 1]$, it holds that $\theta x + (1 - \theta) x' \in \mathcal{C}$.
+> **In symbols**:  a set $\mathcal{C}$ is called *convex* if, for any $\mathbf{x}, \mathbf{x}' \in \mathcal{C}$ and any $\theta \in [0, 1]$, it holds that $\theta \mathbf{x} + (1 - \theta) \mathbf{x}' \in \mathcal{C}$.
 
 ![Some convex (A & B) and non-convex sets (B & D).](Figures/convex_sets.png)
 
@@ -42,7 +42,7 @@ Most convex optimization problems do not have a closed-from solution, with the q
 
 From the definition, it follows that:
 
-- If the function is differentiable, then $f(\mathbf{x})\geq f(\mathbf{x}')+\nabla f(\mathbf{x}')(\mathbf{x}-\mathbf{x}')$ for all $\mathbf{x}$ and $\mathbf{x}' \in \text{dom}(f)$. **The first-order Taylor approximation is a global underestimator of $f$.**
+- If the function is differentiable, then $f(\mathbf{x})\geq f(\mathbf{x}')+\nabla f(\mathbf{x}')^\top(\mathbf{x}-\mathbf{x}')$ for all $\mathbf{x}$ and $\mathbf{x}' \in \text{dom}(f)$. **The first-order Taylor approximation is a global underestimator of $f$.**
 - If the function is twice differentiable, then $\nabla^2 f(\mathbf{x})\succeq 0$ for any $\mathbf{x}\in\text{dom}(f)$.
 
 Convex functions frequently arise:
@@ -129,7 +129,7 @@ For quadratic optimization, as covered in Chapter 1, the optimal step size could
 As a subroutine of the general descent algorithm a line search has to be performed. A value for $t$ is chosen to minimize $f$ along the ray $\{\mathbf{x}+t\Delta \mathbf{x} \mid t\geq0\}$:
 
 $$
-t = \text{arg min}_{s\geq0}\ f(x+s\Delta \mathbf{x})\,.
+t = \text{arg min}_{s\geq0}\ f(\mathbf{x}+s\Delta \mathbf{x})\,.
 $$
 
 Exact line search is used when the cost of solving the above minimization problem is small compared to the cost of calculating the search direction itself. This is sometimes the case when an analytical solution is available.
@@ -234,7 +234,7 @@ We conclude:
 **Assignment 2**
 
 1. Complete the implementation of the gradient descent method.
-2. Plot the paths for the two toy problems. Use $\mathbf{x}_0=[10,1]^\top$ for the quadratic function and $\mathbf{x}_0=[-0.5,0.9]^\top$ for the non-quadratic function as starting points.
+2. Plot the paths for the two toy problems. Use $\mathbf{x}^{(0)}=[10,1]^\top$ for the quadratic function and $\mathbf{x}^{(0)}=[-0.5,0.9]^\top$ for the non-quadratic function as starting points.
 3. Analyze the convergence.
 
 ```python
@@ -292,7 +292,7 @@ A norm on $\mathbb{R}^n$ is a function $||\cdot||:\mathbb{R}^n\rightarrow \mathb
 
 For example, for any $\mathbf{x}\in\mathbb{R}^n$ and $p\leq 1$:
 $$
-||\mathbf{x}||_p = \left(\sum_{i=1}^n |x_i|^p\right)^\frac{1}{2}\,.
+||\mathbf{x}||_p = \left(\sum_{i=1}^n |x_i|^p\right)^\frac{1}{p}\,.
 $$
 
 $||\cdot||_1$ is often called the $L_1$ norm and $||\cdot||_2$ the $L_2$ norm.
@@ -494,7 +494,7 @@ The above algorithm is sometimes called the *damped* Newton method, as it uses a
 
 ### Convergence analysis
 
-Iterations in Newton’s method fall into two stages:
+Iterations in Newton's method fall into two stages:
 
 - *damped Newton phase* $(t < 1)$ until $||\nabla f(\mathbf{x})||_2 \leq \eta$
 - *pure Newton phase* $(t = 1)$: quadratic convergence
@@ -583,7 +583,7 @@ It is easy to see that the logistic mapping will ensure that $f(\mathbf{x})\in[0
 
 Note that
 $$
-\frac{\mathrm{d}\sigma(x)}{\mathrm{d}x} = (1-\sigma(x))\sigma(x)\,.
+\frac{\text{d}\sigma(t)}{\text{d}t} = (1-\sigma(t))\sigma(t)\,.
 $$
 
 To find the best weights that separate the two classes, we can use the following structured loss function:
