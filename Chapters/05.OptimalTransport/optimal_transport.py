@@ -12,6 +12,14 @@ from itertools import permutations
 import numpy as np
 from sklearn.metrics.pairwise import pairwise_distances
 
+blue = '#264653'
+green = '#2a9d8f'
+yellow = '#e9c46a'
+orange = '#f4a261'
+red = '#e76f51'
+black = '#50514F'
+
+
 def kantorovich_brute_force(C):
     """
     Solves the Kantorovich assignment problem using
