@@ -419,7 +419,7 @@ with $\beta\in[0,1)$ called the *momentum parameter*.
 > **initialize** $\Delta \mathbf{x}= \mathbf{0}$
 >
 > **repeat**
->> 1. $\Delta \mathbf{x} := \beta \Delta \mathbf{x}- (1-\beta)P\mathbf{x}$
+>> 1. $\Delta \mathbf{x} := \beta \Delta \mathbf{x}- (1-\beta)(P\mathbf{x}+\mathbf{q})$
 >> 2. *Line search*. Choose optimal $t>0$.
 >> 3. *Update*. $\mathbf{x}:=\mathbf{x} + t \Delta \mathbf{x}$.
 >

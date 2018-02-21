@@ -226,9 +226,9 @@ def show_steepest_descent_gradients(x, ax):
     # scaling along axes
     X_P = get_unit_circle(2, P=np.diag([1, 4]))
     dx_P = get_steepest_descent(X_P, neg_grad)
-    plot_vector(x, dx_P.ravel(), ax, blue)
+    plot_vector(x, dx_P.ravel(), ax, black)
     X_P += x.reshape((1, 2))
-    ax.plot(X_P[:, 0], X_P[:, 1], c=yellow, label='$P$ norm')
+    ax.plot(X_P[:, 0], X_P[:, 1], c=black, label='$P$ norm')
 
     # scaling using Hessian
     X_H = get_unit_circle(2, P=hessian_nonquadratic(x.reshape((-1, 1))),
