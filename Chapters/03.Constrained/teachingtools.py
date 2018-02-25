@@ -6,7 +6,7 @@ Last update: Fri 03 Mar 2017
 @author: Michiel Stock
 michielfmstock@gmail.com
 
-Some functions for Chapter 02: Constrained optimization
+Some functions for Chapter 03: Constrained optimization
 """
 
 import numpy as np

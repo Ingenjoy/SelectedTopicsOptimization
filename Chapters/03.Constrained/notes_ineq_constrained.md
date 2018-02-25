@@ -33,10 +33,10 @@ f_i(\mathbf{x}^\star) \leq 0, \quad i=1,\ldots,m
 $$
 and
 $$
-\lambda_i \geq 0
+\lambda_i^\star \geq 0, \quad i=1,\ldots,m
 $$
 $$
-\nabla f_0(\mathbf{x}^\star)+\sum_{i=1}^m\lambda_i\nabla f_i(\mathbf{x}^\star) +A^\top \boldsymbol{\nu}^\star=0
+\nabla f_0(\mathbf{x}^\star)+\sum_{i=1}^m\lambda^\star_i\nabla f_i(\mathbf{x}^\star) +A^\top \boldsymbol{\nu}^\star=0
 $$
 $$
 \lambda_if_i(\mathbf{x}^\star)=0, \quad i=1,\ldots,m\,.
@@ -47,10 +47,10 @@ $$
 The non-quadratic function with inequality constraints:
 
 $$
-f(x_1, x_2)   = \log(e^{x_1 +3x_2-0.1}+e^{x_1 -3x_2-0.1}+e^{-x_1 -0.1})
+\min_\mathbf{x} f_0(x_1, x_2)   = \log(e^{x_1 +3x_2-0.1}+e^{x_1 -3x_2-0.1}+e^{-x_1 -0.1})
 $$
 $$
- \text{subject to }  (x_1 - 1)^2 + (x_2 - 0.25)^2 - 1\leq 0
+ \text{subject to }  (x_1 - 1)^2 + (x_2 - 0.25)^2 \leq 1
 $$
 
 ![Convex function with an equality constraint. Note that the feasible region is a convex set.](Figures/ineq_const_example.png)
@@ -67,13 +67,13 @@ A\mathbf{x}=\mathbf{b}
 $$
 where $I_{-}:\mathbb{R}\rightarrow \mathbb{R}$ is the *indicator function* for the nonpositive reals:
 $$
-I(u) = 0 \text{ if } u\leq 0
+I_-(u) = 0 \text{ if } u\leq 0
 $$
 and
 $$
-I(u) = \infty \text{ if } u> 0\,.
+I_-(u) = \infty \text{ if } u> 0\,.
 $$
-Sadly, we cannot directly optimize such a function using gradient-based optimization as $I$ does not provide gradients to guide us.
+Sadly, we cannot directly optimize such a function using gradient-based optimization as $I_-$ does not provide gradients to guide us.
 
 ### Logarithmic barrier
 
@@ -91,16 +91,16 @@ where $t>0$ is a parameter that sets the accuracy of the approximation.
 Thus the problem can be approximated by:
 
 $$
-\min_\mathbf{x} f_0(\mathbf{x}) +\sum_{i=1}^m-\hat{I}_-(f_i(\mathbf{x})
+\min_\mathbf{x} f_0(\mathbf{x}) +\sum_{i=1}^m\hat{I}_-(f_i(\mathbf{x}))
 $$
 $$
 \text{subject to } A\mathbf{x}=\mathbf{b}\,.
 $$
 Note that:
 
-- since $\hat{I}_-(u)$ is convex and  increasing in $u$, the objective is also convex
-- unlike the function $I$, the function $\hat{I}_-(u)$ is differentiable
-- as $t$ increases, the approximation becomes more accurate, as shown below
+- since $\hat{I}_-(u)$ is convex and  increasing in $u$, the objective is also convex;
+- unlike the function $I$, the function $\hat{I}_-(u)$ is differentiable;
+- as $t$ increases, the approximation becomes more accurate, as shown below.
 
 ![Larger values of $t$ result in a better approximation of](Figures/log_bar.png)
 
@@ -112,7 +112,7 @@ $$
 \phi (\mathbf{x}) =\sum_{i=1}^m-\log(-f_i(\mathbf{x}))\,
 $$
 
-is called the **logarithmic barrier** for the constrained optimization problem.
+is called the *logarithmic barrier* for the constrained optimization problem.
 
 The new optimization problem becomes:
 $$
@@ -137,7 +137,7 @@ $$
 \nabla^2\phi(\mathbf{x}) = \sum_{i=1}^m \frac{1}{f_i(\mathbf{x})^2} \nabla f_i(\mathbf{x}) \nabla f_i(\mathbf{x})^\top+\sum_{i=1}^m\frac{1}{-f_i(\mathbf{x})^2} \nabla^2 f_i(\mathbf{x})
 $$
 
-The pseudocode of the barrier method is given below. We start with a low value of $t$ and increase every step with a factor $\mu$ until $m/t$ is smaller than some $\epsilon>0$.
+The pseudocode of the **barrier method** is given below. We start with a low value of $t$ and increase every step with a factor $\mu$ until $m/t$ is smaller than some $\epsilon>0$.
 
 
 >**input** strictly feasible $\mathbf{x}$, $t:=t^{(0)}>0, \mu>1$, $t_\text{max}$, tolerance $\epsilon>0$.
@@ -145,9 +145,9 @@ The pseudocode of the barrier method is given below. We start with a low value o
 >**repeat**
 >
 >>    1. *Centering step*.<br>
->>   Compute $\mathbf{x}^*(t)$ by minimizing $tf_0+\phi$, subject to $A\mathbf{x}=\mathbf{b}$, starting at $\mathbf{x}$.
->>    2. *Update*. $\mathbf{x}:=\mathbf{x}^*(t)$
->>    3. *Increase* $t$. $t:=\mu t$.
+>>   Compute $\mathbf{x}^\star(t)$ by minimizing $tf_0+\phi$, subject to $A\mathbf{x}=\mathbf{b}$, starting at $\mathbf{x}$.
+>>    2. *Update*. $\mathbf{x}:=\mathbf{x}^\star(t)$
+>>    3. *Increase $t$.*  $t:=\mu t$.
 >
 >**until** $m/t < \epsilon$
 >

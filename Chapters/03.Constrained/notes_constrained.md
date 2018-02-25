@@ -31,7 +31,7 @@ $$
 
 ![Convex optimization problem with an equality constraint. Here, the constraint is nonlinear.](Figures/Lagr1.png)
 
-For every point $\mathbf{x}$ on the surface $g(\mathbf{x})$, the gradient $\nabla g(\mathbf{x})=0$. This can be shown by considering a point $\mathbf{x}+\boldsymbol{\epsilon}$, also on the surface. If we make a Taylor expansion around $\mathbf{x}$, we have
+For every point $\mathbf{x}$ on the surface $g(\mathbf{x})=0$, the gradient $\nabla g(\mathbf{x})$ is normal to this surface. This can be shown by considering a point $\mathbf{x}+\boldsymbol{\epsilon}$, also on the surface. If we make a Taylor expansion around $\mathbf{x}$, we have
 $$
 g(\mathbf{x}+\boldsymbol{\epsilon})\approx g(\mathbf{x}) + \boldsymbol{\epsilon}^\top\nabla g(\mathbf{x})\,.
 $$
@@ -53,7 +53,7 @@ with $\nu\neq 0$ called the *Lagrange multiplier*. The constrained minimization 
 $$
 L(\mathbf{x}, \nu) 	\equiv f(\mathbf{x}) + \nu g(\mathbf{x})\,.
 $$
-The constrained stationary cndition is obtained by setting $\nabla_\mathbf{x} L(\mathbf{x}, \nu) =0$, the condition $\partial  L(\mathbf{x}, \nu)/\partial \nu=0$ leads to the constraint equation $g(\mathbf{x})=0$.
+The constrained stationary condition is obtained by setting $\nabla_\mathbf{x} L(\mathbf{x}, \nu) =0$, the condition $\partial  L(\mathbf{x}, \nu)/\partial \nu=0$ leads to the constraint equation $g(\mathbf{x})=0$.
 
 ### Inequality constraints
 
@@ -92,6 +92,8 @@ It is relatively straightforward to extend this framework towards multiple const
 
 ## Equality constrained convex optimization
 
+### Problem outline
+
 We will start with convex optimization problems with linear equality constraints:
 
 $$
@@ -119,14 +121,14 @@ We will reuse the same toy examples from the previous chapter, but add an equali
 - Simple quadratic problem:
 
 $$
- f(x_1, x_2)  = \frac{1}{2} (x_1^2 + 4 x_2^2)\\
+ \min_{\mathbf{x}} \frac{1}{2} (x_1^2 + 4 x_2^2)\\
  \text{subject to }  x_1 - 2x_2 = 3
 $$
 
 - A non-quadratic function:
 
 $$
-f(x_1, x_2)   = \log(e^{x_1 +3x_2-0.1}+e^{x_1 -3x_2-0.1}+e^{-x_1 -0.1})\\
+ \min_{\mathbf{x}}\log(e^{x_1 +3x_2-0.1}+e^{x_1 -3x_2-0.1}+e^{-x_1 -0.1})\\
  \text{subject to }  x_1 + 3x_2 = 0  
 $$
 
@@ -141,7 +143,7 @@ $$
 \text{subject to }  A\mathbf{x}=\mathbf{b}
 $$
 
-where $P$ is positive definite.
+where $P$ is symmetric.
 
 The optimality conditions are
 $$
@@ -166,11 +168,13 @@ A & 0 \\
 $$
 Note that this is a block matrix.
 
+> If $P$ is positive-definite, the linearly constrained quadratic minimization problem has an unique solution.
+
 Solving this linear system gives both the constrained minimizer $\mathbf{x}^\star$ as well as the Lagrange multipliers.
 
 **Assignment 1**
 
-1. Complete the code to solve the constrained quadratic system
+1. Complete the code to solve linearly constrained quadratic systems.
 2. Use this code to solve the quadratic toy problem defined above.
 
 ```python
@@ -208,7 +212,7 @@ $$
 we apply a second-order Taylor approximation at the point $\mathbf{x}$, to obtain
 
 $$
-\min \hat{f}(\mathbf{x} +\mathbf{v}) = f(\mathbf{x}) +\nabla f(\mathbf{x})^\top \mathbf{v}+ \frac{1}{2}\mathbf{v}^\top \nabla^2 f(\mathbf{x}) \mathbf{v} \\
+\min_\mathbf{x} \hat{f}(\mathbf{x} +\mathbf{v}) = f(\mathbf{x}) +\nabla f(\mathbf{x})^\top \mathbf{v}+ \frac{1}{2}\mathbf{v}^\top \nabla^2 f(\mathbf{x}) \mathbf{v} \\
 \text{subject to } A(\mathbf{x}+\mathbf{v})=\mathbf{b}\,.
 $$
 
@@ -230,20 +234,21 @@ A\mathbf{x}-\mathbf{b}
      \end{bmatrix}
 $$
 
+- If the starting point $\mathbf{x}^{(0)}$ is chosen such that $A\mathbf{x}^{(0)}=\mathbf{b}$, the residual term vanishes and steps will remain in the feasible region. This is the **feasible start Newton method**.
+- If we choose an arbitrary $\mathbf{x}^{(0)}\in$ **dom** $f$, not satisfying the constraints, this is the **infeasible start Newton method**. It will usually converge rapidly to the feasible region (check the final solution!).
+
 Note that when we start at a feasible point, the residual vector $-(A\mathbf{x}-\mathbf{b})$ vanishes and the path will always remain in a feasible region. Otherwise we will converge to it.
 
 In this chapter, we will use a fixed step size. For Newton's method this usually leads to only a few extra iterations compared to an adaptive step size.
 
->**input** starting point $x\in$ **dom** $f$ with $A\mathbf{x}=\mathbf{b}$, tolerance $\epsilon>0$.
+>**input** starting point $\mathbf{x}\in$ **dom** $f$ (with $A\mathbf{x}=\mathbf{b}$ if using the feasible method), tolerance $\epsilon>0$.
 >
 >**repeat**
 >
 >>    1. Compute the Newton step $\Delta \mathbf{x}_{nt}$ and decrement $\lambda(\mathbf{x})$.
->>    2. *Stopping criterion*. **quit** if $\lambda^2/2\leq \epsilon$.
+>>    2. *Stopping criterion*. **break** if $\lambda^2/2\leq \epsilon$.
 >>    3. *Choose step size $t$*: either by line search or fixed $t$.
 >>    4. *Update*. $\mathbf{x}:=\mathbf{x}+t \Delta \mathbf{x}_{nt}$.
->
->**until** stopping criterium is satisfied.
 >
 >**output** $\mathbf{x}$
 
@@ -258,6 +263,8 @@ The algorithm terminates when
 $$
 \frac{\lambda(\mathbf{x})^2}{2} < \epsilon\,.
 $$
+
+The Newton decrement also indicates whether we are in or close to the feasible region.
 
 **Assignment 2**
 
@@ -297,9 +304,9 @@ def linear_constrained_newton(f, x0, grad_f,
         # calculate residual
         Dx, _ = solve_constrained_quadratic_problem(... # complete!
         newton_decrement = ...
-        if newton_decrement < epsilon:  # stopping criterion
+        if ...  # stopping criterion
             break  # converged
-        x += stepsize * Dx
+        # perform step
         if trace: x_steps.append(x.copy())
         if trace: f_steps.append(f(x))
     if trace: return x, x_steps, f_steps    
