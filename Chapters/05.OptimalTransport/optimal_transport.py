@@ -1,6 +1,6 @@
 """
 Created on Tuesday 20 February 2018
-Last update: -
+Last update: Sunday 25 February 2018
 
 @author: Michiel Stock
 michielfmstock@gmail.com
@@ -11,6 +11,7 @@ Solution for the lecture optimal transport
 from itertools import permutations
 import numpy as np
 from sklearn.metrics.pairwise import pairwise_distances
+from random import shuffle
 
 blue = '#264653'
 green = '#2a9d8f'
@@ -19,6 +20,15 @@ orange = '#f4a261'
 red = '#e76f51'
 black = '#50514F'
 
+
+def shuffle_rows(X):
+    """
+    Randomly shuffles rows of a numpy matrix
+    """
+    n, _ = X.shape
+    indices = list(range(n))
+    shuffle(indices)
+    X[:] = X[indices]
 
 def kantorovich_brute_force(C):
     """

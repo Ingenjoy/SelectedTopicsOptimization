@@ -1,6 +1,6 @@
 """
 Created on Tuesday 20 February 2018
-Last update: -
+Last update: Sunday 25 February 2018
 
 @author: Michiel Stock
 michielfmstock@gmail.com
@@ -9,6 +9,9 @@ Cell tracking exercise
 """
 
 import numpy as np
+from optimal_transport import shuffle_rows
+
+np.random.seed(42)
 
 # generate cells
 n_cells = 10
@@ -18,6 +21,8 @@ drift = np.array([[-1.5, 3]])  # systematic drift
 
 X1 = np.random.randn(n_cells, 2) * sigma
 X2 = X1 + np.random.randn(n_cells, 2) * delta_sigma  + drift
+
+shuffle_rows(X2)  # make probem a bit harder
 
 if __name__ == '__main__':
     import matplotlib.pyplot as plt
