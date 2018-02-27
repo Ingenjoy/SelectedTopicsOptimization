@@ -11,8 +11,12 @@
 ### Inequality constrained minimization problems
 
 $$
-\min_\mathbf{x}  f_0(\mathbf{x})\\
-\text{subject to } f_i(\mathbf{x}) \leq 0, \quad i=1,\ldots,m\\
+\min_\mathbf{x}  f_0(\mathbf{x})
+$$
+$$
+\text{subject to } f_i(\mathbf{x}) \leq 0, \quad i=1,\ldots,m
+$$
+$$
 A\mathbf{x}=\mathbf{b}
 $$
 where $f_0,\ldots,f_m\ :\ \mathbb{R}^n \rightarrow \mathbb{R}$ are convex and twice continuously differentiable, and $A\in \mathbb{R}^{p\times n}$ with **rank** $A=p<n$.

@@ -25,7 +25,9 @@ Lagrange multipliers are elegant ways of finding stationary points of a function
 Consider the following optimization problem:
 
 $$
-\min_{\mathbf{x}} f(\mathbf{x})\\
+\min_{\mathbf{x}} f(\mathbf{x})
+$$
+$$
 \text{subject to } g(\mathbf{x})=0\,.
 $$
 
@@ -60,7 +62,9 @@ The constrained stationary condition is obtained by setting $\nabla_\mathbf{x} L
 The same argument can be made for inequality constraints, i.e. solving
 
 $$
-\min_{\mathbf{x}} f(\mathbf{x})\\
+\min_{\mathbf{x}} f(\mathbf{x})
+$$
+$$
 \text{subject to } g(\mathbf{x})\leq0\,.
 $$
 
@@ -97,7 +101,9 @@ It is relatively straightforward to extend this framework towards multiple const
 We will start with convex optimization problems with linear equality constraints:
 
 $$
-\min_\mathbf{x} f(\mathbf{x}) \\
+\min_\mathbf{x} f(\mathbf{x})
+$$
+$$
 \text{subject to } A\mathbf{x}=\mathbf{b}
 $$
 
@@ -139,7 +145,9 @@ $$
 Consider the following equality constrained convex optimization problem:
 
 $$
-\min_\mathbf{x}\frac{1}{2}\mathbf{x}^\top P \mathbf{x} + \mathbf{q}^\top \mathbf{x} + r  \\
+\min_\mathbf{x}\frac{1}{2}\mathbf{x}^\top P \mathbf{x} + \mathbf{q}^\top \mathbf{x} + r
+$$
+$$
 \text{subject to }  A\mathbf{x}=\mathbf{b}
 $$
 
@@ -205,14 +213,18 @@ def solve_constrained_quadratic_problem(P, q, A, b):
 To derive $\Delta \mathbf{x}_{nt}$ for the following equality constrained problem
 
 $$
-\min_\mathbf{x}  f(\mathbf{x}) \\
+\min_\mathbf{x}  f(\mathbf{x})
+$$
+$$
 \text{subject to }  A\mathbf{x}=\mathbf{b}
 $$
 
 we apply a second-order Taylor approximation at the point $\mathbf{x}$, to obtain
 
 $$
-\min_\mathbf{x} \hat{f}(\mathbf{x} +\mathbf{v}) = f(\mathbf{x}) +\nabla f(\mathbf{x})^\top \mathbf{v}+ \frac{1}{2}\mathbf{v}^\top \nabla^2 f(\mathbf{x}) \mathbf{v} \\
+\min_\mathbf{x} \hat{f}(\mathbf{x} +\mathbf{v}) = f(\mathbf{x}) +\nabla f(\mathbf{x})^\top \mathbf{v}+ \frac{1}{2}\mathbf{v}^\top \nabla^2 f(\mathbf{x}) \mathbf{v}
+$$
+$$
 \text{subject to } A(\mathbf{x}+\mathbf{v})=\mathbf{b}\,.
 $$
 
