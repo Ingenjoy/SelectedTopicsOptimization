@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Created on Tue 19 Jan 2016
-Last update: Tue 07 Mar 2017
+Last update: Tue 27 Feb 2018
 
 @author: Michiel Stock
 michielfmstock@gmail.com
@@ -71,4 +71,37 @@ def linear_constrained_newton(f, x0, grad_f, hess_f, A, b, stepsize=0.25, epsilo
 
 
 if __name__ == '__main__':
-    pass
+    from teachingtools import quadratic, grad_quadratic, hessian_quadratic
+    from teachingtools import nonquadratic, grad_nonquadratic, hessian_nonquadratic
+
+
+    # ASSIGNMENT 1
+
+    P = np.array([[1, 0], [0, 4]])
+    A = np.array([[1, -2]])
+    b = np.array([[3]])
+    q = np.zeros((2, 1))
+
+    xstar, vstar = solve_constrained_quadratic_problem(P, q, A, b)
+
+    print('Minimizer:')
+    print(xstar)
+
+    fig, ax = plt.subplots()
+    plot_contour(quadratic, (-11, 11), (-5, 5), ax, [1, -2], 3)
+    ax.scatter(xstar[0,0], xstar[1,0], 50, 'r', label='minimum')
+    ax.grid()
+    ax.legend(loc=0)
+    fig.show()
+
+    # ASSIGNMENT 2
+
+    print('Minimizer:')
+    print(xstar)
+
+    fig, ax = plt.subplots()
+    plot_contour(nonquadratic, (-2, 2), (-1, 1), ax, [1, 3], 0)
+    add_path(ax=ax, x_steps=x_steps)
+    ax.scatter(xstar[0,0], xstar[1,0], 50, 'r', label='minimum')
+    ax.grid()
+    ax.legend(loc=0)
