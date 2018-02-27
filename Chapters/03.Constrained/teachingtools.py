@@ -6,12 +6,19 @@ Last update: Fri 03 Mar 2017
 @author: Michiel Stock
 michielfmstock@gmail.com
 
-Some functions for Chapter 02: Constrained optimization
+Some functions for Chapter 03: Constrained optimization
 """
 
 import numpy as np
 import sympy as sp
 import matplotlib.pyplot as plt
+
+blue = '#264653'
+green = '#2a9d8f'
+yellow = '#e9c46a'
+orange = '#f4a261'
+red = '#e76f51'
+black = '#50514F'
 
 # VISUALIZATION
 # -------------
@@ -32,11 +39,11 @@ def plot_contour(f, xlim, ylim, ax, A=None, b=None):
     ax.contourf(X, Y, Z, cmap='bone')
     if A is not None and b is not None:
         ymap = (b - A[0] * xvals) / A[1]
-        ax.plot(xvals, ymap, 'g', label='linear constraint')
+        ax.plot(xvals, ymap, green, label='linear constraint')
         ax.set_ylim(ylim)
 
 
-def add_path(ax, x_steps, col='b'):
+def add_path(ax, x_steps, col=blue):
     '''
     Adds a path of an opitmization algorithm to a figure
     '''
