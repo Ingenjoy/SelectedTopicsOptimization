@@ -26,9 +26,9 @@ class DriftingNormal():
         self.mu += np.random.randn(*self.mu.shape) * mu_sigma
         # random rotation matrix
         T = np.random.randn(*self.cov.shape) * cov_sigma
-        self.cov[:] = T @ self.cov @ T.T + np.eye(self.dim)
+        #self.cov[:] = T @ self.cov @ T.T + np.eye(self.dim)
         #TODO: decrease random rotation
-        self.cov /= np.linalg.det(self.cov)**0.5  # normalize volume
+        #self.cov /= np.linalg.det(self.cov)**0.5  # normalize volume
         #self.cov *= (np.random.rand() - 0.5) * 0.25 + 0.5
 
     def sample(self, n_obs):
@@ -37,7 +37,7 @@ class DriftingNormal():
 n_centers = 10
 n_steps = 10
 mu_sigma = 1.2
-n_obs = 200
+n_obs = 50
 growth_rate = 1.2
 increase_mu = 1.05
 
@@ -65,8 +65,12 @@ for time_step in range(n_steps):
 
 if __name__ == '__main__':
 
+    uniform_weights = lambda n : np.ones(n) / n
+
     from matplotlib.animation import FuncAnimation
     from optimal_transport import *
+
+    lam = 1e1
 
     cmap = plt.get_cmap('gnuplot')
 
@@ -93,13 +97,28 @@ if __name__ == '__main__':
     axes = axes.flatten()
 
     for i, ax in enumerate(axes):
+        Xi = cells_measured_by_time[i]
+        mi = len(Xi)
+        Xip1 = cells_measured_by_time[i+1]
+        mip1 = len(Xip1)
+        M = pairwise_distances(Xi, Xip1, metric="seuclidean")
+        P, _ = compute_optimal_transport(M, uniform_weights(mi),
+                        uniform_weights(mip1), lam=lam)
         ax.set(xlim=xlim, ylim=ylim)
         ax.set_ylabel(r'$x_2$')
         ax.set_xlabel(r'$x_1$')
+        # scatter plot
         for j, color in zip([i, i+1], [orange, green]):
             ax.scatter(cells_measured_by_time[j][:,0],
                                 cells_measured_by_time[j][:,1],
                                 color=color, alpha=0.8)
+        # mapping
+        for i in range(mi):
+            for j in range(mip1):
+                if P[i,j] > 1e-8:
+                    ax.plot([Xi[i,0], Xip1[j,0]], [Xi[i,1], Xip1[j,1]],
+                    color=red, alpha=P[i,j] * mi)
+
         ax.set_title('Mapping between time step {} (orange)\n and {} (green)'.format(i+1, i+2))
 
     fig.tight_layout()

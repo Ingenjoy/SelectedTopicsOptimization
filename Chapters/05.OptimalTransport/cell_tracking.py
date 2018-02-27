@@ -45,7 +45,7 @@ if __name__ == '__main__':
     fig.savefig('Figures/cells_locations.png')
 
     fig, ax = plot_cells()
-    C = pairwise_distances(X1, X2)
+    C = pairwise_distances(X1, X2, metric='seuclidean')
     best_perm, best_cost = kantorovich_brute_force(C)
 
     for i, i_m in enumerate(best_perm):
