@@ -269,7 +269,7 @@ The Newton decrement also indicates whether we are in or close to the feasible r
 **Assignment 2**
 
 1. Complete the code for the linearly constrained Newton method.
-2. Use this code to find the minimum of the non-quadratic toy problem, defined above.
+2. Use this code to find the minimum of the non-quadratic toy problem, defined above (compare a feasible and infeasible start).
 
 ```python
 def linear_constrained_newton(f, x0, grad_f,
@@ -312,3 +312,8 @@ def linear_constrained_newton(f, x0, grad_f,
     if trace: return x, x_steps, f_steps    
     else: return x
 ```
+
+## References
+
+- Boyd, S. and Vandenberghe, L., '*[Convex Optimization](https://web.stanford.edu/~boyd/cvxbook/bv_cvxbook.pdf)*'. Cambridge University Press (2004)
+- Bishop, C., *Pattern Recognition and Machine Learning*. Springer (2006)
