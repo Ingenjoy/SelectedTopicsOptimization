@@ -144,14 +144,15 @@ $$
 The pseudocode of the **barrier method** is given below. We start with a low value of $t$ and increase every step with a factor $\mu$ until $m/t$ is smaller than some $\epsilon>0$.
 
 
->**input** strictly feasible $\mathbf{x}$, $t:=t^{(0)}>0, \mu>1$, $t_\text{max}$, tolerance $\epsilon>0$.
+>**input** strictly feasible $\mathbf{x}$, $t:=t^{(0)}>0, \mu>1$, tolerance $\epsilon>0$.
 >
 >**repeat**
 >
 >>    1. *Centering step*.<br>
 >>   Compute $\mathbf{x}^\star(t)$ by minimizing $tf_0+\phi$, subject to $A\mathbf{x}=\mathbf{b}$, starting at $\mathbf{x}$.
 >>    2. *Update*. $\mathbf{x}:=\mathbf{x}^\star(t)$
->>    3. *Increase $t$.*  $t:=\mu t$.
+>>    3. *Stopping criterion*. **quit** if $m/t<\epsilon$.
+>>    4. *Increase $t$.*  $t:=\mu t$.
 >
 >**until** $m/t < \epsilon$
 >
