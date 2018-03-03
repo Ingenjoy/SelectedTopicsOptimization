@@ -28,7 +28,7 @@ class DriftingNormal():
     def set_mu(self, mu):
         self.mu[:] = mu
 
-    def drift(self, mu_sigma=1, cov_sigma=1, alpha_sigma=0.01):
+    def drift(self, mu_sigma=1, cov_sigma=1, alpha_sigma=0.05):
         self.mu += np.random.randn(*self.mu.shape) * mu_sigma
         # random covariance matrix
         T = np.random.randn(*self.cov.shape) * cov_sigma
@@ -47,7 +47,7 @@ mu_sigma = 1.5
 n_obs = 20
 growth_rate = 1.1
 increase_mu = 1.05
-var_mu = 7
+var_mu = 6
 
 drifting_normals = [DriftingNormal(var_mu=var_mu) for _ in range(n_centers)]
 
@@ -78,7 +78,7 @@ if __name__ == '__main__':
     from matplotlib.animation import FuncAnimation
     from optimal_transport import *
 
-    lam = 1
+    lam = 0.01
 
     cmap = plt.get_cmap('gnuplot')
 

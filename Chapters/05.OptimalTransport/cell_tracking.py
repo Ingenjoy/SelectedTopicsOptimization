@@ -11,12 +11,12 @@ Cell tracking exercise
 import numpy as np
 from optimal_transport import shuffle_rows
 
-np.random.seed(42)
+np.random.seed(41)
 
 # generate cells
 n_cells = 10
 sigma = 10  # initial spread
-delta_sigma = 2  # random movement
+delta_sigma = 3  # random movement
 drift = np.array([[-1.5, 3]])  # systematic drift
 
 X1 = np.random.randn(n_cells, 2) * sigma
