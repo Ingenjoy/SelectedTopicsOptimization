@@ -222,7 +222,7 @@ $$
 we apply a second-order Taylor approximation at the point $\mathbf{x}$, to obtain
 
 $$
-\min_\mathbf{x} \hat{f}(\mathbf{x} +\mathbf{v}) = f(\mathbf{x}) +\nabla f(\mathbf{x})^\top \mathbf{v}+ \frac{1}{2}\mathbf{v}^\top \nabla^2 f(\mathbf{x}) \mathbf{v}
+\min_\mathbf{v} \hat{f}(\mathbf{x} +\mathbf{v}) = f(\mathbf{x}) +\nabla f(\mathbf{x})^\top \mathbf{v}+ \frac{1}{2}\mathbf{v}^\top \nabla^2 f(\mathbf{x}) \mathbf{v}
 $$
 $$
 \text{subject to } A(\mathbf{x}+\mathbf{v})=\mathbf{b}\,.
