@@ -29,7 +29,7 @@ We work with *probability vectors* or *histograms* $\mathbf{a}\in\Sigma_n$, wher
 $$
 \Sigma_n =\{\mathbf{a}\in \mathbb{R}^n_+\mid \sum_{i=1}^na_i=1\}\,,
 $$
-these are the set of nonnegative vectors that sum to one. \Sigma_n is called the *probability simplex*.
+these are the set of nonnegative vectors that sum to one. $\Sigma_n$ is called the *probability simplex*.
 
 Let $\mathbf{r}$$ be the vector containing the relative amount of dessert every person can eat. In this case $\mathbf{r} = [3,3,3,4,2,2,2,1]^\top$ (in general the dimension of $\mathbf{r}$ is $n$). Similarly, $\mathbf{c}$ denotes the vector of how much there is of every dessert, i.e. $\mathbf{c}=[4, 2, 6, 4, 4]^\intercal$ (in general the dimension of $\mathbf{c}$ is $m$).
 
@@ -45,7 +45,7 @@ The original version of optimal transport was formulated by Gaspard Monge in 178
 $$
 \min_{\sigma\in\text{Perm(n)}} \frac{1}{n}C_{i,\sigma(i)}\,,
 $$
-with $\sigma$ the set of all permutation of $n$ elements.
+with $\text{Perm(n)}$ the set of all permutation of $n$ elements.
 
 > **Example** There are $n$ mines mining iron ore and a collection of $n$ factories. Given a distance between every mine and every factory, select one factory for every mine such that the total cost (=transportation distance) is minimized.
 

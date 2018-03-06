@@ -58,14 +58,14 @@ def kantorovich_brute_force(C):
     return best_perm, best_cost
 
 
-def compute_optimal_transport(M, r, c, lam, epsilon=1e-8,
+def compute_optimal_transport(C, r, c, lam, epsilon=1e-8,
                 verbose=False):
     """
     Computes the optimal transport matrix and Slinkhorn distance using the
     Sinkhorn-Knopp algorithm
 
     Inputs:
-        - M : cost matrix (n x m)
+        - C : cost matrix (n x m)
         - r : vector of marginals (n, )
         - c : vector of marginals (m, )
         - lam : strength of the entropic regularization
@@ -76,8 +76,8 @@ def compute_optimal_transport(M, r, c, lam, epsilon=1e-8,
         - P : optimal transport matrix (n x m)
         - dist : Sinkhorn distance
     """
-    n, m = M.shape
-    P = np.exp(- lam * M)
+    n, m = C.shape
+    P = np.exp(- lam * C)
     P /= P.sum()
     u = np.zeros(n)
     # normalize this matrix
@@ -93,7 +93,7 @@ def compute_optimal_transport(M, r, c, lam, epsilon=1e-8,
             break
         P *= (r / u).reshape((-1, 1))
         P *= (c / P.sum(0)).reshape((1, -1))
-    return P, np.sum(P * M)
+    return P, np.sum(P * C)
 
 def barrycenters_entropic(B, C, weights, lam=1, L=100):
     """
@@ -139,39 +139,40 @@ if __name__ == '__main__':
         A[:,i] = barrycenters_entropic(B, C, np.array((1-i/10, 0+i/10)))[:,0]
 
     plt.imshow(A, interpolation='nearest')
-    plt.show()
+    plt.savefig('Figures/simpleinterpol.png')
 
     # images
-    B = np.zeros((400, 4))
+    dim = 40
+    B = np.zeros((dim**2, 4))
 
     # square
-    square = np.zeros((20, 20))
-    square[5:-5,:][:,5:-5] = 1
+    square = np.zeros((dim, dim))
+    square[dim//4:-dim//4,:][:,dim//4:-dim//4] = 1
     B[:,0] = square.flatten()
 
     # circle
-    circle = np.array([[(i-9.5)**2+(j-9.5)**2<8**2for i in range(20)]
-        for j in range(20)], dtype=float)
+    circle = np.array([[(i-dim/2)**2+(j-dim/2)**2 < dim**2 / 4**2for i in range(dim)]
+        for j in range(dim)], dtype=float)
     B[:,1] = circle.flatten()
 
     # diamond
-    diamond = np.array([[np.abs(i-9.5)+np.abs(j-9.5) < 8for i in range(20)]
-        for j in range(20)], dtype=float)
+    diamond = np.array([[np.abs(i-dim/2)+np.abs(j-dim/2) < dim/4 for i in range(dim)]
+        for j in range(dim)], dtype=float)
     B[:,2] = diamond.flatten()
 
     # cross
-    cross = np.zeros((20, 20))
-    cross[5:-5,:] = 1
-    cross[:, 5:-5] = 1
+    cross = np.zeros((dim, dim))
+    cross[dim//3:-dim//3,:] = 1
+    cross[:, dim//3:-dim//3] = 1
     B[:,3] = cross.flatten()
 
     B /= B.sum(0)
 
 
-    C = pairwise_distances([[i, j] for i in range(20)
-    for j in range(20)], metric="sqeuclidean")
+    C = pairwise_distances([[i, j] for i in range(dim)
+    for j in range(dim)], metric="sqeuclidean")
 
-    A = np.zeros((400, 25))
+    A = np.zeros((dim**2, 25))
 
     image_nr = 0
     for di in np.linspace(0, 1, 5):
@@ -182,7 +183,7 @@ if __name__ == '__main__':
                     (1-di) * dj,
                     di * dj
             ])
-            A[:,image_nr] = barrycenters_entropic(B, C, weights, lam=1)[:,0]
+            A[:,image_nr] = barrycenters_entropic(B, C, weights, lam=0.5, L=100)[:,0]
             image_nr += 1
 
     fig, axes = plt.subplots(nrows=5, ncols=5)
@@ -190,7 +191,7 @@ if __name__ == '__main__':
     for i in range(5):
         for j in range(5):
             ax = axes[i, j]
-            ax.imshow(A[:,i+5*j].reshape((20,20))>1e-4, cmap='Greys',
+            ax.imshow(A[:,i+5*j].reshape((dim,dim))>1e-5, cmap='Greys',
                             interpolation='nearest')
             ax.set_yticks([])
             ax.set_xticks([])
