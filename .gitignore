@@ -18,3 +18,4 @@ administration/*
 solution_*
 Chapters/03.UndirectedGraphs/*
 Old/*
+*.ipynb_checkpoints*
