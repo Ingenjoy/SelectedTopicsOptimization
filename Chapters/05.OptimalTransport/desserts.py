@@ -1,6 +1,6 @@
 """
 Created on Sunday 22 October 2017
-Last update: Tuesday 06 March 2018
+Last update: Wednesday 07 March 2018
 
 @author: Michiel Stock
 michielfmstock@gmail.com
@@ -27,7 +27,7 @@ preferences.columns = ['merveilleux', 'eclair', 'chocolate mousse', 'bavarois', 
 
 cost = -preferences
 
-M = - preferences.values
+C = - preferences.values
 
 # prortions per person
 portions_per_person = pd.DataFrame([[3],
@@ -59,6 +59,14 @@ if __name__ == '__main__':
     import matplotlib.pyplot as plt
     sns.set_style('white')
     from optimal_transport import red, green, yellow, orange, blue, black
+    from optimal_transport import compute_optimal_transport
+
+    def plot_partition(P, ax, lam, d):
+        partition = pd.DataFrame(P, index=preferences.index, columns=preferences.columns)
+        partition.plot(kind='bar', stacked=True, ax=ax)
+        ax.set_ylabel('portions')
+        ax.set_title('Optimal distribution ($\lambda={}$)'.format(lam))
+        print('Average preference for lambda={}: {}'.format(lam, -d))
 
     fig, (ax0, ax1) = plt.subplots(ncols=2, figsize=(7,5))
     portions_per_person.plot(kind='bar', ax=ax0, color=green)
@@ -78,3 +86,22 @@ if __name__ == '__main__':
     ax.set_ylabel('Persons')
     ax.set_xlabel('Desserts')
     fig.savefig('Figures/dessert_cost.png')
+
+    a = portions_per_person.values.ravel()
+    b = quantities_of_dessert.values.ravel()
+
+    # low lambda
+    P_1, d = compute_optimal_transport(C, a, b, 1)
+    fig, ax = plt.subplots()
+
+    plot_partition(P_1, ax, 1, d)
+    fig.tight_layout()
+    fig.savefig('Figures/desserts_low_lamda.png')
+
+    # high lambda
+    P_1, d = compute_optimal_transport(C, a, b, 100)
+    fig, ax = plt.subplots()
+
+    plot_partition(P_1, ax, 100, d)
+    fig.tight_layout()
+    fig.savefig('Figures/desserts_high_lamda.png')

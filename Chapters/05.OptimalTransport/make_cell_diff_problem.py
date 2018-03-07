@@ -14,7 +14,7 @@ from sklearn.datasets import make_blobs
 from sklearn.model_selection import train_test_split
 import numpy as np
 
-np.random.seed(42)
+np.random.seed(43)
 
 
 X1, X2, y1, y2 = train_test_split(*make_blobs(n_samples=300, cluster_std=2),
@@ -25,7 +25,7 @@ for cl in range(3):
     # add noise
     X2[y2==cl,:] += np.random.randn(mi, 2) * 3 #+ np.array([[2, -3]])
     # add drift
-    X2[y2==cl,:] += np.random.randn(1, 2) * 5 + 1
+    X2[y2==cl,:] += np.random.randn(1, 2) * 5 - 1
 
 if __name__ == '__main__':
     import matplotlib.pyplot as plt
