@@ -42,11 +42,11 @@ d, ind = balltree.query(coordinates, neighbors+1)
 d = d[:,1:]  # first neighbor is itself
 ind = ind[:,1:]  # first neighbor is itself
 
-edge_list = set([])
+edges = set([])
 for i, (dists, neighbors) in enumerate(zip(d, ind)):
-    edge_list.update([(d, i, j) for d, j in zip(dists.tolist(), neighbors.tolist())])
+    edges.update([(d, i, j) for d, j in zip(dists.tolist(), neighbors.tolist())])
 
-for d, i, j in edge_list:
+for d, i, j in edges:
     xi1, xi2 = coordinates[i]
     xj1, xj2 = coordinates[j]
     plt.plot([xi1, xj1], [xi2, xj2], color='grey', alpha=0.7, lw=2, zorder=1)
@@ -57,7 +57,7 @@ plt.savefig('Figures/example_graph.png')
 
 data = {
     'coordinates' : coordinates,
-    'edges' : list(edge_list),
+    'edges' : list(edges),
 }
 
 with open('Data/example_graph.json', 'w') as fh:
