@@ -82,7 +82,6 @@ def compute_optimal_transport(C, a, b, lam, epsilon=1e-8,
     """
     n, m = C.shape
     P = np.exp(- lam * C)
-    # normalize this matrix
     iteration = 0
     while True:
         iteration += 1

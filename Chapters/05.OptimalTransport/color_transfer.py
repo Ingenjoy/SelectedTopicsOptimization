@@ -94,8 +94,8 @@ sns.clustermap(P, row_colors=X1/255, col_colors=X2/255,
 plt.savefig('Figures/color_mapping.png')
 
 print('computing and plotting color distributions...')
-X1to2 = P @ X2 * n_clusters
-X2to1 = P.T @ X1 * n_clusters
+X1to2 = P.sum(1)**-1 * P @ X2
+X2to1 = P.sum(0)**-1 * P.T @ X1
 
 fig, axes = plt.subplots(nrows=2, ncols=2)
 axes[0, 0].imshow(image1.image/255)

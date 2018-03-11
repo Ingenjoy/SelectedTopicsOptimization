@@ -1,5 +1,11 @@
 # Optimal transport
 
+*Selected Topics in Mathematical Optimization: 2017-2018*
+
+**Michiel Stock** ([email](michiel.stock@ugent.be))
+
+![](Figures/logo.png)
+
 ## Motivation
 
 ### Motivating example: a party in the research group

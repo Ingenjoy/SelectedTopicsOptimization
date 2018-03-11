@@ -9,7 +9,21 @@ Cell tracking exercise
 """
 
 import numpy as np
+import matplotlib.pyplot as plt
+from optimal_transport import red, green, yellow, orange, blue, black
 from optimal_transport import shuffle_rows
+
+# plot cell
+def plot_cells(X1, X2):
+    fig, ax = plt.subplots()
+    ax.scatter(X1[:,0], X1[:,1], s=50, color=orange,
+                        label=r'location cells at $t_1$', zorder=2)
+    ax.scatter(X2[:,0], X2[:,1], s=50, color=green,
+                        label=r'location cells at $t_2$', zorder=2)
+    ax.set_ylabel(r'$y$')
+    ax.set_xlabel(r'$x$')
+    ax.legend(loc=2)
+    return fig, ax
 
 np.random.seed(2)
 
@@ -25,21 +39,9 @@ X2 = X1 + np.random.randn(n_cells, 2) * delta_sigma  + drift
 shuffle_rows(X2)
 
 if __name__ == '__main__':
-    import matplotlib.pyplot as plt
+
     from optimal_transport import *
 
-
-    # plot cell
-    def plot_cells(X1, X2):
-        fig, ax = plt.subplots()
-        ax.scatter(X1[:,0], X1[:,1], s=80, color=orange,
-                            label=r'location cells at $t_1$', zorder=2)
-        ax.scatter(X2[:,0], X2[:,1], s=80, color=green,
-                            label=r'location cells at $t_2$', zorder=2)
-        ax.set_ylabel(r'$y$')
-        ax.set_xlabel(r'$x$')
-        ax.legend(loc=2)
-        return fig, ax
 
     fig, ax = plot_cells(X1, X2)
     fig.savefig('Figures/cells_locations.png')
