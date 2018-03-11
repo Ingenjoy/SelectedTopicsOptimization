@@ -28,11 +28,11 @@ x = np.arange(10)
 y = np.exp(-x/2)
 y /= y.sum()
 ax1.set_xlabel(r'$x$')
-ax1.set_ylabel(r'$P(X=x)$')
+ax1.set_ylabel(r'$\mathcal{P}(X=x)$')
 ax1.scatter(x, y, color=orange)
 for xi, yi in zip(x, y):
     ax1.plot([xi, xi], [0, yi], color=blue, linestyle='--')
-ax1.set_ylim([0, max(y)+1])
+ax1.set_ylim([0, max(y)+0.1])
 ax1.set_xlim([-0.5, 10])
 ax1.set_title('Discrete probability\ndistribution')
 
@@ -57,7 +57,7 @@ ax1.set_title('Weighted points')
 
 for ax in (ax0, ax1):
     ax.set_xlabel(r'$x_1$')
-    ax.set_ylabel(r'$x_1$')
+    ax.set_ylabel(r'$x_2$')
 
 fig.tight_layout()
 fig.savefig('Figures/discrete_probs2.png')

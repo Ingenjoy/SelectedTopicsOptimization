@@ -1,6 +1,6 @@
 """
 Created on Tuesday 20 February 2018
-Last update: Saturday 03 March 2018
+Last update: Sunday 11 March 2018
 
 @author: Michiel Stock
 michielfmstock@gmail.com
@@ -58,42 +58,49 @@ def kantorovich_brute_force(C):
     return best_perm, best_cost
 
 
-def compute_optimal_transport(C, r, c, lam, epsilon=1e-8,
-                verbose=False):
+def compute_optimal_transport(C, a, b, lam, epsilon=1e-8,
+                verbose=False, return_iterations=False):
     """
     Computes the optimal transport matrix and Slinkhorn distance using the
     Sinkhorn-Knopp algorithm
 
     Inputs:
         - C : cost matrix (n x m)
-        - r : vector of marginals (n, )
-        - c : vector of marginals (m, )
+        - a : vector of marginals (n, )
+        - b : vector of marginals (m, )
         - lam : strength of the entropic regularization
         - epsilon : convergence parameter
         - verbose : report number of steps while running
+        - return_iterations : report number of iterations till convergence,
+                default False
 
     Output:
         - P : optimal transport matrix (n x m)
         - dist : Sinkhorn distance
+        - n_iterations : number of iterations, if `return_iterations` is set to
+                        True
     """
     n, m = C.shape
     P = np.exp(- lam * C)
-    P /= P.sum()
-    u = np.zeros(n)
     # normalize this matrix
     iteration = 0
     while True:
         iteration += 1
         u = P.sum(1)  # marginals of rows
-        error = np.max(np.abs(u - r))
-        if verbose: print('Iteration {}: error={}'.format(
-                            iteration, error
+        max_deviation = np.max(np.abs(u - a))
+        if verbose: print('Iteration {}: max deviation={}'.format(
+                            iteration, max_deviation
                         ))
-        if error < epsilon:
+        if max_deviation < epsilon:
             break
-        P *= (r / u).reshape((-1, 1))
-        P *= (c / P.sum(0)).reshape((1, -1))
-    return P, np.sum(P * C)
+        # scale rows
+        P *= (a / u).reshape((-1, 1))
+        # scale columns
+        P *= (b / P.sum(0)).reshape((1, -1))
+    if return_iterations:
+        return P, np.sum(P * C), iteration
+    else:
+        return P, np.sum(P * C)
 
 def barrycenters_entropic(B, C, weights, lam=1, L=100):
     """
@@ -110,7 +117,7 @@ def barrycenters_entropic(B, C, weights, lam=1, L=100):
         - L: number of Sinkhorn updates
 
     Output:
-        - a: barycenter (probability vector)
+        - a: barrycenter (probability vector)
     """
     n, s = B.shape
     K = np.exp(- lam * C)
@@ -142,7 +149,7 @@ if __name__ == '__main__':
     plt.savefig('Figures/simpleinterpol.png')
 
     # images
-    dim = 40
+    dim = 50
     B = np.zeros((dim**2, 4))
 
     # square
@@ -151,7 +158,9 @@ if __name__ == '__main__':
     B[:,0] = square.flatten()
 
     # circle
-    circle = np.array([[(i-dim/2)**2+(j-dim/2)**2 < dim**2 / 4**2for i in range(dim)]
+    circle = np.array([[(i-dim/2)**2+(j-dim/2)**2 < dim**2 / 4**2 for i in range(dim)]
+        for j in range(dim)], dtype=float)
+    circle -= np.array([[(i-dim/2)**2+(j-dim/2)**2 < dim**2 / 6**2 for i in range(dim)]
         for j in range(dim)], dtype=float)
     B[:,1] = circle.flatten()
 
@@ -160,16 +169,27 @@ if __name__ == '__main__':
         for j in range(dim)], dtype=float)
     B[:,2] = diamond.flatten()
 
+    """
     # cross
     cross = np.zeros((dim, dim))
     cross[dim//3:-dim//3,:] = 1
     cross[:, dim//3:-dim//3] = 1
     B[:,3] = cross.flatten()
+    """
+
+    # two blobs
+
+    two_blobs = np.zeros((dim, dim))
+    two_blobs[:] += np.array([[(i-dim/4)**2+(j-dim/4)**2 < (dim/10)**2 for i in range(dim)]
+        for j in range(dim)], dtype=float)
+    two_blobs[:] += np.array([[(i-dim/4*3)**2+(j-dim/4*3)**2 < (dim/10)**2 for i in range(dim)]
+        for j in range(dim)], dtype=float)
+    B[:,3] = two_blobs.flatten()
 
     B /= B.sum(0)
 
 
-    C = pairwise_distances([[i, j] for i in range(dim)
+    C = pairwise_distances([[i/dim, j/dim] for i in range(dim)
     for j in range(dim)], metric="sqeuclidean")
 
     A = np.zeros((dim**2, 25))
@@ -183,7 +203,8 @@ if __name__ == '__main__':
                     (1-di) * dj,
                     di * dj
             ])
-            A[:,image_nr] = barrycenters_entropic(B, C, weights, lam=0.5, L=100)[:,0]
+            A[:,image_nr] = barrycenters_entropic(B, C, weights,
+                            lam=500, L=50)[:,0]
             image_nr += 1
 
     fig, axes = plt.subplots(nrows=5, ncols=5)
@@ -191,7 +212,7 @@ if __name__ == '__main__':
     for i in range(5):
         for j in range(5):
             ax = axes[i, j]
-            ax.imshow(A[:,i+5*j].reshape((dim,dim))>1e-5, cmap='Greys',
+            ax.imshow(A[:,i+5*j].reshape((dim,dim)) > 1e-5, cmap='Greys',
                             interpolation='nearest')
             ax.set_yticks([])
             ax.set_xticks([])
