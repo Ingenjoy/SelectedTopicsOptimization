@@ -29,9 +29,9 @@ def shuffle_rows(X):
     shuffle(indices)
     X[:] = X[indices]
 
-def kantorovich_brute_force(C):
+def monge_brute_force(C):
     """
-    Solves the Kantorovich assignment problem using
+    Solves the Monge assignment problem using
     brute force.
 
     Inputs:

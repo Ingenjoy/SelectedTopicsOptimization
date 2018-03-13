@@ -48,7 +48,7 @@ if __name__ == '__main__':
 
     fig, ax = plot_cells(X1, X2)
     C = pairwise_distances(X1, X2, metric='sqeuclidean')
-    best_perm, best_cost = kantorovich_brute_force(C)
+    best_perm, best_cost = monge_brute_force(C)
 
     for i, i_m in enumerate(best_perm):
         ax.plot([X1[i,0], X2[i_m,0]], [X1[i,1], X2[i_m,1]],
