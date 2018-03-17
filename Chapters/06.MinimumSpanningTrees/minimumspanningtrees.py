@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Created on Thu Mar 10 15:31:17 2016
-Last update on Thursday 8 March 2018
+Last update on Saturday 17 March 2018
 
 @author: michielstock
 
@@ -63,19 +63,21 @@ def edges_to_adj_list(edges):
                 adj_list[v] = set([])
         adj_list[i].add((w, j))
         adj_list[j].add((w, i))
-
     return adj_list
 
-def kruskal(vertices, edges):
+def kruskal(vertices, edges, add_weights=False):
     """
     Kruskal's algorithm for finding a minimum spanning tree
+
     Inputs :
         - vertices : a set of the vertices of the Graph
         - edges : a list of weighted edges (e.g. (0.7, 'A', 'B') for an
                     edge from node A to node B with weigth 0.7)
+        - add_weights : add the weigths to the edges? default: False
 
     Output:
         - edges : a minumum spanning tree represented as a list of edges
+                    (weighted if `add_weights` is set to True)
         - total_cost : total cost of the tree
     """
     union_set_forest = USF(vertices)
@@ -83,15 +85,33 @@ def kruskal(vertices, edges):
     edges.sort()
     mst_edges = []
     total_cost = 0
-    for cost, u, v in edges:
-        if union_set_forest.find(u) != union_set_forest.find(v):
-            mst_edges.append((u, v))
-            union_set_forest.union(u, v)
+    for cost, v1, v2 in edges:
+        if union_set_forest.find(v1) != union_set_forest.find(v2):
+            if add_weights:
+                mst_edges.append((cost, v1, v2))
+            else:
+                mst_edges.append((v1, v2))
+            union_set_forest.union(v1, v2)
             total_cost += cost
     del union_set_forest
     return mst_edges, total_cost
 
-def prim(vertices, edges, start):
+def prim(vertices, edges, start, add_weights=False):
+    """
+    Prim's algorithm for finding a minimum spanning tree
+
+    Inputs :
+        - vertices : a set of the vertices of the Graph
+        - edges : a list of weighted edges (e.g. (0.7, 'A', 'B') for an
+                    edge from node A to node B with weigth 0.7)
+        - start : an edge to start with
+        - add_weights : add the weigths to the edges? default: False
+
+    Output:
+        - edges : a minumum spanning tree represented as a list of edges
+                    (weighted if `add_weights` is set to True)
+        - total_cost : total cost of the tree
+    """
     adj_list = edges_to_adj_list(edges)
     to_check = [(w, start, v_new) for w, v_new in adj_list[start]]
     heapq.heapify(to_check)
@@ -101,14 +121,17 @@ def prim(vertices, edges, start):
     mst_vertices = set([start])
     total_cost = 0
     while to_check:
-        w, v_in_mst, v_new = heapq.heappop(to_check)
+        cost, v_in_mst, v_new = heapq.heappop(to_check)
         if v_new not in mst_vertices:
             # add to mst
-            mst_edges.append((v_in_mst, v_new))
+            if add_weights:
+                mst_edges.append((cost, v_in_mst, v_new))
+            else:
+                mst_edges.append((v_in_mst, v_new))
             mst_vertices.add(v_new)
-            total_cost += w
-            for w, v in adj_list[v_new]:
-                heapq.heappush(to_check, (w, v_new, v))
+            total_cost += cost
+            for cost, v in adj_list[v_new]:
+                heapq.heappush(to_check, (cost, v_new, v))
     return mst_edges, total_cost
 
 if __name__ == '__main__':
