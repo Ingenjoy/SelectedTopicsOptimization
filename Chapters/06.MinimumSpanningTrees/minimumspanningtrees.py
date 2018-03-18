@@ -65,40 +65,26 @@ def edges_to_adj_list(edges):
         adj_list[j].add((w, i))
     return adj_list
 
-def kruskal(vertices, edges, add_weights=False):
+def adj_list_to_edges(adj_list):
     """
-    Kruskal's algorithm for finding a minimum spanning tree
+    Turns an adjecency list in a list of edges (implemented as a list).
 
-    Inputs :
-        - vertices : a set of the vertices of the Graph
-        - edges : a list of weighted edges (e.g. (0.7, 'A', 'B') for an
-                    edge from node A to node B with weigth 0.7)
-        - add_weights : add the weigths to the edges? default: False
+    Input:
+        - adj_list : a dict of a set of weighted edges
 
     Output:
-        - edges : a minumum spanning tree represented as a list of edges
-                    (weighted if `add_weights` is set to True)
-        - total_cost : total cost of the tree
+        - edges : a list of weighted edges (e.g. (0.7, 'A', 'B') for an
+                    edge from node A to node B with weigth 0.7)
     """
-    union_set_forest = USF(vertices)
-    edges = list(edges)  # might be saved in set format...
-    edges.sort()
-    mst_edges = []
-    total_cost = 0
-    for cost, v1, v2 in edges:
-        if union_set_forest.find(v1) != union_set_forest.find(v2):
-            if add_weights:
-                mst_edges.append((cost, v1, v2))
-            else:
-                mst_edges.append((v1, v2))
-            union_set_forest.union(v1, v2)
-            total_cost += cost
-    del union_set_forest
-    return mst_edges, total_cost
+    edges = []
+    for v, adjacent_vertices in adj_list.items():
+        for w, u in adjacent_vertices:
+            edges.append((w, u, v))
+    return edges
 
 def prim(vertices, edges, start, add_weights=False):
     """
-    Prim's algorithm for finding a minimum spanning tree
+    Prim's algorithm for finding a minimum spanning tree.
 
     Inputs :
         - vertices : a set of the vertices of the Graph
@@ -132,6 +118,37 @@ def prim(vertices, edges, start, add_weights=False):
             total_cost += cost
             for cost, v in adj_list[v_new]:
                 heapq.heappush(to_check, (cost, v_new, v))
+    return mst_edges, total_cost
+
+def kruskal(vertices, edges, add_weights=False):
+    """
+    Kruskal's algorithm for finding a minimum spanning tree.
+
+    Inputs :
+        - vertices : a set of the vertices of the Graph
+        - edges : a list of weighted edges (e.g. (0.7, 'A', 'B') for an
+                    edge from node A to node B with weigth 0.7)
+        - add_weights : add the weigths to the edges? default: False
+
+    Output:
+        - edges : a minumum spanning tree represented as a list of edges
+                    (weighted if `add_weights` is set to True)
+        - total_cost : total cost of the tree
+    """
+    union_set_forest = USF(vertices)
+    edges = list(edges)  # might be saved in set format...
+    edges.sort()
+    mst_edges = []
+    total_cost = 0
+    for cost, v1, v2 in edges:
+        if union_set_forest.find(v1) != union_set_forest.find(v2):
+            if add_weights:
+                mst_edges.append((cost, v1, v2))
+            else:
+                mst_edges.append((v1, v2))
+            union_set_forest.union(v1, v2)
+            total_cost += cost
+    del union_set_forest
     return mst_edges, total_cost
 
 if __name__ == '__main__':

@@ -1,6 +1,6 @@
 """
 Created on Thursday 15 March 2018
-Last update: Saturday 17 March 2018
+Last update: Sunday 18 March 2018
 
 @author: Michiel Stock
 michielfmstock@gmail.com
@@ -64,6 +64,6 @@ for i in range(n):
         if root not in labels_map:  # add root
             labels_map[root] = len(labels_map)
         image_segmented[i, j] = labels_map[root]
-
+plt.axis('off')
 plt.imshow(image_segmented, cmap='jet')
 plt.savefig('Figures/otoliths_segmented.png')

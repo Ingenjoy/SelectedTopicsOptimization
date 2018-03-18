@@ -17,13 +17,16 @@ n = 200
 # generate example data
 X, y = make_moons(n_samples=n, random_state=1, noise=0.12)
 
-plt.scatter(X[:,0], X[:,1], s=50, color=green)
-plt.savefig('Figures/scatter_plot.png')
+fig, ax = plt.subplots()
+ax.scatter(X[:,0], X[:,1], s=50, color=green)
+fig.savefig('Figures/scatter_plot.png')
+
+# make distance
+D = pairwise_distances(X)
 
 if __name__ == '__main__':
 
-    # make distance
-    D = pairwise_distances(X)
+
 
     # make edges
     edges = []
@@ -36,10 +39,10 @@ if __name__ == '__main__':
 
     edges_mst, cost_mst = kruskal(vertices, edges)
 
+    fig, ax = plt.subplots()
     # plot with links
-    plt.scatter(X[:,0], X[:,1], s=50, color=green, zorder=2)
+    ax.scatter(X[:,0], X[:,1], s=50, color=green, zorder=2)
     for i, j in edges_mst:
-        plt.plot([X[i,0], X[j,0]], [X[i,1], X[j,1]], color=red, zorder=1, lw=2)
+        ax.plot([X[i,0], X[j,0]], [X[i,1], X[j,1]], color=red, zorder=1, lw=2)
 
-    plt.savefig('Figures/scatter_plot_clustered.png')
-    plt.close('all')
+    fig.savefig('Figures/scatter_plot_clustered.png')
