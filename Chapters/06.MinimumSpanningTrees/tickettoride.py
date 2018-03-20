@@ -1,6 +1,6 @@
 """
 Created on Tuesday 13 March 2018
-Last update: -
+Last update: Tuesday 20 March 2018
 
 @author: Michiel Stock
 michielfmstock@gmail.com
@@ -30,7 +30,7 @@ edges = [(1, 'Vancouver', 'Seattle'),
           (5, 'Phoenix', 'Denver'),
           (3, 'Salt Lake City', 'Denver'),
           (3, 'Helena', 'Salt Lake City'),
-          (4, 'Helena', 'Duluth'),
+          (6, 'Helena', 'Duluth'),
           (4, 'Winnipec', 'Duluth'),
           (4, 'Helena', 'Denver'),
           (5, 'Helena', 'Omaha'),
@@ -42,7 +42,7 @@ edges = [(1, 'Vancouver', 'Seattle'),
           (4, 'Denver', 'Oklahoma City'),
           (6, 'El Paso', 'Houston'),
           (4, 'El Paso', 'Dallas'),
-          (6, 'El Paso', 'Oklahoma City'),
+          (5, 'El Paso', 'Oklahoma City'),
           (1, 'Dallas', 'Houston'),
           (2, 'Dallas', 'Oklahoma City'),
           (2, 'Kansas City', 'Oklahoma City'),
@@ -59,6 +59,7 @@ edges = [(1, 'Vancouver', 'Seattle'),
           (3, 'Montreal', 'Toronto'),
           (4, 'Toronto', 'Chicago'),
           (3, 'Chicago', 'Pittsburg'),
+          (2, 'Chicago', 'Saint Louis'),
           (2, 'Pittsburg', 'Toronto'),
           (2, 'Pittsburg', 'New York'),
           (2, 'Pittsburg', 'Washington'),
@@ -71,7 +72,7 @@ edges = [(1, 'Vancouver', 'Seattle'),
           (2, 'Little Rock', 'Saint Louis'),
           (2, 'Oklahoma City', 'Little Rock'),
           (2, 'Little Rock', 'Dallas'),
-          (2, 'Little Rock', 'Nashville'),
+          (3, 'Little Rock', 'Nashville'),
           (2, 'Houston', 'New Orleans'),
           (3, 'Little Rock', 'New Orleans'),
           (4, 'New Orleans', 'Atlanta'),
@@ -93,8 +94,8 @@ vertices = set([v1 for w, v1, v2 in edges])
 if __name__ == '__main__':
     from minimumspanningtrees import kruskal
 
-    edges_mst, cost = kruskal(vertices, edges)
+    edges_mst, cost = kruskal(vertices, edges, add_weights=True)
 
-    print('Total cost MST Noth-America: {}\n\n Edges:'.format(cost))
-    for u1, u2 in edges_mst:
-        print('{} => {}'.format(u1, u2))
+    print('Total cost MST North-America: {}\n\n Edges:'.format(cost))
+    for w, u1, u2 in edges_mst:
+        print('{} => {} ({})'.format(u1, u2, w))
