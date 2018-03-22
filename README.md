@@ -8,7 +8,7 @@ Notes and exercises of the optimization course given in the Master of Bioinforma
 
 The goal of this course is to give students a general overview of the rich field of mathematical optimization. This course will put a particular emphasis on **practical implementations** and **performance**. After this course, students should be able to formulate problems from computational biology as optimization problems and be able to read, understand and implement new optimization algorithms.
 
-The project exercises are done in the Python 3.x programming language. It is recommended to use [Anaconda](https://anaconda.org/anaconda/python) to install Python, the required libraries and the Jupyter notebook environment. 
+The project exercises are done in the Python 3.x programming language. It is recommended to use [Anaconda](https://anaconda.org/anaconda/python) to install Python, the required libraries and the Jupyter notebook environment.
 
 ## Using this repository
 
@@ -105,3 +105,4 @@ More detailed, tentative overview:
 - Bernard De Baets
 - Raúl Pérez-Fernández
 - Bram De Jaegher
+- Tim Meese (for finding the missing link)
