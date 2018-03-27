@@ -1,6 +1,6 @@
 """
 Created on Tuesday 20 March 2018
-Last update: Sunday 25 March 2018
+Last update: Tuesday 25 March 2018
 
 @author: Michiel Stock
 michielfmstock@gmail.com
@@ -36,12 +36,18 @@ def dijkstra(graph, source, sink=None):
             - previous : dict with for each node the previous node in the
                         shortest path from the source (if one is given)
     """
+    # keep tentative distance source to vertex
+    # initialize with infinity, except for the source
     distance = {v : inf for v in graph.keys()}
-    previous = {}
     distance[source] = 0
+    # keep previous node in path for backtracking
+    previous = {}
+    # heap for vertices to check
+    # priority based distance from source
     vertices_to_check = [(0, source)]
 
     while vertices_to_check:
+        # pop vertex to explore
         dist, u = heappop(vertices_to_check)
         if u == sink:  # sink reached!
             break
@@ -93,13 +99,16 @@ def a_star(graph, source, sink, heuristic):
             - previous : dict with for each node the previous node in the
                         shortest path from the source
     """
+    # keep tentative distance source to vertex
+    # initialize with infinity, except for the source
     distance = {v : inf for v in graph.keys()}
-    # vertices_to_check is a heap containing the estimated distance
-    # of a given node to a source
+    distance[source] = 0
+    # keep previous node in path for backtracking
+    previous = {}
+    # vertices_to_check is a heap using the estimated distance
+    # of a given node to a source as the priority
     vertices_to_check = [(heuristic(source, sink), source)]
     previous = {}
-
-    distance[source] = 0
 
     while vertices_to_check:
         heuristic_dist, current = heappop(vertices_to_check)
