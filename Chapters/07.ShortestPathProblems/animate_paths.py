@@ -54,8 +54,8 @@ def make_shortest_path_animation(coordinates, edges, order, fig, ax,
     anim = FuncAnimation(fig, lambda t : ax.scatter(*coordinates[order[t-1]],
                                 color=orange, s=pointsize, zorder=4) if t else None,
                                 frames=range(len(order)+1), interval=500)
-    ax.set_xlabel('longitude')
-    ax.set_ylabel('latitude')
+    ax.set_xlabel('Longitude')
+    ax.set_ylabel('Latitude')
     return anim
 
 def a_star_illustration(graph, source, sink, heuristic=lambda x, y:0):
