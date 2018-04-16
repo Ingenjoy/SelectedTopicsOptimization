@@ -1,6 +1,6 @@
 """
 Created on Wednesday 7 March 2018
-Last update: Tuesday 3 April 2018
+Last update: Monday 16 April 2018
 
 @author: Michiel Stock
 michielfmstock@gmail.com
@@ -86,14 +86,21 @@ for d, i, j in edges:
     xj, yj = coordinates[j]
     ax.plot([xi, xj], [yi, yj], color='grey', alpha=0.7, lw=2, zorder=1)
 
+# plot park letters
+ax.text(25, 100, 'A', fontsize=42, color=red)
+ax.text(200, 75, 'B', fontsize=42, color=red)
+ax.text(xmax / 2, ymax / 2, 'C', fontsize=42, color=red)
+
 ax.set_xticks([])
 ax.set_yticks([])
 ax.set_title('Map of the city')
+fig.patch.set_visible(False)
 fig.savefig('Figures/city_map.png')
 
 data = {
     'coordinates' : coordinates,
     'edges' : list(edges),
+    'vertices' : list(range(n_uniform + n_norm)),
     'parks' : {
         'A' : list(park_A),
         'B' : list(park_B),
