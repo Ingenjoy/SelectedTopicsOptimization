@@ -1,6 +1,6 @@
 """
 Created on Wednesday 7 March 2018
-Last update: Monday 16 April 2018
+Last update: Wednesday 25 April 2018
 
 @author: Michiel Stock
 michielfmstock@gmail.com
@@ -52,6 +52,9 @@ ind = ind[:,1:]  # first neighbor is itself
 edges = set([])
 for i, (dists, neighbors) in enumerate(zip(d, ind)):
     edges.update([(d, i, j) for d, j in zip(dists.tolist(), neighbors.tolist())])
+
+# duplicate edges
+edges.update([(d, j, i) for d, i, j in edges])
 
 # make parks
 park_A = set([i for i, (x, y) in enumerate(coordinates) if x < 50 and y > 75])
