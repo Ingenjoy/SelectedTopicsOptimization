@@ -1,0 +1,17 @@
+\begin{thebibliography}{}
+
+\bibitem[Floreano and Mattiussi, 2008]{Floreano2008}
+Floreano, D. and Mattiussi, C. (2008).
+\newblock {\em {Bio-Inspired Artificial Intelligence}}.
+\newblock The MIT Press.
+
+\bibitem[Hansen, 2016]{Hansen2016}
+Hansen, N. (2016).
+\newblock {The CMA evolution strategy: a tutorial}.
+
+\bibitem[Salimans et~al., 2017]{Salimans2017}
+Salimans, T., Ho, J., Chen, X., Sidor, S., and Sutskever, I. (2017).
+\newblock {Evolution Strategies as a Scalable Alternative to Reinforcement
+  Learning}.
+
+\end{thebibliography}
