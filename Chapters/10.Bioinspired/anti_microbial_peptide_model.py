@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Created on Wed Apr 20 2016
-Last update Mon Apr 30 2016
+Last update Wed May 2 2016
 
 @author: michielfmstock@gmail.com
 
@@ -32,7 +32,7 @@ print('Loading the features...')
 if False:
     features_reference = np.vstack([protein_features(pep, lag_range=range(1, 5))
                 for pep in peptides])
-    pd.DataFrame(features_reference).to_csv('Data/anti_microbial_peptide_features.csv')
+    pd.DataFrame(features_reference).to_csv('Data/anti_microbial_peptide_features.csv', index=False)
 
 features_reference = pd.read_csv('Data/anti_microbial_peptide_features.csv')
 
@@ -43,7 +43,7 @@ def kernel_embedding_score(peptide_feature, gamma=0.01):
     """
     Calculates the score for kernel embedding
     """
-    score = np.exp(-gamma * np.sum((peptide_feature - features_reference[:,1:])**2,
+    score = np.exp(-gamma * np.sum((peptide_feature - features_reference)**2,
                                                                     1)).mean()
     return score
 
