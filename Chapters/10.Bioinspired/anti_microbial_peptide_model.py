@@ -29,7 +29,7 @@ for seq in SeqIO.parse('Data/anti_microbial_peptide.fasta', 'fasta'):
 
 print('Loading the features...')
 
-if True:
+if False:
     features_reference = np.vstack([protein_features(pep, lag_range=range(1, 5))
                 for pep in peptides])
     pd.DataFrame(features_reference).to_csv('Data/anti_microbial_peptide_features.csv', index=False)
