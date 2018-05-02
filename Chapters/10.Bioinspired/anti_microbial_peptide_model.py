@@ -43,7 +43,7 @@ def kernel_embedding_score(peptide_feature, gamma=0.01):
     """
     Calculates the score for kernel embedding
     """
-    score = np.exp(-gamma * np.sum((peptide_feature - features_reference)**2,
+    score = np.exp(-gamma * np.sum((peptide_feature - features_reference[:,1:])**2,
                                                                     1)).mean()
     return score
 
