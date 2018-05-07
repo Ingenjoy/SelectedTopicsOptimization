@@ -1,6 +1,6 @@
 """
 Created on Wednesday 2 May 2018
-Last update: Friday 4 May 2018
+Last update: Monday 7 May 2018
 
 @author: Michiel Stock
 michielfmstock@gmail.com
@@ -21,6 +21,13 @@ from sys import path
 path.append('../')
 from tsp_utils import *
 from itertools import combinations
+
+illustration = False  # without Totoro
+
+if illustration:
+    from sklearn.metrics import pairwise_distances
+    coordinates = np.random.rand(100, 2)
+    distances = pairwise_distances(coordinates)
 
 def nearest_neighbor(start, distances):
     """
@@ -154,9 +161,14 @@ if __name__ == '__main__':
     print('SIMULATED ANNEALING')
     print('===================')
 
+    tour_sa, tot_cost_sa, tours_sa, costs_sa = simulated_annealing_tsa(distances, 10,
+                                    0.001, 0.975, 2000, start=tour_nn, verbose=True)
+    """
     tour_sa, tot_cost_sa, tours_sa, costs_sa = simulated_annealing_tsa(distances, 50000,
                                     0.01, 0.98, 10000, verbose=True)
-
+    tour_sa, tot_cost_sa, tours_sa, costs_sa = simulated_annealing_tsa(distances, 1000,
+                                    0.001, 0.95, 5000, verbose=True)
+    """
     from matplotlib.animation import FuncAnimation
 
     def update_tsa_fig(t, coordinates, tours, costs, axes):
