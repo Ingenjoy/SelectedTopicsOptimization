@@ -54,50 +54,47 @@ More detailed, tentative overview:
     - geometric interpretation
     - the logarithmic barrier
     - the barrier method
-  - *application*: maximum flow problems
-4. **Project continuous optimization**: protein oligiomerization by minimizing the Gibbs free energy
+4. **Project continuous optimization**: protein oligomerization by minimizing the Gibbs free energy
 5. **Optimal transport**:
   - motivation: the KERMIT dessert party
   - quick recap of probability distributions
   - Monge and Kantorovich formulation
   - Wasserstein distances and Geodesic displacements
-  - Entropic regularization and the Sinkhorn algorithm
+  - entropic regularization and the Sinkhorn algorithm
   - *applications*:
-    - comparing distribitions (e.g. expression profiles)
+    - comparing distributions (e.g. expression profiles)
     - color transfer
     - learning epigenetic landscapes
-    - computational fluid dynamics
 6. **Minimum spanning trees**:
   - graphs and basic data structures (i.e. `list`, `dict`, `set`)
   - introduction to time complexities
-  - Kruskal's algorithm
   - Prim's algorithm
+  - Kruskal's algorithm
   - *application*: phylogenetic tree reconstruction, building a maze
 7. **Shortest path algorithms**:
-  - greedy search
+  - sum-product and min-sum algorithm (dynamic programming)
   - Dijkstra's algorithm
   - A* algorithm: using a heuristic
-8. **Project discrete optimization**: optimal routing through a city
+8. **Project discrete optimization**: 'A walk to the park', finding all shortest paths to a set of edges.
 9. **NP hard problems**
   - classification
-  - example problems: knapsack, TSA, graph cutting
+  - example problems: knapsack, TSA, graph coloring, Boolean satisfiability problem, TSP...
+  - computational complexity: NP-complete problems
   - algorithms:
-    - exhaustive
+    - exhaustive / brute force
     - greedy
     - dynamic programming
     - branch and bound
   - longest common subsequence: golfing contest
 10. **Bio-inspired optimization**:
-  - hill climbing?
+  - hill climbing
   - simulated annealing
   - genetic algorithms
-  - other methods
-  - *application*: Ising models or antimicrobial peptide optimization?
-11. **Project dirty problems**: optimizing peptides or designing a microfluidics device
+  - evolutionary search: CMA-ES
+  - *application*: antimicrobial peptide optimization
+11. **Project dirty problems**: traveling salesman problem using heuristics
 12. **Learning and optimization**
-  - Bayesian optimization
-  - Reinforcement Learning
-  - Learning inverse mappings
+  - short introduction to Bayesian optimization
 
 
 ## Thanks
