@@ -1,6 +1,6 @@
 """
 Created on Wednesday 2 May 2018
-Last update: Saturday 5 May 2018
+Last update: Monday 7 May 2018
 
 @author: Michiel Stock
 michielfmstock@gmail.com
@@ -104,11 +104,10 @@ def load_tour(fname):
         - fname : filename
 
     Output:
-        - tour
+        - tour : loaded tour
     """
     with open(fname, 'r') as fp:
         return json.load(fp)
-
 
 
 if __name__ == '__main__':

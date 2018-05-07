@@ -21,3 +21,5 @@ Old/*
 *.ipynb_checkpoints*
 Slides/*
 Notes/*
+solution/*
+*ignore*
