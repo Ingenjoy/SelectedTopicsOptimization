@@ -1,6 +1,6 @@
 """
 Created on Wednesday 2 May 2018
-Last update: Monday 7 May 2018
+Last update: Tuesday 8 May 2018
 
 @author: Michiel Stock
 michielfmstock@gmail.com
@@ -25,7 +25,7 @@ distances = pairwise_distances(coordinates)
 
 n, _ = distances.shape
 cities = set(range(n))
-tour = list(range(n))
+tour = list(cities)
 
 def plot_cities(ax, coordinates, color=blue):
     """
@@ -62,11 +62,13 @@ def plot_tour(ax, tour, coordinates, distances, color=red, title=True):
     xj, yj = coordinates[j,:]
     ax.plot([xi, xj], [yi, yj], color=color, zorder=1)
     if title:
-        ax.set_title('Tour of cost {:.2f}'.format(compute_tour_cost(tour, distances)))
+        ax.set_title('Tour of cost {:.2f}'.format(compute_tour_cost(tour,
+                                                                distances)))
 
 def compute_tour_cost(tour, distances, check=False):
     """
-    Computes the total cost of a tour of the TSP.
+    Computes the total cost of a tour of the TSP. Optionally provides a
+    sanity check to see of the tour is a correct solution.
 
     Input:
         - tour : list of n integers from 1 to n describing the order of the tour
@@ -79,7 +81,7 @@ def compute_tour_cost(tour, distances, check=False):
     """
     if check:
         assert len(tour)==n, 'Tour does not contain all cities'
-        assert set(tour)==cities
+        assert set(tour)==cities, 'Tour contains duplicate cites'
     tour_cost = np.sum(distances[tour[:-1], tour[1:]])
     tour_cost += distances[tour[-1], tour[0]]
     return tour_cost

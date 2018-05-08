@@ -34,11 +34,10 @@ n, m = image.shape
 # sample points
 sample_mask = image / image.sum()*n_points > np.random.rand(n, m)
 coordinates = [(j, n-i) for i in range(n) for j in range(m) if sample_mask[i,j]]
-distances = pairwise_distances(coordinates, metric=metric)#.astype(int)
+distances = pairwise_distances(coordinates, metric=metric)
 
 # save
 np.save('Data/coordinates.npy', coordinates)
-#np.save('Data/distances.npy', distances)  # compute on the fly
 
 # make plot
 fig, ax = plt.subplots()
