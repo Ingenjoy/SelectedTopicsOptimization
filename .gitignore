@@ -14,6 +14,10 @@ __pycache__
 *.gz
 *.snm
 *.out
+*.bbl
+*.blg
+*.pages
+*.bib
 administration/*
 solution_*
 Chapters/03.UndirectedGraphs/*

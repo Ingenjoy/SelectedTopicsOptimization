@@ -1,6 +1,8 @@
 # Selected Topics in Mathematical Optimization
 
-*Edition 2017-2018*
+*Edition 2018-2019*
+
+![](totoro.png)
 
 **Dr. ir. Michiel Stock**
 
@@ -12,7 +14,7 @@ The project exercises are done in the Python 3.x programming language. It is rec
 
 ## Using this repository
 
-Course notes are available in Markdown format. Slides and pdf notes will be distributed via [Minerva](http://minerva.ugent.be/). Every week we will cover a new chapter. Exercises of the chapters can be made in the Jupyter notebooks. Ideally, you work in a local clone of this repository. Students without a laptop (or curious browsers) can make the exercises in [Binder](https://mybinder.org/) by clicking on the badge below.
+Course notes are available in Markdown format. Slides and pdf notes will be distributed via [Minerva](http://minerva.ugent.be/). Every week we will cover a new chapter. Exercises of the chapters are available in the Jupyter notebooks. Ideally, you work in a local clone of this repository. Students without a laptop (or curious browsers) can make the exercises in [Binder](https://mybinder.org/) by clicking on the badge below.
 
 [![Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/MichielStock/SelectedTopicsOptimization/master)
 
@@ -23,78 +25,78 @@ Course notes are available in Markdown format. Slides and pdf notes will be dist
 This course consists of three main parts:
 1. Continuous convex optimization problems
 2. Discrete optimization problems solvable in polynomial time
-3. 'Dirty problems', NP hard problems and complex problems with no guarantees on optimality and performance
+3. 'Hard problems', NP hard problems and complex problems with no guarantees on optimality and performance
 
 More detailed, tentative overview:
 
 1. **Minimizing quadratic systems**
-  - motivation
-  - exact solution, scalar case, multi-dimensional case
-  - conditions for optimality
-  - large (sparse) systems and the need for iterative solutions
-  - gradient descent, convergence and condition numbers
-  - brief notion of conjugated gradient descent
-  - gradient descent with momentum (intelligent search)
-  - *application*: signal recovery
+      - motivation
+      - exact solution, scalar case, multi-dimensional case
+      - conditions for optimality
+      - large (sparse) systems and the need for iterative solutions
+      - gradient descent, convergence and condition numbers
+      - brief notion of conjugated gradient descent
+      - gradient descent with momentum (intelligent search)
+      - *application*: signal recovery
 2. **Unconstrained convex problems**
-  - convexity and convex problems
-  - gradient descent revisited
-  - steepest descent methods, coordinate descent
-  - Newton's method:
-    - as a special case of steepest descent
-    - as a quadratic approximation of the original problem
-  - quasi-Newton methods
-  - numerically approximating the gradient and the Hessian
+      - convexity and convex problems
+      - gradient descent revisited
+      - steepest descent methods, coordinate descent
+      - Newton's method:
+        - as a special case of steepest descent
+        - as a quadratic approximation of the original problem
+      - quasi-Newton methods
+      - numerically approximating the gradient and the Hessian
   - *application*: logistic regression
 3. **Constrained convex problems**
-  - quadratic systems with linear equality constraints: exact solution
-  - Newton's method for convex systems with linear equality constraints
-  - Lagrangians and the Karush–Kuhn–Tucker conditions
-  - Convex problems with convex inequality constraints
-    - geometric interpretation
-    - the logarithmic barrier
-    - the barrier method
+      - quadratic systems with linear equality constraints: exact solution
+      - Newton's method for convex systems with linear equality constraints
+      - Lagrangians and the Karush–Kuhn–Tucker conditions
+      - Convex problems with convex inequality constraints
+        - geometric interpretation
+        - the logarithmic barrier
+        - the barrier method
 4. **Project continuous optimization**: protein oligomerization by minimizing the Gibbs free energy
 5. **Optimal transport**:
-  - motivation: the KERMIT dessert party
-  - quick recap of probability distributions
-  - Monge and Kantorovich formulation
-  - Wasserstein distances and Geodesic displacements
-  - entropic regularization and the Sinkhorn algorithm
-  - *applications*:
-    - comparing distributions (e.g. expression profiles)
-    - color transfer
-    - learning epigenetic landscapes
+    - motivation: the KERMIT dessert party
+    - quick recap of probability distributions
+    - Monge and Kantorovich formulation
+    - Wasserstein distances and Geodesic displacements
+    - entropic regularization and the Sinkhorn algorithm
+    - *applications*:
+        - comparing distributions (e.g. expression profiles)
+        - color transfer
+        - learning epigenetic landscapes
 6. **Minimum spanning trees**:
-  - graphs and basic data structures (i.e. `list`, `dict`, `set`)
-  - introduction to time complexities
-  - Prim's algorithm
-  - Kruskal's algorithm
-  - *application*: phylogenetic tree reconstruction, building a maze
+    - graphs and basic data structures (i.e. `list`, `dict`, `set`)
+    - introduction to time complexities
+    - Prim's algorithm
+    - Kruskal's algorithm
+    - *application*: phylogenetic tree reconstruction, building a maze
 7. **Shortest path algorithms**:
-  - sum-product and min-sum algorithm (dynamic programming)
-  - Dijkstra's algorithm
-  - A* algorithm: using a heuristic
-8. **Project discrete optimization**: 'A walk to the park', finding all shortest paths to a set of edges.
+    - sum-product and min-sum algorithm (dynamic programming)
+    - Dijkstra's algorithm
+    - A* algorithm: using a heuristic
+8. **Project discrete optimization**: TBD
 9. **NP hard problems**
-  - classification
-  - example problems: knapsack, TSA, graph coloring, Boolean satisfiability problem, TSP...
-  - computational complexity: NP-complete problems
-  - algorithms:
-    - exhaustive / brute force
-    - greedy
-    - dynamic programming
-    - branch and bound
-  - longest common subsequence: golfing contest
+    - classification
+    - example problems: knapsack, TSA, graph coloring, Boolean satisfiability problem, TSP...
+    - computational complexity: NP-complete problems
+    - algorithms:
+      - exhaustive / brute force
+      - greedy
+      - dynamic programming
+      - branch and bound
+    - longest common subsequence: golfing contest
 10. **Bio-inspired optimization**:
-  - hill climbing
-  - simulated annealing
-  - genetic algorithms
-  - evolutionary search: CMA-ES
-  - *application*: antimicrobial peptide optimization
-11. **Project dirty problems**: traveling salesman problem using heuristics
+    - hill climbing
+    - simulated annealing
+    - genetic algorithms
+    - evolutionary search: CMA-ES
+    - *application*: antimicrobial peptide optimization
+11. **Project dirty problems**: TBD
 12. **Learning and optimization**
-  - short introduction to Bayesian optimization
+    - short introduction to Bayesian optimization
 
 
 ## Thanks
