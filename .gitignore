@@ -23,6 +23,7 @@ solution_*
 Chapters/03.UndirectedGraphs/*
 Old/*
 *.ipynb_checkpoints*
+*checkpoint.ipynb
 Slides/*
 Notes/*
 solution/*

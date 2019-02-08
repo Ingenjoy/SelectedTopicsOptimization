@@ -1,6 +1,6 @@
 # Unconstrained convex optimization
 
-*Selected Topics in Mathematical Optimization: 2017-2018*
+*Selected Topics in Mathematical Optimization*
 
 **Michiel Stock** ([email](michiel.stock@ugent.be))
 
@@ -49,7 +49,7 @@ Convex functions frequently arise:
 
 - If $f$ and $g$ are both convex, then $m(x)=\max(f(x), g(x))$ and $h(x)=f(x)+g(x)$ are also convex.
 - If $f$ and $g$ are convex functions and $g$ is non-decreasing over a univariate domain, then $h(x)=g(f(x))$ is convex. Example: $e^{f(x)}$ is convex if $f({x})$ is convex.
-- If $f$ is concave and g is convex and non-increasing over a univariate domain, then ${\displaystyle h(x)=g(f(x))} h(x)=g(f(x))$ is convex.
+- If $f$ is concave and g is convex and non-increasing over a univariate domain, then ${\displaystyle h(x)=g(f(x))}$ is convex.
 
 Note, the convexity of expected value in probability theory gives rise to *Jensen's inequality*. For any convex function $\varphi$, if holds that
 $$
