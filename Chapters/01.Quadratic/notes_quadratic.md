@@ -1,6 +1,6 @@
 # Quadratic optimization
 
-*Selected Topics in Mathematical Optimization: 2017-2018*
+*Selected Topics in Mathematical Optimization*
 
 **Michiel Stock** ([email](michiel.stock@ugent.be))
 
@@ -8,7 +8,7 @@
 
 ## Motivation
 
-Quadratic systems are important! Firstly, systems close to their maximum can closely be approximated by a quadratic system, studying the minimization of quadratic systems can teach us about minimization of general convex functions. Quadratic systems are also important in their own right! Many statistical models, graph problems, molecular models etc. can be formulated as quadratic systems:
+Quadratic systems are important! Firstly, systems close to their maximum can be closely approximated by a quadratic system. Studying the minimization of quadratic systems can teach us about the minimization of general convex functions. Quadratic systems are also important in their own right! Many statistical models, graph problems, molecular models etc. can be formulated as quadratic systems:
 
 - least-square minimization problems
 - inference using multivariate normal distributions
