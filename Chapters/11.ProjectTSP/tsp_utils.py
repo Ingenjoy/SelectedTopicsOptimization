@@ -13,6 +13,7 @@ import matplotlib.pyplot as plt
 import json
 from sklearn.metrics import pairwise_distances
 
+
 blue = '#264653'
 green = '#2a9d8f'
 yellow = '#e9c46a'
@@ -20,12 +21,6 @@ orange = '#f4a261'
 red = '#e76f51'
 black = '#50514F'
 
-coordinates = np.load('Data/coordinates.npy')
-distances = pairwise_distances(coordinates)
-
-n, _ = distances.shape
-cities = set(range(n))
-tour = list(cities)
 
 def plot_cities(ax, coordinates, color=blue):
     """

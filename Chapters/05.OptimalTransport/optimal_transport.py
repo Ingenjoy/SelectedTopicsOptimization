@@ -61,7 +61,7 @@ def monge_brute_force(C):
 def compute_optimal_transport(C, a, b, lam, epsilon=1e-8,
                 verbose=False, return_iterations=False):
     """
-    Computes the optimal transport matrix and Slinkhorn distance using the
+    Computes the optimal transport matrix and Sinkhorn distance using the
     Sinkhorn-Knopp algorithm
 
     Inputs:

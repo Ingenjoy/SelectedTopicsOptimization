@@ -14,7 +14,7 @@ import numpy as np
 # Indiana Jones Knapsack example
 # save data in a list of (name, value, weight) tuples
 artifacts = [('statue 1' , 1, 2), ('statue 2', 1, 2), ('statue 3', 1, 2),
-            ('tablet 1', 10, 5), ('tablet 2', 10, 5), ('golden mask', 13, 7),
+            ('tablet 1', 10, 5), ('tablet 2', 10, 5), ('golden mask', 13, 8),
             ('golden plate', 7, 3)]
 
 capacity = 10  # kg
