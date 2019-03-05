@@ -1,6 +1,6 @@
 # Constrained convex optimization (1)
 
-*Selected Topics in Mathematical Optimization: 2017-2018*
+*Selected Topics in Mathematical Optimization*
 
 **Michiel Stock** ([email](michiel.stock@ugent.be))
 
@@ -34,6 +34,7 @@ $$
 ![Convex optimization problem with an equality constraint. Here, the constraint is nonlinear.](Figures/Lagr1.png)
 
 For every point $\mathbf{x}$ on the surface $g(\mathbf{x})=0$, the gradient $\nabla g(\mathbf{x})$ is normal to this surface. This can be shown by considering a point $\mathbf{x}+\boldsymbol{\epsilon}$, also on the surface. If we make a Taylor expansion around $\mathbf{x}$, we have
+
 $$
 g(\mathbf{x}+\boldsymbol{\epsilon})\approx g(\mathbf{x}) + \boldsymbol{\epsilon}^\top\nabla g(\mathbf{x})\,.
 $$

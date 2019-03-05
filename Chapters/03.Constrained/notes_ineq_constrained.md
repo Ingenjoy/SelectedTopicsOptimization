@@ -1,6 +1,6 @@
 # Constrained convex optimization (2)
 
-*Selected Topics in Mathematical Optimization: 2017-2018*
+*Selected Topics in Mathematical Optimization*
 
 **Michiel Stock** ([email](michiel.stock@ugent.be))
 

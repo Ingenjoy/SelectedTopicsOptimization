@@ -64,7 +64,7 @@ This implies for example that the square of an expected value of quantity is nev
 
 > **In symbols**: a $f$ is called *strongly $m$-convex* (with $m>0$) if the function $f_m(\mathbf{x}) = f(\mathbf{x}) - \frac{m}{2}||\mathbf{x}||_2$ is convex.
 
-If the first- and second order derivatives exists, a strongly $m$-convex satisfies:
+If the first- and second order derivatives exists, a strongly $m$-convex function satisfies:
 
 - $f(\mathbf{x}') \geq f(\mathbf{x}) + \nabla f(\mathbf{x})^\top (\mathbf{x}'-\mathbf{x}) + \frac{m}{2}||\mathbf{x}'-\mathbf{x}||_2$
 - $\nabla^2 f(\mathbf{x})-mI\succeq 0$ (all eigenvalues of the Hessian are greater than $m$)
@@ -154,8 +154,8 @@ Many methods exist for this, we will consider the *backtracking line search* (BT
 
 The backtracking line search has two parameters:
 
-- $\alpha$: fraction of decrease in f predicted by linear interpolation we accept
-- $\beta$: reduction of the step size in each iteration of the BLS
+- $\alpha$: fraction of decrease in $f$ predicted by linear interpolation we accept
+- $\beta$: reduction of the step size in each iteration of the BTLS
 - typically, $0.01 \leq \alpha \leq 0.3$ and $0.1 \leq \beta < 1$
 
 ![Illustration of the backtracking line search.](Figures/btls.png)
@@ -420,7 +420,7 @@ which is called the *Newton step*.
 
 If $f$ is convex, then $\nabla^2f(\mathbf{x})$ is positive definite and
 $$
-\nabla f(\mathbf{x})^\top \Delta \mathbf{\mathbf{x}}_\text{nt} \geq 0\,,
+\nabla f(\mathbf{x})^\top \Delta \mathbf{\mathbf{x}}_\text{nt} \leq 0\,,
 $$
 hence the Newton step is a descent direction unless $\mathbf{x}$ is optimal.
 
