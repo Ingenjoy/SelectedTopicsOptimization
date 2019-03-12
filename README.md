@@ -77,7 +77,7 @@ More detailed, tentative overview:
     - sum-product and min-sum algorithm (dynamic programming)
     - Dijkstra's algorithm
     - A* algorithm: using a heuristic
-8. **Project discrete optimization**: TBD
+8. **Project discrete optimization**: allocation problem
 9. **NP hard problems**
     - classification
     - example problems: knapsack, TSA, graph coloring, Boolean satisfiability problem, TSP...
@@ -94,7 +94,7 @@ More detailed, tentative overview:
     - genetic algorithms
     - evolutionary search: CMA-ES
     - *application*: antimicrobial peptide optimization
-11. **Project dirty problems**: TBD
+11. **Project dirty problems**: Travelling Salesman Problem
 12. **Learning and optimization**
     - short introduction to Bayesian optimization
 
