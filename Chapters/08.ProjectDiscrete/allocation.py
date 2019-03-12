@@ -35,7 +35,7 @@ adj_matrix = {v : {} for v in vertices}
 for w, u, v in edges:
     adj_matrix[u][v] = w
 
-def checksolution(solution):
+def check_solution(solution):
     """
     Evaluates a solution and returns the total cost. Raises an error if the
     solution is not valid.
@@ -63,17 +63,21 @@ def checksolution(solution):
 def generate_drunken_solution():
     """
     Generate a valid, though poor solution to the allocation problem.
+
+    This algorithm just performs a random walk for every source until it
+    encounters a sink with free capacity.
     """
     solution = {}
     cost = 0.0
     free_capacities = {u : capacity for u in sinks}
     for (i, start) in enumerate(sources):
         current = start
-        if i%10:
+        if (i + 1)%100:
             print("Finding solution for {} / {}".format(i+1, len(sources)))
         path = []
         while True:
             next = np.random.choice(list(adj_matrix[current].keys()))
+            next = int(next)
             cost += adj_matrix[current][next]
             path.append(next)
             current = next
