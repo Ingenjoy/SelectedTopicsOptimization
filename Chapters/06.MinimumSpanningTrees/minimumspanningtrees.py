@@ -101,8 +101,6 @@ def prim(vertices, edges, start, add_weights=False):
     adj_list = edges_to_adj_list(edges)
     to_check = [(w, start, v_new) for w, v_new in adj_list[start]]
     heapq.heapify(to_check)
-    # for every node connected to the
-    #dist_to_mst = {i : (w, start) for w, i in adj_list.pop(start)}
     mst_edges = []
     mst_vertices = set([start])
     total_cost = 0
