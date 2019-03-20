@@ -72,7 +72,7 @@ def generate_drunken_solution():
     free_capacities = {u : capacity for u in sinks}
     for (i, start) in enumerate(sources):
         current = start
-        if (i + 1)%100:
+        if (i + 1)%100==0:
             print("Finding solution for {} / {}".format(i+1, len(sources)))
         path = []
         while True:
