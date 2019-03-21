@@ -1,6 +1,6 @@
 """
 Created on Tuesday 20 March 2018
-Last update: Tuesday 25 March 2018
+Last update: Thursday 21 March 2019
 
 @author: Michiel Stock
 michielfmstock@gmail.com
@@ -122,6 +122,37 @@ def a_star(graph, source, sink, heuristic):
                         heuristic(neighbor, sink)
                 heappush(vertices_to_check, (min_dist_neighbor_source, neighbor))
                 previous[neighbor] = current
+
+def bellman_ford(graph, source):
+    """
+    Implementation of Bellman-Ford algorithm. Will print if cycles are
+    detected!
+
+    Mainly for didactic purposes.
+
+    Inputs:
+        - graph : dict representing the weighted graph
+        - source : the source node
+
+    Ouputs:
+            - distance : dict with the distances of the nodes to the source
+    """
+    # tentative distance
+    distance = {v : inf for v in graph.keys()}
+    distance[source] = 0
+    # relaxation
+    for _ in range(len(graph) - 1):
+        # cycle over edges
+        for v, neighbors in graph.items():
+            for w, n in neighbors:
+                # relaxation step
+                distance[n] = min(distance[n], distance[v] + w)
+    # detect cycles
+    for v, neighbors in graph.items():
+        for w, n in neighbors:
+            if distance[v] < distance[n] + w:
+                print("Cycle found via ", n)
+    return distance
 
 def edges_to_adj_list(edges):
     """
