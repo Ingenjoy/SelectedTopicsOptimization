@@ -1,6 +1,6 @@
 """
 Created on Wednesday 2 May 2018
-Last update: Thursday 4 May 2018
+Last update: Thursday 21 March 2019
 
 @author: Michiel Stock
 michielfmstock@gmail.com
@@ -21,14 +21,14 @@ orange = '#f4a261'
 red = '#e76f51'
 black = '#50514F'
 
-im_name = 'Data/totoro.jpg'
-n_points = 1000
+im_name = 'Data/targaryen.png'
+n_points = 5000
 metric = 'euclidean'
 
 np.random.seed(12)
 
 # read image
-image = rgb2grey(imread(im_name)) < 0.6
+image = rgb2grey(imread(im_name)) > 0.1
 n, m = image.shape
 
 # sample points
