@@ -90,7 +90,7 @@ def prim(vertices, edges, start, add_weights=False):
         - vertices : a set of the vertices of the Graph
         - edges : a list of weighted edges (e.g. (0.7, 'A', 'B') for an
                     edge from node A to node B with weigth 0.7)
-        - start : an edge to start with
+        - start : an vertex to start with
         - add_weights : add the weigths to the edges? default: False
 
     Output:
