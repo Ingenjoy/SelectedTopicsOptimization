@@ -106,6 +106,8 @@ def load_tour(fname):
     with open(fname, 'r') as fp:
         return json.load(fp)
 
+coordinates = np.load('Data/coordinates.npy')
+distances = pairwise_distances(coordinates, metric='euclidean')
 
 if __name__ == '__main__':
 
