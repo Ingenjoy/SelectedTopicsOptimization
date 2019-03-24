@@ -150,7 +150,7 @@ def bellman_ford(graph, source):
     # detect cycles
     for v, neighbors in graph.items():
         for w, n in neighbors:
-            if distance[v] < distance[n] + w:
+            if distance[v] + w < distance[n]:
                 print("Cycle found via ", n)
     return distance
 
@@ -205,3 +205,13 @@ if __name__ == '__main__':
                 graph[node1].add((dist, node2))
 
     print(a_star(graph, nodes[1], nodes[10], euclidean_distance))
+
+
+    graph_neg_cycle = {
+        'A' : [(1, 'C'), (3, 'E')],
+        'B' : [(-1, 'D')],
+        'C' : [(-2, 'D'), (2, 'B')],
+        'D' : [(0.5, 'A'), (-1, 'E'), (2, 'F')],
+        'E' : [],
+        'F' : [(1, 'E'), (3, 'B')]
+    }
