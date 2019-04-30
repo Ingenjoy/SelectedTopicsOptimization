@@ -97,6 +97,12 @@ More detailed, tentative overview:
 11. **Project dirty problems**: Travelling Salesman Problem
 12. **Learning and optimization**
     - short introduction to Bayesian optimization
+13. **Automatic differentiation**
+    - symbolic
+    - numerical
+    - forward differentiation
+    - reverse differentiation
+    - *application*: logistic regression revised, ODE fitting
 
 
 ## Thanks
